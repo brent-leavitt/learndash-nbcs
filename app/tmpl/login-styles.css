@@ -1,0 +1,88 @@
+/*
+* Login Screen Styles
+*/
+
+body{
+	font-family: Raleway;
+	line-height: 24px;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 16px;
+}
+
+body.login {
+	background: url("img/background_berries.png") no-repeat calc(50% + 100px) 50% #FCFBFF;
+}
+
+.login h1 a {
+	background-image: url('img/nb-doula-training-logo.png');
+	background-size: 372px 77px;
+	width: 372px;
+	height: 77px;
+	margin-left: -60px;
+	padding-bottom: 0;
+}
+
+.login label{
+	text-transform: lowercase;
+	font-size: 1.2em;
+}
+
+.login .submit input{
+	text-transform: uppercase;
+	font-size: 1.4em;
+	line-height: 1.2em;
+}
+
+.wp-core-ui .button.button-large, .wp-core-ui .button-group.button-large .button{
+	height: 32px;
+	padding: 0 12px;
+}
+
+a, #adminmenu a, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-items a.delete, #media-items a.delete-permanently, .plugins a.delete, .ui-tabs-nav a ,
+.login #nav a, .login #backtoblog a {
+	    color: #F2B80F !important;
+}
+
+a:hover, a:active,
+.login #nav a:hover, .login #backtoblog a:hover {
+	    color: #9EBC06 !important; 
+}
+
+.wp-core-ui .button-primary{
+	background: #9EBC06; /* Old browsers */
+	box-shadow: none;
+	border-color:#9EBC06;
+	text-shadow: none; 
+}
+
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary.focus,
+.wp-core-ui .button-primary:focus
+{
+
+	background: #AC1B5C; /* Old browsers */
+	box-shadow: none;
+	border-color: #AC1B5C;
+	text-shadow: none;
+
+}
+
+
+div.updated, .login .message {
+    background-color: #C1D071;
+    border-color: #9EBC06;
+	color: #FFF;
+}
+
+
+div.error, .login #login_error {
+    background-color: #F1CB60;
+    border-color: #F2B80F;
+	color: #FFF;
+}
+
+.login #login_error a{
+	
+	color: #AC1B5C !important;
+}

@@ -1,0 +1,232 @@
+<?php
+
+namespace Doula_Course\App\Clss\Processors;
+
+use Doula_Course\App\Clss\Interfaces\Processor;
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+/**
+ * This particular sub_process uses the wp_update_user function form WordPress.
+ * Be aware that WordPress does a lot behind the scene when updating user info, 
+ * like sending a generic WP email notice when an email address or password are udpated. 
+ *
+ * This updates the user info the database.
+ */
+ 
+class Edit_Student_Processor implements Processor
+{
+	
+	/**
+	 * uid
+	 * 
+	 * User ID to be processed
+	 *
+	 * @since 2.0
+	 * @var int
+	 */
+	private $uid = 0; 
+	
+	
+	/**
+	 * post
+	 * 
+	 * The post data to be manipulated
+	 *
+	 * @since 2.0
+	 * @var array
+	 */
+	private $post; 
+		
+		
+	/**
+	 * user
+	 * 
+	 * The user data as it is currently set in the database
+	 *
+	 * @since 2.0
+	 * @var array
+	 */
+	private $user; 
+	
+			
+		
+	/**
+	 * meta
+	 * 
+	 * The user meta data to be updated
+	 *
+	 * @since 2.0
+	 * @var array
+	 */
+	private $meta = [
+		'student_address' 			=> '', 
+		'student_address2'			=> '', 
+		'student_city' 				=> '', 
+		'student_state' 			=> '', 
+		'student_country' 			=> '', 
+		'student_postalcode' 		=> '',  
+		'student_phone' 			=> '',  
+		
+		'student_facebook' 			=> '', 
+		'student_pay_service' 		=> '', 
+		'student_pay_id' 			=> '', 
+		'student_pay_email' 		=> '', 
+		'last_payment_received'		=> '', 
+		'billing_type' 				=> '', // still relevant?
+		'student_tracks'			=> [],
+		'certificate_id'			=> '',
+		'certification_date'		=> '',
+		'certificaiton_last_update' => '',
+		'admin_notes' 				=> '', 
+		 
+	]; 
+	
+	
+	/**
+	 * notices
+	 * 
+	 * notices returned on update.
+	 *
+	 * @since 2.0
+	 * @var array
+	 */
+	private $notices = []; 
+	
+	
+	
+	
+		/**
+	* Constuctor
+	*
+	* @return void
+	*/
+    public function __construct( int $uid ){
+		
+		$this->uid = $uid;
+		$this->post = $_POST;
+		$this->user = get_userdata( $this->uid );
+	}
+	
+	
+	
+	/**
+	* set role
+	*
+	* Sets the user role based on the student_status post field  
+	*
+	* @return void 
+	*/
+	private function set_role(): void
+	{
+		
+		$status = intval( $this->post[ 'student_status' ] ) ; //1 = current or 0 = inactive
+		
+		$role_actions = [
+			[ 'alumnus_active', 0, 'alumnus_inactive' ],
+			[ 'alumnus_inactive', 1, 'alumnus_active' ],
+			[ 'student_active', 0, 'student_inactive' ],
+			[ 'student_inactive', 1, 'student_active' ],
+		];
+		
+		foreach( $role_actions as $actions ){
+			
+			if( $this->check_role( $actions[ 0 ] ) && ( $status == $actions[ 1 ] )  ){
+				$this->post[ 'role' ] = $actions[ 2 ];
+				break; //As soon as we meet one qualifying value we can exit. 
+			}
+							
+		}
+		
+		unset( $this->post[ 'student_status' ] );
+		
+	}
+	
+	
+	/**
+	* set meta
+	*
+	* Sets the user meta
+	*
+	* @return void 
+	*/
+	private function set_meta(): void
+	{
+		foreach( $this->meta as $key => $val ){
+			if( isset( $this->post[ $key ] ) )
+				$this->meta[ $key ] = $this->post[ $key ]  ?: '';
+		}
+	}
+		
+		
+	
+	/**
+	* check role
+	*
+	* checks if a user has a specific role
+	*
+	* @return bool
+	*/
+	private function check_role( string $role ): bool
+	{
+		// Check if the role you're interested in, is present in the array.
+		return in_array( $role , $this->user->roles, true ); 
+		
+	}
+			
+		
+	
+	/**
+	* update_user_meta
+	*
+	* updates_user_meta
+	*
+	* @return array
+	*/
+	private function update_user_meta( ): array
+	{
+		$results = [];
+		
+		foreach( $this->meta as $key => $val ){
+			if( !empty( $val ) )
+				$results[] = update_user_meta( $this->uid, $key, $val );	
+			else
+				$results[] = delete_user_meta( $this->uid, $key );
+		}
+		
+		return $results;
+		
+	}
+		
+	
+	
+	/**
+	* Process
+	*
+	* @return array 
+	*/
+	public function process(): array
+	{
+		
+		$this->post[ 'ID' ] = $this->uid;
+		
+		$this->set_role();
+		$this->set_meta();
+		
+		$user_data = wp_update_user( $this->post );
+		$user_meta = $this->update_user_meta();
+		
+		if( $user_data == $this->uid )
+			$this->notices[ 'messages' ][] = "The user's data has been updated.";
+		
+		return $this->notices;
+	}
+	
+	
+	
+	
+
+}
+
+
+?>

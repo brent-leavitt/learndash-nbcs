@@ -1,0 +1,79 @@
+NB_Learn Plugin Writeup: 
+22 Aug 2022
+------------
+Tasks to complete in prepping software for migration: 
+- Finish the Assignment/Grades Classes and logic. (DONE)
+- Sync Assignments with Completed Coursework Meta from LearnDash
+
+- Sync Payments and Memberships to the Student Editor Page. 
+- Customize fields to the Registration Page to also sync with Student Editor Page. 
+- Group Leader/Trainer Assigning to students. 
+
+
+
+
+4 Aug 2022
+--------------
+
+Featured needed: 
+- An Assignment Editor added to the Assignment Uploads screen. 
+	- Should allow for editing and commmenting on submitted assignments. 
+	- May need to create a new theme for LearnDash or a child theme if it is allowed. 
+	
+	-THIS is how to do this: 
+		https://billosuch.com/2019/07/04/customizing-learndash-3-0-templates/
+
+- Adding custom fields to a user's certificate
+	- https://developers.learndash.com/snippet/certificate-custom-user-field-and-shortcode/
+	
+- Adding Additional Fields to the Registration Pages. 
+	- https://www.cssigniter.com/how-to-add-custom-fields-to-the-wordpress-registration-form/
+	- https://metabox.io/easy-way-to-add-custom-fields-in-wordpress-without-plugins/
+	
+	*** (Try this one first) *** - https://help.ithemes.com/hc/en-us/articles/360053124813-Creating-Custom-Registration-Fields
+
+- Lots of good RPC Hacks as well. 
+
+
+--- REFERENCE ----
+User Meta: 
+_sfwd-course_progress
+	a:1:{
+		i:682;a:6:{
+			s:7:"lessons";a:1:{
+				i:685;i:0;
+			}
+			s:6:"topics";a:1:{
+				i:685;a:5:{
+					i:687;i:1; 
+					i:689;i:0;
+					i:691;i:0;
+					i:695;i:1;
+					i:692;i:0;
+				}
+			}
+			s:9:"completed";i:2;
+			s:5:"total";i:6;
+			s:7:"last_id";i:695;
+			s:6:"status";s:11:"in_progress";
+		}
+	}
+	
+student_grades
+	a:2:{
+		i:689;a:5:{
+			i:0;i:746;
+			i:1;s:9:"submitted";
+			i:2;s:1:"0";
+			i:3;s:19:"2022-08-19 21:32:40";
+			i:4;s:19:"2022-08-19 21:32:40";
+		}
+		i:691;a:5:{
+			i:0;i:748;
+			i:1;s:9:"submitted";
+			i:2;s:1:"0";
+			i:3;s:19:"2022-08-19 21:35:19";
+			i:4;s:19:"2022-08-19 21:35:19";
+		}
+	}
+ 
