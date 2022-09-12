@@ -30,7 +30,7 @@ $pages->build();
 
 //Styles
 add_action( 'wp_enqueue_scripts', function(){
-	wp_enqueue_style( 'doula-course-styles', plugins_url( 'doula-course/templates/styles.css' ), false );
+	wp_enqueue_style( 'doula-course-styles', plugins_url( 'learndash-nbcs/app/tmpl/styles.css' ), false );
 } );
 
 /*-----------------*/

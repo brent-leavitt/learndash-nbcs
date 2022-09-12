@@ -12,6 +12,26 @@ hr{
 
 
 /*
+ Register - Restrict Content Pro
+*/
+
+.wp-site-blocks .rcp_form p label {
+	line-height: 1.2em !important;
+	margin: 0 0 10px; 
+}
+
+
+.rcp_form .rcp_user_fieldset label span{
+	font-weight: normal;
+		
+}
+
+.rcp_form hr{
+	margin: 30px 0 !important; 	
+}
+
+
+/*
  Widgets
 */
 

@@ -42,6 +42,7 @@ call_required([
 	'post_types', 	//Add Custom Post Types.
 	'post_status', 	//Add Custom Post Status. 
 	'query_vars', 	//Add Additional Automated Triggers (IPN and Crons)
+	'register', 	//Add Extra Registration Fields to RCP forms.  
 	'roles', 		//Add Roles. 
 	'shortcodes', 	//Add Shortcodes.
 	'student_meta', //Add Student Meta actions.
