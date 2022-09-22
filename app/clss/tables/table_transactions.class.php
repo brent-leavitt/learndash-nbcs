@@ -85,12 +85,14 @@ class Table_Transactions extends List_Table{
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'      				=>	'<input type="checkbox" />', 
-			'trans_id'				=>	__( 'ID' ),
-			'trans_date'			=>	__( 'Date' ),
-			'trans_amount'			=>	__( 'Amount' ),
-			'trans_label'			=>	__( 'Description' ),
-			'trans_type'			=>	__( 'Type' )
+			'cb'      			=>	'<input type="checkbox" />', 
+			'id'				=>	__( 'ID' ),
+			'date'				=>	__( 'Date' ),
+			'amount'			=>	__( 'Amount' ),
+			'subscription'		=>	__( 'Subscription' ),
+			'status'			=>	__( 'Status' ),
+			'payment_type'		=>	__( 'Source' ),
+			'transaction_type'	=>	__( 'Type' )
 		);
 		
 		return $columns;
@@ -102,7 +104,7 @@ class Table_Transactions extends List_Table{
 		
 		//$test_query = $wpdb->get_results('SELECT * FROM nb_transactions WHERE student_id='.$student_id);
 		
-		$this->items = $wpdb->get_results('SELECT * FROM nb_transactions WHERE student_id='.$this->student_id.' LIMIT 50');
+		$this->items = $wpdb->get_results('SELECT * FROM wp_rcp_payments WHERE user_id='.$this->student_id.' LIMIT 50');
 	
 	}
 	
@@ -110,7 +112,7 @@ class Table_Transactions extends List_Table{
 
 		//Get the students registered in the prepare_items method
 		$transactions = $this->items;
-
+		
 		//Get the columns registered in the get_columns and get_sortable_columns methods
 		list( $columns, $hidden ) = $this->get_column_info();
 
@@ -123,7 +125,7 @@ class Table_Transactions extends List_Table{
 			print_r($transaction);
 			print('</pre>'); */
 			//Open the line
-			$table_output .= '<tr id="transaction_'.intval($transaction->transaction_id).'">';
+			$table_output .= '<tr id="transaction_'.intval($transaction->id).'">';
 			foreach ( $columns as $column_name => $column_display_name ) {
 
 				//Style attributes for each col
@@ -133,16 +135,36 @@ class Table_Transactions extends List_Table{
 				$attributes = $class . $style;
 
 				//edit link
-				$editlink  = '/wp-admin/admin.php?page=edit_transaction&amp;trans_id='.intval($transaction->transaction_id); //Not sure where this is being called...
+				$editlink  = '/wp-admin/admin.php?page=rcp-payments&amp;payment_id='.intval($transaction->id). '&amp;view=edit-payment'; //Not sure where this is being called...
 
+				
+				
+				/*
+					$columns = array(
+						'cb'      			=>	'<input type="checkbox" />', 
+						'id'				=>	__( 'ID' ),
+						'date'				=>	__( 'Date' ),
+						'amount'			=>	__( 'Amount' ),
+						'subscription'		=>	__( 'Subscription' ),
+						'status'			=>	__( 'Status' ),
+						'payment_type'		=>	__( 'Payment Type' ),
+						'transaction_type'	=>	__( 'Trans Type' )
+					);
+		
+				*/
+				
+				
 				//Display the cell
 				switch ( $column_name ) {
 					case "cb":	$table_output .=  '<th scope="row" class="check-column"><input type="checkbox" /></th>';	break;
-					case "trans_id":	$table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($transaction->transaction_id).'</a></td>';	break;
-					case "trans_date": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->trans_time).'</td>'; break;
-					case "trans_amount": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->trans_amount).'</td>'; break;
-					case "trans_label": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->trans_label).'</td>'; break;
-					case "trans_type": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->trans_type).'</td>'; break;
+					case "id":	$table_output .=  '<td '.$attributes.'><a href="'.$editlink.'" target="_blank" >ID: '.stripslashes($transaction->id).'</a></td>';	break;
+					case "date": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->date).'</td>'; break;
+					case "amount": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->amount).'</td>'; break;
+					case "subscription": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->subscription).'</td>'; break;
+					case "status": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->status).'</td>'; break;
+					case "payment_type": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->payment_type).'</td>'; break;
+					case "transaction_type": $table_output .=  '<td '.$attributes.'>'.stripslashes($transaction->transaction_type).'</td>'; break;
+					
 					
 					
 				}
@@ -154,6 +176,63 @@ class Table_Transactions extends List_Table{
 		
 		print( $table_output );
 	}
+	
+	
+//Lifted from RCP and then modified. 
+
+	
+	/**
+	 * Render the main ID column.
+	 *
+	 * @param object $payment
+	 *
+	 * @since 3.1
+	 * @return string
+	 */
+	public function column_id( $payment ) {
+
+		$edit_url              = add_query_arg( array(
+			'payment_id' => absint( $payment->id ),
+			'view'       => 'edit-payment'
+		), $this->get_base_url() );
+		
+		
+		// Link to edit payment.
+		$actions = array(
+			'edit' => '<a href="' . esc_url( $edit_url ) . '" title="' . esc_attr__( 'Edit payment', 'rcp' ) . '">' . __( 'Edit', 'rcp' ) . '</a>'
+		);
+	
+
+		/**
+		 * Filters the row actions.
+		 *
+		 * @param array  $actions Default actions.
+		 * @param object $payment Payment object.
+		 *
+		 * @since 3.1
+		 */
+		$actions = apply_filters( 'rcp_payments_list_table_row_actions', $actions, $payment );
+
+		$final = '<strong><a href="' . esc_url( $edit_url ) . '" title="' . esc_attr__( 'Edit payment', 'rcp' ) . '">' . esc_html( $payment->id ) . '</a></strong>';
+
+		if ( current_user_can( 'rcp_manage_payments' ) ) {
+			$final .= $this->row_actions( $actions );
+		}
+
+		return $final;
+
+	}
+
+	/**
+	 * Message to be displayed when there are no payments.
+	 *
+	 * @since 3.1
+	 * @return void
+	 */
+	public function no_items() {
+		esc_html_e( 'No payments found.', 'rcp' );
+	}
+	
 }
 
 ?>

@@ -161,9 +161,10 @@ class Admin_Page_Director
 		
 		$this->builder->add_to_title( $values->get_student_full_name() );
 		$this->builder->build_title();
-		$this->builder->build_notices( $this->notices );
 		$this->builder->build_top( $this->slug );
-		$this->builder->build_table( 'transactions' );
+		$this->builder->build_notices( $this->notices );
+		//$this->builder->build_table( 'transactions_rcp' );
+		//$this->builder->build_table( 'transactions' );
 		$this->builder->build_form( $this->slug, $values );
 		$this->builder->build_bottom();
 		
@@ -200,6 +201,21 @@ class Admin_Page_Director
 		$this->builder->build_title();
 		$this->builder->build_top( $this->slug );
 		$this->builder->build_table( $this->slug );
+		$this->builder->build_bottom();
+		
+	}	
+	
+	
+	/**
+     * Build the _page
+     *
+     * @return void
+     */
+    private function build_edit_grades(){
+		
+		$this->builder->build_title();
+		$this->builder->build_top( $this->slug );
+		$this->builder->build_external( $this->slug );
 		$this->builder->build_bottom();
 		
 	}	

@@ -133,8 +133,11 @@ if( !class_exists( 'Grades' ) ){
 					$ld_progress = get_user_meta( $this->student_id, '_sfwd-course_progress', true ); 
 					
 					//List all course with student course progress. 
-					foreach( $ld_progress as $course_id => $course_arr )
-						$ld_tracks[ $course_id ] = 0;
+					if( !empty( $ld_progress ) ){
+						foreach( $ld_progress as $course_id => $course_arr )
+							$ld_tracks[ $course_id ] = 0;
+					}
+					
 
 					//Filter out inactive courses: 
 					$this->inactive_tracks = array_diff_key( $ld_tracks, $this->tracks ); 

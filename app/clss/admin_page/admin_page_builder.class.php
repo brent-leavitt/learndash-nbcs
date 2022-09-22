@@ -89,8 +89,9 @@ Class Admin_Page_Builder implements Page_Builder
     public function build_top( string $slug ): void
 	{
 		
+		$html = new HTML_Template( 'admin_page_top_menu', [ $slug ] );
 		
-		$this->page->sections[] = '<section>Top of the page information goes here.</section>';
+		$this->page->sections[] = $html->generate();
 		
 	}
 	
