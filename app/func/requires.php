@@ -25,6 +25,7 @@ if( is_admin() ){
 		'dashboard',	//Add admin dashboard widgets.
 		'func', 		//Add admin only functions.
 		'metaboxes', 	//Add admin metabox widgets for CPTs. 
+		'course', 		//Add admin functions related to courses. 
 	], 'admin_' );
 }
 

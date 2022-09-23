@@ -246,7 +246,7 @@ if( !class_exists( 'Grades' ) ){
 				'status' 			=> $args[ 'post_status' ],	//Status of student submitted assignment.
 				'instructor_status' => isset( $args[ 'post_meta' ][ 'instr_status' ] ) ? $args[ 'post_meta' ][ 'instr_status' ] : 0,	//NOW
 				'submission_date' 	=> isset( $args[ 'submission_date' ] ) ?  $args[ 'submission_date' ] : date( 'Y-m-d H:i:s' ) ,	//Original Submission Date
-				'last_updated' 		=>  isset( $args[ 'last_updated' ] ) ?  $args[ 'last_update' ] : NULL	//NOW
+				'last_updated' 		=>  isset( $args[ 'last_updated' ] ) ?  $args[ 'last_updated' ] : NULL	//NOW
 			];
 			
 			$grade = ( !isset( $this->grades[ $material_id ] ) )? new Grade() : $this->grades[ $material_id ] ;
@@ -444,7 +444,9 @@ if( !class_exists( 'Grades' ) ){
 		/**
 		 * 	update_student_meta
 		 *
-		 *	updates one or more grades in the database. 
+		 *	updates only one grade in the database. 
+		 *
+		 *	USED in admin_metaboxes.php::467
 		 *
 		 *	returns BOOL
 		 *

@@ -464,7 +464,7 @@ function save_asmt_meta_box_data( $post_id ) {
 		$grade = $grades->get_grade_by_id( $post->post_parent); 		
 		
 		if( $grade->update_student_meta() )	
-			$update_student_meta = $grades->update_student_meta(); 
+			$update_student_meta = $grades->update_student(); 
 		
 		//I don't know that this works. 
 		if( !$update_student_meta ){

@@ -44,7 +44,7 @@ if( !class_exists( 'Course' ) ){
 			//NBDT Course Functions
 			require_once( DOULA_COURSE_PATH.'app/func/requires.php' );
 			
-			$nbEditor = new Editor();
+			//$nbEditor = new Editor();
 			
 		 } 
 		 		 

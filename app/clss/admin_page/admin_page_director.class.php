@@ -159,7 +159,7 @@ class Admin_Page_Director
 		$values = new Student_Values(  );
 		$values->set_student( $this->student_id );
 		
-		$this->builder->add_to_title( $values->get_student_full_name() );
+		//$this->builder->add_to_title( $values->get_student_full_name() );
 		$this->builder->build_title();
 		$this->builder->build_top( $this->slug );
 		$this->builder->build_notices( $this->notices );
@@ -181,7 +181,7 @@ class Admin_Page_Director
 		$values = new Admin_Emailer_Values(  );
 		$values->set_student( $this->student_id );
 		
-		$this->builder->add_to_title( $values->get_student_full_name() );
+		//$this->builder->add_to_title( $values->get_student_full_name() );
 		$this->builder->build_title();
 		$this->builder->build_notices( $this->notices );
 		//$this->builder->build_top( $this->slug );

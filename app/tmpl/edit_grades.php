@@ -2,7 +2,6 @@
 namespace Doula_Course\App\Tmpl;
 
 use Doula_Course\App\Clss\Grades\Grades;
-use Doula_Course\App\Func\get_asmt_admin_url;
 
 $student_id = 0;
 $program_id = 0; 
@@ -17,20 +16,46 @@ if( isset($_GET['student_id']) ){
 	
 	$grades = new Grades();
 	$grades->build( $student_id );
-	
+		
 	if( isset($_GET['program_id']) )
 		$program_id = $_GET['program_id'];
 	else
 		$program_id = key( $grades->get_tracks() );
 	
+	
+	//This could be moved to a separate class under the FORMS_PROCESSOR family of classes. 
 	if ( !empty($_POST) && check_admin_referer('edit_grades','grades-check') ){
 
-		$asmt = new Assignment( $student_id );
+		//$grades = new Grades( $student_id );
 		
 		unset( $_POST[ 'grades-check' ], $_POST[ '_wp_http_referer' ], $_POST[ 'submit' ] );
-		$asmts_updated = $asmt->update_all_asmts( $_POST );			
 		
-		$message = ( $asmts_updated !== false )? 'Grades have been successfully updated.' : 'Failed to update grades in the database.';
+		foreach( $_POST as $mat_id => $status ){
+			
+			if( is_numeric( $mat_id ) && ( strcmp( $status, 'draft' ) !== 0 ) ){
+				
+				$args = [
+					'post_parent' 		=> $mat_id,
+					'post_status' 		=> $status,
+					'post_meta' 		=> [ 'instr_status' => 2 ], //2 = seen, assuming since only instructors can set this.
+					'submission_date' 	=> NULL, //Since no assignment was submitted, no submission date is recorded. 
+					'last_updated' 		=> date( 'Y-m-d H:i:s' )
+				];
+				
+				//print_pre( $args,  ); 
+				//Adding a grade that doesn't have an assignment attached to it.
+				$grades->add_grade( 0, $args );
+			}
+			
+		}
+		
+		
+		print_pre( $_POST, 'the $POST from Line '.__LINE__ ); 
+		print_pre( $grades, 'Grades Object from Line '.__LINE__ ); 
+	
+		$grades_updated = $grades->update_grades();			
+		
+		$message = ( $grades_updated !== false )? 'Grades have been successfully updated.' : 'Failed to update grades in the database.';
 			
 		
 	}
