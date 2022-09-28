@@ -639,7 +639,6 @@ if( !empty( $asmt_status ) ){
 		echo "<div class='commentlist'>";
 		$asmt_comments = get_comments('post_id='.$asmt_id.'&order=DESC'); 
 		
-		
 		if( !empty( $asmt_comments ) ){
 			echo "<p class='info-right'>(Feedback is listed newest to oldest.)</p>";
 			echo "<h3>Instructor Feedback</h3>";
@@ -651,11 +650,11 @@ if( !empty( $asmt_status ) ){
 				'label_submit'      => __( 'Post Reply' ),
 				'logged_in_as' => '',
 				'comment_field' =>  '
-				<input type="hidden" name="redirect_to" value="'.$course_permalink.'" />
+				<input type="hidden" name="redirect_to" value="'.$current_url.'" />
 				<p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>'
 			);
 			
-			comment_form($defaults, $asmt_id);		
+			comment_form( $defaults, $asmt_id );		
 		
 		} else {
 			echo"<p><em>No feedback from the course instructor has been posted for your assignment yet. Feedback for specific assignments will appear here when available. Thank you.</em></p>"; 

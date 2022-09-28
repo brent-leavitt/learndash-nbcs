@@ -47,6 +47,10 @@ if( isset($_GET['student_id']) ){
 				$grades->add_grade( 0, $args );
 			}
 			
+			if( is_numeric( $mat_id ) && ( strcmp( $status, 'draft' ) == 0 ) )
+				$grades->delete_grade( $mat_id ); 
+			
+			
 		}
 		
 		

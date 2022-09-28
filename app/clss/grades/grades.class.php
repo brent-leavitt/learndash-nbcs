@@ -256,6 +256,23 @@ if( !class_exists( 'Grades' ) ){
 			$this->grades[ $material_id ] = $grade; 
 			
 		}		
+		
+		
+		/**
+		 * 	delete_grade
+		 *
+		 * 
+		 * 
+		 * 
+		 **/
+		 
+		public function delete_grade( int $material_id ):VOID
+		{
+	
+			if( isset( $this->grades[ $material_id ] ) )
+				unset( $this->grades[ $material_id ] );
+			
+		}		
 
 			
 		/**

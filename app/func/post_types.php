@@ -422,14 +422,14 @@ function asmt_comments( $comment_id, $comment_obj ){
 	
 	if( strcmp( get_post_type( $comment_obj->comment_post_ID ), 'assignment' ) == 0 ){
 	
-		$msg = new Message();
+		//$msg = new Message();
 		
-		$msg->comment_notify( $comment_obj );
+		//$msg->comment_notify( $comment_obj );
 		
 	}
 }
 
-add_action( 'wp_insert_comment', 'Doula_Course\App\Func\asmt_comments' ,10 ,2 );
+//add_action( 'wp_insert_comment', 'Doula_Course\App\Func\asmt_comments' ,10 ,2 );
 
 
 
