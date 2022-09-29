@@ -438,7 +438,7 @@ if( !class_exists( 'Grades' ) ){
 /**
 		 * 	update
 		 *
-		 *	updates one or more grades in the database. 
+		 *	updates one or more grades in the database. Also good for deleting a grade from the list of grades. 
 		 *
 		 *	returns BOOL
 		 *

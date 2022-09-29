@@ -35,7 +35,7 @@ if( !class_exists( 'Submission' ) ){
 
 		private $author = 0;	
 
-		private $meta = [];	
+		private $meta = [ 'instructor_status' => 0 ];	
 
 		private $status = 'draft';	
 		
@@ -48,7 +48,6 @@ if( !class_exists( 'Submission' ) ){
 		
 		public function __construct( ){
 			
-		
 		}
 
 		
@@ -65,8 +64,6 @@ if( !class_exists( 'Submission' ) ){
 		public function build( int $author_id, array $post ): VOID 
 		{
 			
-			//print_pre( $post, "SUBMISSION:BUILD, This is the post data being received to process" ); 
-			
 			if( !empty( $post[ 'assignment_id' ]  ) )
 				$this->set_id( $post[ 'assignment_id' ] );
 			
@@ -82,6 +79,10 @@ if( !class_exists( 'Submission' ) ){
 			
 			//May be buggy if Not Set.
 			$this->set_parent( $post[ 'post_id' ] ); 
+			
+			//Don't know that this is usually being set, but we will allow for it. 
+			if( !empty( $post[ 'instructor_status' ]  ) )
+				$this->set_instructor_status( $post[ 'instructor_status' ] );
 			
 			/* $button = ( isset( $post[ 'save_draft' ] ) )? "draft" : ( (  isset( $post[ 'submit_assignment' ] ) )? "submit": NULL );
 			$this->set_status( $button  ); 
@@ -201,12 +202,25 @@ if( !class_exists( 'Submission' ) ){
 			if( $button == 'draft' ){
 				$this->status = (  $current_status == 'incomplete' || $current_status == 'resubmitted' ) ? 'incomplete' : 'draft' ;
 			} elseif( $button = 'submit' ){
-				$this->status = (  $current_status == 'incomplete' ||   $current_status == 'resubmitted' ) ? 'resubmitted' : 'submitted' ;
-				
-				$this->meta[ 'instr_status' ] = 0; //not seen.
+				$this->status = (  $current_status == 'incomplete' ||   $current_status == 'resubmitted' ) ? 'resubmitted' : 'submitted' ;	
 			}	
-				
 		}			
+		
+		
+		/**
+		 *  
+		 *
+		 *
+		 *	return 
+		 */
+				
+		
+		public function set_instructor_status( $instr_status ){
+			
+			$this->meta[ 'instructor_status' ] = intval( $instr_status );
+		}		
+		
+		
 		
 		/**
 		 *  get_args
@@ -228,7 +242,7 @@ if( !class_exists( 'Submission' ) ){
 				'post_type' => $this->type,
 				'post_status' => $this->status,
 				'post_parent' => $this->parent_id,
-				'post_meta' => $this->meta
+				'meta_input' => $this->meta
 			]; 		
 			
 		}			

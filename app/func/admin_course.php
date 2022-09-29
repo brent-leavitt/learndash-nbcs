@@ -5,6 +5,7 @@ namespace Doula_Course\App\Func;
 //To enable namespacing, add_actions need attention.
 
 use Doula_Course\App\Clss\Grades\Create_Assignments_Map as Create_Map;
+use Doula_Course\App\Clss\Grades\Grades;
 
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
@@ -16,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 /**
  * 
  * 
- * 
+ * This updates the assignment map when a new course/program is added to the system. 
  * 
  * return BOOL
  */
@@ -46,6 +47,9 @@ function update_assignments_map( $post_id = 0, $post = null, $update = false )
 }
 
 add_action('save_post', 'Doula_Course\App\Func\update_assignments_map', 50 ); 
+
+
+
 
 
 

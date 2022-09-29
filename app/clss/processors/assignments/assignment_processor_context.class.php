@@ -95,9 +95,9 @@ if( !class_exists( 'Assignment_Processor_Context' ) ){
 		
 		public function do_action( INT $id, ARRAY $post ){
 		
-			print_pre( $this->action, __LINE__ . __CLASS__ ); 
+			/* print_pre( $this->action, __CLASS__ .' Class has been called on line '.__LINE__  ); 
 			echo "USER ID is: { $id }";
-			print_pre( $post, "The submitted post" ); 
+			print_pre( $post, "The submitted post" );  */
 			$this->action->do_action( $id, $post ); 
 		
 		}

@@ -3,6 +3,7 @@
 namespace Doula_Course\App\Clss\Processors\Assignments;
 
 use Doula_Course\App\Clss\Interfaces\Assignment_Processor_Action;
+use Doula_Course\App\Clss\Grades\Grades; 
 
 /*
  *  
@@ -70,7 +71,7 @@ if( !class_exists( 'Delete_Submission' ) ){
 		 **/
 		public function __construct(  ){
 				
-				
+			add_action( 'delete_post', array( $this, 'remove_assignment_grade' ), 10, 2 );
 				
 		}
 		
@@ -158,7 +159,7 @@ if( !class_exists( 'Delete_Submission' ) ){
 				
 				//Nothing was deleted. 
 				
-				$this->messages->add( 'student' , 'notice', __( 'There was no data available for deletion. Sorry!', NBCS_TD )  ); 
+				$this->messages->add( 'student' , 'notice', __( 'There was no data available for deletion. Sorry!', NBCS_TD ) ); 
 				
 			}	
 				
@@ -167,6 +168,37 @@ if( !class_exists( 'Delete_Submission' ) ){
 		}		
 		
 		
+		/**
+		 * 
+		 * 
+		 * This is a callback function on the 'delete_post' hook called in this class's constructor.
+		 * 
+		 * return BOOL
+		 */
+		 
+		 
+		public function remove_assignment_grade( $post_id, $post )
+		{	
+			if( strcmp( $post->post_type, 'assignment') !== 0 )
+				return false; 
+			
+			$student_id = $post->post_author; 
+			//Make sure it is the current user who is deleting their post or an admin. 
+				//Admin or current_user
+			if ( ! current_user_can( 'edit_course', $post_id ) && ( (int)$student_id !== (int)get_current_user_id() ) )
+				return false;
+
+			
+			$grades = new Grades(); 
+			$grades->build( $student_id );
+			
+			$grades->delete_grade( $post->post_parent ); 
+			$grades->update_grades(); 
+			
+			return true;
+			
+		}
+
 		
 		
 		/**

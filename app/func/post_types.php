@@ -59,7 +59,7 @@ function register_post_types()
 		'show_in_menu' => true,	//
 		'menu_pos' => 35,			//
 		'menu_icon' => 'edit-page',	//
-		'supports' => array( 'title', 'editor', 'page-attributes', 'revisions', 'comments' ),		//
+		'supports' => array( 'title', 'editor', 'page-attributes', 'comments', 'revisions' ),		//
 		'has_archive' => true,		//
 	];
 
@@ -71,7 +71,7 @@ function register_post_types()
 		'show_in_menu' => true,	//
 		'menu_pos' => 36,			//
 		'menu_icon' => 'awards',	//
-		'supports' => array( 'title', 'editor', 'page-attributes', 'revisions', 'comments' ),		//
+		'supports' => array( 'title', 'editor', 'page-attributes', 'comments', 'revisions' ),		//
 		'has_archive' => false,		//
 	];
 	

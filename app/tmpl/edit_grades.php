@@ -65,6 +65,10 @@ if( isset($_GET['student_id']) ){
 	}
 } 		
 
+$grades2 = new Grades();
+$grades2->build( $student_id );
+print_pre( $grades2, 'GRADES TWO Object from Line '.__LINE__ ); 
+
 if( !empty( $program_id ) )
 	load_grades_form( 'Edit Grades', $program_id, $message );  
 else

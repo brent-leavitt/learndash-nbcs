@@ -327,13 +327,22 @@ if( !class_exists( 'Grade' ) ){
 		public function update_student_meta( ): BOOL
 		{
 			$update = false;
-			//Update Instructor status: 
-			$instructor_status = ( !empty( $this->assignment_id ) )? get_post_meta( $this->assignment_id, 'instructor_status', true ) : 0 ;
-
-			if( strcmp( $this->instructor_status, $instructor_status ) !== 0 ){
-				$this->set_instructor_status( $instructor_status );
-				$update = true;
-			}		
+		
+		//Update Instructor status: 
+			if( !empty( $this->assignment_id ) ){
+				$instructor_status = get_post_meta( $this->assignment_id, 'instructor_status', true );
+				
+				if( strcmp( $this->instructor_status, $instructor_status ) !== 0 ){
+					$this->set_instructor_status( $instructor_status );
+					$update = true;
+				}		
+			
+			} else {
+				//If assignment ID is empty, but instructor status is set from some other way (grades editor).
+				$update = ( intval( $this->instructor_status ) !== 0 ) ? true : false ; 
+			}
+			//if instr_status now equals 0, and $this->instr_status !== 0, 
+			
 			
 			//Get post_status. 
 			$current_status = ( !empty( $this->assignment_id ) )? get_post_status( $this->assignment_id ) : '' ;
