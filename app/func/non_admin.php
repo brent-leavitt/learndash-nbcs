@@ -23,10 +23,14 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  */	
 
 function remove_admin_bar() {
-	if ( !current_user_can( 'administrator' ) && !is_admin() )
+	if ( !current_user_can( 'administrator' ) && !is_admin()  )
 		show_admin_bar( false );
+	
+	if ( !current_user_can( 'trainer' ) )
+		show_admin_bar( true ); 
+	
 }
 
-add_action('after_setup_theme', 'Doula_Course\App\Func\remove_admin_bar');
+//add_action('after_setup_theme', 'Doula_Course\App\Func\remove_admin_bar', 10);
 
 ?>

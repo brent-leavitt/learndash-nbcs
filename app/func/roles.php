@@ -12,20 +12,50 @@ function add_roles( ){
 	
 	$roles = new Roles(
 		[
-			'student_active' => [
+			'trainer' => [
+				'edit_posts',
+				'edit_users',
+				'list_users',
 				'read',
-				'upload_files',
-				'student_current',
-				'edit_assignments',
-				'delete_assignments',
-				'publish_assignments',
-				'edit_published_assignments',
-			],
-			'student_inactive' => [
-				'read',	
 				'student',
+				'upload_files',
+				'read_assignment',
+				'edit_assignment',
+				'delete_assignment',
+				'publish_assignment',
+				'edit_published_assignment',
+				'read_assignments',
+				'edit_assignments',
+				'edit_others_assignments',
+				'publish_assignments',
+				'edit_published_assignments',
+				'edit_private_assignments',
+				'delete_assignments',
+				'read_certificates',
+				'edit_certificates',
+				'edit_others_certificates',
+				'publish_certificates',
+				'edit_published_certificates',
+				'edit_private_certificates',
+				'delete_certificates',
+				'read_notifications',
+				'edit_notifications',
+				'edit_others_notifications',
+				'publish_notifications',
+				'edit_published_notifications',
+				'edit_private_notifications',
+				'delete_notifications',
 			],
-			'alumnus_active' => [
+			'student' => [
+				'read',
+				'student',
+				'upload_files',
+				'edit_assignments',
+				'delete_assignments',
+				'publish_assignments',
+				'edit_published_assignments',
+			],
+			'alumnus' => [
 				'read',	
 				'upload_files',
 				'edit_assignments',
@@ -33,8 +63,11 @@ function add_roles( ){
 				'publish_assignments',
 				'edit_published_assignments',
 			],
-			'alumnus_inactive' => [
+			'reader' => [
 				'read',
+				
+			],
+			'inactive' => [
 				
 			],
 		]
@@ -54,8 +87,6 @@ function add_caps( ){
 	
 	//this is a little lazy, sending the whole args array when you only need to two values. 
 	$caps = new Capabilities([
-		'track',	
-		'material',	
 		'assignment',	
 		'certificate',
 		'message',
@@ -75,10 +106,11 @@ function add_caps( ){
 function remove_roles( ){
 	
 	$roles = [
-		'student_active',
-		'student_inactive',
-		'alumnus_active',
-		'alumnus_inactive',
+		'trainer',
+		'student',
+		'alumnus',
+		'reader',
+		'inactive',
 	];
 	
 	foreach( $roles as $role ){
@@ -94,8 +126,6 @@ function remove_caps( ){
 	
 	
 	$caps = new Capabilities([
-		'track',	
-		'material',	
 		'assignment',	
 		'certificate',
 		'message',
@@ -119,9 +149,9 @@ function remove_caps( ){
 
 
 add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_roles' );
-add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_caps' );
+//add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_caps' );
 add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_roles' );
-add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_caps' );
+//add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_caps' );
 
 
 

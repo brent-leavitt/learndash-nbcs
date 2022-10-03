@@ -25,7 +25,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  
 function not_admin()
 {
-	if( is_user_logged_in() && !current_user_can( 'administrator' ) )
+	if( is_user_logged_in() && !current_user_can( 'edit_posts' ) )
 	{
 			$site_url = site_url();
 			wp_redirect($site_url); 
@@ -50,9 +50,7 @@ function build_admin_menus(){
 	
 	
 	$admin_menus = [
-		[ 'Code Sandbox', 'sandbox', 'hammer', 30, 	// Coding Sandbox Page. 
-			[]												// Space for subpages if needed. 
-		],
+	
 	
 		[ 'Students Overview', 'students', 'heart', 34, 	// Student Overview Table 
 			[
@@ -69,8 +67,11 @@ function build_admin_menus(){
 				['Edit Transaction', ''],					// Edit an existing transaction
 				['Edit Grades', '']							// Grades Editor for an individual student. 
 			]
-		] 
+		], 
 		
+		[ 'Code Sandbox', 'sandbox', 'hammer', 95, 	// Coding Sandbox Page. 
+			[]												// Space for subpages if needed. 
+		]
 		/*, 
 		[ '', '', '', '', 						//
 			['', ''],							//

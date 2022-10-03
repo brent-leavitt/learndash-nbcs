@@ -54,8 +54,8 @@ if( isset($_GET['student_id']) ){
 		}
 		
 		
-		print_pre( $_POST, 'the $POST from Line '.__LINE__ ); 
-		print_pre( $grades, 'Grades Object from Line '.__LINE__ ); 
+	/* 	print_pre( $_POST, 'the $POST from Line '.__LINE__ ); 
+		print_pre( $grades, 'Grades Object from Line '.__LINE__ );  */
 	
 		$grades_updated = $grades->update_grades();			
 		
@@ -67,7 +67,7 @@ if( isset($_GET['student_id']) ){
 
 $grades2 = new Grades();
 $grades2->build( $student_id );
-print_pre( $grades2, 'GRADES TWO Object from Line '.__LINE__ ); 
+//print_pre( $grades2, 'GRADES TWO Object from Line '.__LINE__ ); 
 
 if( !empty( $program_id ) )
 	load_grades_form( 'Edit Grades', $program_id, $message );  

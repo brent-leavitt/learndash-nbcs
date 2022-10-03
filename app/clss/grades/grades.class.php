@@ -249,6 +249,19 @@ if( !class_exists( 'Grades' ) ){
 				'last_updated' 		=>  isset( $args[ 'last_updated' ] ) ?  $args[ 'last_updated' ] : NULL	//NOW
 			];
 			
+			
+			if( isset( $this->grades[ $material_id ] ) ){	
+				
+				//Check if grade is different: status or instructor status.
+				if( ( strcmp( $this->grades[ $material_id ]->get_status(), $grade_args[ 'status' ] ) == 0 ) &&
+					( strcmp( $this->grades[ $material_id ]->get_instr_status(), $grade_args[ 'instructor_status' ]) == 0 )  )
+					return; 
+					
+				//Check date for already existing submissions. Retain if already exists. 
+				if( !empty( $submission_date = $this->grades[ $material_id ]->get_submission_date() ) )
+					$grade_args[ 'submission_date' ] = $submission_date; 
+			}
+			
 			$grade = ( !isset( $this->grades[ $material_id ] ) )? new Grade() : $this->grades[ $material_id ] ;
 		
 			$grade->build( $grade_args );
