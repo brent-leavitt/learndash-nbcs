@@ -56,6 +56,15 @@ function activate_doula_course(){
 		wp_mail( 'brent@trainingdoulas.com', 'Plugin Activated', 'The doula course plugin has been actviated and the database has been updated!' );
 		
 	}
+	
+	//add 'last_trainer_assigned' option to the database. 
+    $trainers = get_users( [
+        'role'    => 'trainer',
+        'orderby' => 'ID',
+    ] );
+	
+	add_option( 'last_trainer_assigned', $trainers[0]->ID );
+
 }
 
 add_action( 'doula_course_activate', 'Doula_Course\App\Func\activate_doula_course' );
