@@ -68,16 +68,8 @@ class Edit_Student_Processor implements Processor
 		'student_postalcode' 		=> '',  
 		'student_phone' 			=> '',  
 		
-		'student_facebook' 			=> '', 
-		'student_pay_service' 		=> '', 
-		'student_pay_id' 			=> '', 
-		'student_pay_email' 		=> '', 
-		'last_payment_received'		=> '', 
-		'billing_type' 				=> '', // still relevant?
-		'student_tracks'			=> [],
-		'certificate_id'			=> '',
-		'certification_date'		=> '',
-		'certificaiton_last_update' => '',
+		
+		'student_trainer' 			=> '', 
 		'admin_notes' 				=> '', 
 		 
 	]; 
@@ -192,6 +184,10 @@ class Edit_Student_Processor implements Processor
 				$results[] = update_user_meta( $this->uid, $key, $val );	
 			else
 				$results[] = delete_user_meta( $this->uid, $key );
+			
+			//Need to set an action hook for trainers to be notified of changes. 
+			if( $key == 'student_trainer' )
+				do_action( 'nb_student_trainer_change', $this->uid, $val ); 
 		}
 		
 		return $results;
@@ -210,7 +206,7 @@ class Edit_Student_Processor implements Processor
 		
 		$this->post[ 'ID' ] = $this->uid;
 		
-		$this->set_role();
+		//$this->set_role(); //Not relevant after LMS/Content Restriction updates. 
 		$this->set_meta();
 		
 		$user_data = wp_update_user( $this->post );

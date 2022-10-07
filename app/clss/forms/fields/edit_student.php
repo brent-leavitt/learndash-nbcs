@@ -1,5 +1,6 @@
 <?php
-$available_tracks =  []; //Doula_Course\App\Func\get_available_tracks(); 
+//Set Trainers_Arr code. 
+$trainers_arr = nb_get_trainers();
 
 $fields = array(
 			//	[ 'section', 'Section Title', array $fields ],
@@ -19,13 +20,9 @@ $fields = array(
 			]],
 			[ 'section', 'Contact Information', 2, [
 				[ 'text', 'student_phone', 'Phone' ],
-				[ 'checkbox', 'student_phone_visible', 'Publically Visible' ],
 				[ 'email', 'user_email', 'Email' ],
-				[ 'empty', '', '' ],
-				[ 'text', 'student_facebook', 'Facebook' ],
-				[ 'checkbox', 'student_facebook_visible', 'Publically Visible' ],
 			]],
-			[ 'section', 'Payment Details', 2, [
+			/* [ 'section', 'Payment Details', 2, [
 				[ 'select', 'student_pay_service', 'Pay Service', [], 	[ 
 					'' => '-----', 
 					'paypal' => 'PayPal', 
@@ -56,7 +53,14 @@ $fields = array(
 				[ 'text', 'certificate_id', 'Certificate ID' ],
 				[ 'text', 'certification_date', 'Certification Date' ],
 				[ 'text', 'certificaiton_last_update', 'Certificaiton Last Updated' ],
+			]], */
+			[ 'section', 'Additional Student Information', 2, [
+				
+				[ 'select', 'student_trainer', 'Trainer' , [], $trainers_arr ],
+				[ 'text', 'user_registered', 'Start Date' ],
+				
 			]],
+			
 			[ 'section', 'Admin Notes', 1, [
 				[ 'textarea', 'admin_notes', 'Admin Notes' ],
 			]],

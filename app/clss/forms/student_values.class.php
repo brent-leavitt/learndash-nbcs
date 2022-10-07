@@ -32,21 +32,22 @@ class Student_Values implements Form_Values_Interface
 		'student_postalcode' => '',
 		'student_country' => '',
 		'student_phone' => '',
+		'user_registered' => '',
+		'user_email' => '',/* 
 		'student_phone_visible' => '',
-		'user_email' => '',
 		'student_facebook' => '',
 		'student_facebook_visible' => '',
 		'student_pay_email' => '',
 		'student_pay_service' => '',
 		'student_pay_id' => '',
-		'user_registered' => '',
 		'last_payment_received' => '',
 		'student_status' => '',
 		'billing_type' => '',
 		'student_tracks' => [],
 		'certificate_id' => '',
 		'certification_date' => '',
-		'certificaiton_last_update' => '',
+		'certificaiton_last_update' => '', */
+		'student_trainer'=>'',
 		'admin_notes' => '',
 		
 	];

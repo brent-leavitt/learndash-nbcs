@@ -37,7 +37,7 @@ function print_pre( $arr = array(), string $title = "No Title" ): VOID
 }
 
 /**
- *  print_pre
+ *  option_exists
  *
  *	A helper function that checks the databse to see if a wordpress option exists.
  *
@@ -48,11 +48,41 @@ function option_exists( $name, $site_wide = false ): BOOL
 {
     global $wpdb; 
 	
+	//should check the global variables first before querying the database. 
 	$result = $wpdb->query( $wpdb->prepare( "SELECT * FROM ". ($site_wide ? $wpdb->base_prefix : $wpdb->prefix). "options WHERE option_name ='%s' LIMIT 1", $option_name ) );
 	
 	return ( !empty( $result ) )? true : false; 
 }
 
+
+/**
+ *  nb_get_trainers
+ *
+ *	Disables unneeded functionality to allow other code to work properly. 
+ *
+ *	returns array of user_id => names for existing trainers. 
+ **/
+
+function nb_get_trainers( ): ARRAY
+{
+	global $trainers; 
+	
+	if( isset( $trainers ) )
+		return $trainers;
+	
+	$trainer_objs = get_users( [
+		'role' => 'trainer', 
+		'orderby' => 'ID'
+	] );
+	
+	$trainers = [ 0 => '(No Trainer)'];
+	
+	foreach( $trainer_objs as $trainer )	
+		$trainers[ $trainer->ID ] = $trainer->user_firstname.' '.$trainer->user_lastname; 
+	
+	return $trainers; 
+	
+}
 
 /**
  *  disable_stuff
