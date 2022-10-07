@@ -55,7 +55,7 @@ class Table_Students extends List_Table{
 			'student_email'		=>	__( 'Email' ),
 			'student_date'		=>	__( 'Start Date' ),
 			'student_status'		=>	__( 'Status' ),
-			'student_payment'	=>	__( 'Last Payment Received' ),
+			'student_membership'	=>	__( 'Membership' ),
 			'student_grades'		=>	__( 'Grades' )
 		);
 		
@@ -79,11 +79,12 @@ class Table_Students extends List_Table{
 	/**
 	 * Prepare the table with different parameters, pagination, columns and table elements
 	 */
-	public function prepare_items($student_type = NULL) {
+	public function prepare_items( ) {
 		global $usersearch;
 		
 		$usersearch = isset( $_REQUEST['s'] ) ? trim( $_REQUEST['s'] ) : '';
-		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
+		$role = $_REQUEST['role'] ?? '';
+		$trainer = $_REQUEST['trainer'] ?? 0 ;
 		$users_per_page = $this->get_items_per_page( 'users_per_page' );
 
 		$paged = $this->get_pagenum();		
@@ -114,12 +115,13 @@ class Table_Students extends List_Table{
 		
 
 		//Final arguments to consider: STUDENT TYPE
+		$args[ 'role' ] = $role ?? 'student';
 		
-		if( !empty( $student_type ) ){
-			$args['role'] = $student_type; 
+		/* if( !empty( $role ) ){
+			$args['role'] = $role; 
 		} else {
 			$args['cap'] = 'student';
-		}
+		} */
 				
 		// Query the user IDs for this page
 		$wp_user_search = new \WP_User_Query( $args );
@@ -183,11 +185,13 @@ class Table_Students extends List_Table{
 					case "student_fullname": $table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($student->display_name).'</a></td>'; break;
 					case "student_email": $table_output .=  '<td '.$attributes.'><a href="'.$email_page_link.'">'.stripslashes($student->user_email).'</a></td>'; break;
 					case "student_date": $table_output .=  '<td '.$attributes.'>'.stripslashes($student->user_registered).'</td>'; break;
-					case "student_status": $table_output .=  '<td '.$attributes.'>';
+					case "student_status": 
+						$table_output .=  '<td '.$attributes.'>';
 						//$table_output .= print_r( $student->allcaps, true);
 						$table_output .= !isset( $student->allcaps['student_current'] ) ? 'Inactive' : ( ( $student->allcaps['student_current'] == 1 )? 'Current' : 'Inactive' ) ;
-						$table_output .=  '</td>'; break; //fix these.
-					case "student_payment": 
+						$table_output .=  '</td>'; 
+						break; //fix these.
+					case "student_membership": 
 					
 						$lastPymt = get_user_meta($student->ID, 'last_payment_received', true);
 						$lastPymt = ( !empty( $lastPymt ) )? $lastPymt : '( none )' ;
@@ -224,40 +228,53 @@ class Table_Students extends List_Table{
 		print( $table_output );
 	}
 	
+	/*
+	*	Differnt Available Views:
+	*
+		- My Students (default) 
+			-Trainer ID is either inherent in the current user role, or is set as an URL parameter. 
+			-all users with role of student and user_meta = 'student_trainer' that matches trainer_id.
+		- All Students (active only)
+		- Alumni (active only)
+		- Inactives (note whether student or alumni)
+		- All (active and inactive)
+	*
+	*
+	*
+	* 	
+	*/
+	
+	
 	protected function get_views() {
-        global $wp_roles, $role;
  
-		if( isset( $_GET['role']) ) {
-			$role = $_GET['role'];
-		}
+		$user = wp_get_current_user();
+		$roles = ( array ) $user->roles;
+		
+		//Load current user as trainer, if trainer is set. 
+		$trainer_id = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
+		
+		//Allow for URL override if the trainer paramater is set, so that other trainers can 
+		$trainer_id = $_GET[ 'trainer' ] ?? get_current_user_id(); 
+ 
 		$url = 'admin.php?page=students';
-		$users_of_blog = count_users();
-   
-        $total_users = $users_of_blog['total_users']-1;
-        $avail_roles =& $users_of_blog['avail_roles'];
-        unset($users_of_blog);
+
+		$students = nb_count_students( $trainer_id ) ; 
+	
+		$current_view = $_GET[ 'screen' ] ?? 'my_students';
+		
+        $view_links = array();
+		foreach( $students as $view => $num ){
+			
+            $class = ( $current_view == $view )? ' class="current"' : '';
+			$name = ucwords( str_replace( '_', ' ', $view ) ); 
+            $name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $num ) );
+            $view_links[$view] = "<a href='" . esc_url( add_query_arg( 'screen', $view, $url ) ) . "'$class>$name</a>";
+		}
+	
  
-        $class = empty($role) ? ' class="current"' : '';
-        $role_links = array();
-        $role_links['all'] = "<a href='$url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
-        foreach ( $wp_roles->get_names() as $this_role => $name ) {
-            if ( !isset($avail_roles[$this_role]) )
-                continue;
-				
-            $class = '';
- 
-            if ( $this_role == $role ) {
-                $class = ' class="current"';
-            }
- 
-            $name = translate_user_role( $name );
-            /* translators: User role name with count */
-            $name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
-            $role_links[$this_role] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$class>$name</a>";
-        }
- 
-        return $role_links;
+        return $view_links;
     }
+	
 	
 } /* END Table_Students class */
 

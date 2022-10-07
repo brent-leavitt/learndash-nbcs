@@ -55,11 +55,38 @@ add_action( 'learndash_update_course_access', 'Doula_Course\App\Func\update_stud
 /**
  *	assign_student_trainer
  *
+ *  This plugin may require additional filtering based on the type of membership being created.
+ *	For example, no trainer should be assigned to reader accounts. 
+ *
  *	do_action: 'rcp_new_membership_added' in plugins\restrict-content-pro\core\includes\memberships\membership-functions.php
  *	
  * @param int          $membership_id      Membership ID, not needed. 
  * @param arr          $data		       Data, $data[ 'user_id' ] is needed value. 
  *	
+	Membership Data:
+
+		array (
+		  'customer_id' => '1',
+		  'user_id' => '15',
+		  'object_id' => 1,
+		  'object_type' => 'membership',
+		  'currency' => 'USD',
+		  'initial_amount' => '0.00',
+		  'recurring_amount' => '0.00',
+		  'created_date' => '2022-10-07 00:00:00',
+		  'expiration_date' => '2022-10-08 23:59:59',
+		  'auto_renew' => 0,
+		  'times_billed' => 0,
+		  'maximum_renewals' => 0,
+		  'status' => 'active',
+		  'signup_method' => 'manual',
+		  'disabled' => 0,
+		  'gateway_customer_id' => '',
+		  'gateway_subscription_id' => '',
+		  'gateway' => 'manual',
+		  'trial_end_date' => '2022-10-08 23:59:59',
+		)
+
  *	
  * 	return 
  */
