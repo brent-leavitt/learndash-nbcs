@@ -123,29 +123,37 @@ add_filter( 'next_post_rel_link', '\disable_stuff' );
 function nb_count_students( int $trainer = 0 ):ARRAY
 {
 	$arr = []; 
-	$my_students = [];
 	
+	//Get My Students. 
+	$my_students = [];
 	$student_objs = get_users( [
 		'role' => 'student', 
 		'orderby' => 'ID'
 	] );
-	
+
 	foreach( $student_objs as $student ){
-		//print_pre( $student, 'Student data:' ); 
 		if( $student->has_prop( 'student_trainer' ) ){
 			if( $trainer == $student->get( 'student_trainer' ) )
 				$my_students[] = $student->ID;		
 		}
 	}
 	
+	//Get individual type counts. 	
 	$user_count = count_users(); 
 	$counts = $user_count[ 'avail_roles' ];
+		
+	//Get all users
+	
+	$all_users = get_users([
+		'role__in' => [ 'student', 'alumnus', 'inactive' ]
+	]);
+		
 		
 	$arr[ 'my_students' ] 	= count( $my_students ); //all active students of current trainer. 
 	$arr[ 'all_students' ] 	= $counts[ 'student' ] ?? 0;  //all active students. 
 	$arr[ 'alumni' ] 		= $counts[ 'alumnus' ] ?? 0;  //all active alumni
 	$arr[ 'inactive' ] 		= $counts[ 'inactive' ] ?? 0;  //all inactive students and alumni.
-	$arr[ 'all_users' ] 	= $arr[ 'all_students' ] + $arr[ 'alumni' ] + $arr[ 'inactive' ];  //all students, alumni, and inactive (student or alumni)
+	$arr[ 'all_users' ] 	= count( $all_users );  //all students, alumni, and inactive (student or alumni)
 	
 	return $arr; 
 }

@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  
 class Table_Students extends List_Table{
 
+	private $trainer = 0;
+
+
 	//Override default class constructor
 	public function __construct(){
 		
@@ -22,6 +25,8 @@ class Table_Students extends List_Table{
 		'screen'=> 'all_students'
 		
 		));		
+		
+		$this->set_trainer(); 
 	}
 
 	/**
@@ -54,8 +59,8 @@ class Table_Students extends List_Table{
 			'student_fullname'	=>	__( 'Name' ),
 			'student_email'		=>	__( 'Email' ),
 			'student_date'		=>	__( 'Start Date' ),
-			'student_status'		=>	__( 'Status' ),
-			'student_membership'	=>	__( 'Membership' ),
+			'student_status'		=>	__( 'Role' ),
+			'student_membership'	=>	__( 'Subscription' ),
 			'student_grades'		=>	__( 'Grades' )
 		);
 		
@@ -83,8 +88,30 @@ class Table_Students extends List_Table{
 		global $usersearch;
 		
 		$usersearch = isset( $_REQUEST['s'] ) ? trim( $_REQUEST['s'] ) : '';
-		$role = $_REQUEST['role'] ?? '';
-		$trainer = $_REQUEST['trainer'] ?? 0 ;
+		$screen = $_REQUEST['screen'] ?? '';
+		
+		switch( $screen ){
+			case 'all_users': 
+				$role = 'all'; 
+				break;
+			case 'all_students': 
+				$role = 'student'; 
+				break;
+			case 'alumni': 
+				$role = 'alumnus'; 
+				break;
+			case 'inactive':
+				$role = 'inactive';
+				break; 
+			case 'my_students':
+			default: 
+				$role = '';
+				break;		
+		} 
+		
+		
+		$trainer = $_REQUEST['trainer'] ?? $this->trainer;
+		
 		$users_per_page = $this->get_items_per_page( 'users_per_page' );
 
 		$paged = $this->get_pagenum();		
@@ -92,8 +119,6 @@ class Table_Students extends List_Table{
 		$args = array(
 			'number' => $users_per_page,
 			'offset' => ( $paged-1 ) * $users_per_page,
-			/* 'cap' => 'student',  */
-			//'exclude' => 1, //exclude super admin who's userId is 1.
 			'search' => $usersearch,
 			'fields' => 'all_with_meta'
 		);
@@ -101,32 +126,26 @@ class Table_Students extends List_Table{
 		if ( '' !== $args['search'] )
 				$args['search'] = '*' . $args['search'] . '*';
 
-		if ( isset( $_REQUEST['orderby'] ) ) {
-			$args['orderby'] = $_REQUEST['orderby'];
-		} else {
-			$args['orderby'] = 'user_registered';
-		}
-				
-		if ( isset( $_REQUEST['order'] ) ){
-			$args['order'] = $_REQUEST['order'];
-		} else {
-			$args['order'] = 'desc';
+		$args['orderby'] = $_REQUEST['orderby'] ?? 'user_registered';			
+		$args['order'] = $_REQUEST['order'] ?? 'desc';
+		
+		if( empty( $role ) ){
+			$args[ 'meta_key' ] = 'student_trainer';
+			$args[ 'meta_value' ] = $this->trainer;
 		}
 		
-
 		//Final arguments to consider: STUDENT TYPE
 		$args[ 'role' ] = $role ?? 'student';
 		
-		/* if( !empty( $role ) ){
-			$args['role'] = $role; 
-		} else {
-			$args['cap'] = 'student';
-		} */
-				
+		if( $role == 'all' ){
+			$args[ 'role__in' ] = [ 'student', 'alumni', 'inactive' ];
+			unset( $args[ 'role' ] ); 
+		}
+		
 		// Query the user IDs for this page
 		$wp_user_search = new \WP_User_Query( $args );
 		$this->items = $wp_user_search->get_results();
-		
+				
 		$this->set_pagination_args( array(
 			'total_items' => $wp_user_search->get_total(),
 			'per_page' => $users_per_page,
@@ -162,68 +181,50 @@ class Table_Students extends List_Table{
 		$table_output = '';
 		
 		//Loop for each student
-		if(!empty($students)){foreach($students as $student){
+		if( !empty( $students ) ){
+			
+			foreach($students as $student){
 		
-			//Open the line
-			$table_output .= '<tr id="student_'.$student->ID.'">';
-			foreach ( $columns as $column_name => $column_display_name ) {
+				//Open the line
+				$table_output .= '<tr id="student_'.$student->ID.'">';
+				foreach ( $columns as $column_name => $column_display_name ) {
 
-				//Style attributes for each col
-				$class = "class='$column_name column-$column_name'";
-				$style = "";
-				if ( in_array( $column_name, $hidden ) ) $style = ' style="display:none;"';
-				$attributes = $class . $style;
+					//Style attributes for each col
+					$class = "class='$column_name column-$column_name'";
+					$style = "";
+					if ( in_array( $column_name, $hidden ) ) $style = ' style="display:none;"';
+					$attributes = $class . $style;
 
-				//edit link
-				$editlink  = '/wp-admin/admin.php?page=edit_student&amp;student_id='.(int)$student->ID; //Not sure where this is being called...
-				$email_page_link  = '/wp-admin/admin.php?page=email_student&amp;student_id='.(int)$student->ID; //Not sure where this is being called...
+					//edit link
+					$editlink  = '/wp-admin/admin.php?page=edit_student&amp;student_id='.(int)$student->ID; //Not sure where this is being called...
+					$email_page_link  = '/wp-admin/admin.php?page=email_student&amp;student_id='.(int)$student->ID; //Not sure where this is being called...
 
-				//Display the cell
-				switch ( $column_name ) {
-					case "cb":	$table_output .=  '<th scope="row" class="check-column"><input type="checkbox" /></th>';	break;
-					case "student_id":	$table_output .=  '<td '.$attributes.'>'.stripslashes($student->ID).'</td>';	break;
-					case "student_fullname": $table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($student->display_name).'</a></td>'; break;
-					case "student_email": $table_output .=  '<td '.$attributes.'><a href="'.$email_page_link.'">'.stripslashes($student->user_email).'</a></td>'; break;
-					case "student_date": $table_output .=  '<td '.$attributes.'>'.stripslashes($student->user_registered).'</td>'; break;
-					case "student_status": 
-						$table_output .=  '<td '.$attributes.'>';
-						//$table_output .= print_r( $student->allcaps, true);
-						$table_output .= !isset( $student->allcaps['student_current'] ) ? 'Inactive' : ( ( $student->allcaps['student_current'] == 1 )? 'Current' : 'Inactive' ) ;
-						$table_output .=  '</td>'; 
-						break; //fix these.
-					case "student_membership": 
-					
-						$lastPymt = get_user_meta($student->ID, 'last_payment_received', true);
-						$lastPymt = ( !empty( $lastPymt ) )? $lastPymt : '( none )' ;
-						
-						$lateNote = '';
-						
-						if( $lastPymtTime = strtotime($lastPymt)){
+					//Display the cell
+					switch ( $column_name ) {
+						case "cb":	$table_output .=  '<th scope="row" class="check-column"><input type="checkbox" /></th>';	break;
+						case "student_id":	$table_output .=  '<td '.$attributes.'>'.stripslashes($student->ID).'</td>';	break;
+						case "student_fullname": $table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($student->display_name).'</a></td>'; break;
+						case "student_email": $table_output .=  '<td '.$attributes.'><a href="'.$email_page_link.'">'.stripslashes($student->user_email).'</a></td>'; break;
+						case "student_date": $table_output .=  '<td '.$attributes.'>'.stripslashes($student->user_registered).'</td>'; break;
+						case "student_status": 
+							$table_output .=  '<td '.$attributes.'>';
+							$table_output .= implode( ', ', $student->roles );
+							$table_output .=  '</td>'; 
+							break; //fix these.
 							
-							$currentTime = time();
-							$_30DaysBack = $currentTime - (30 * 24 * 60 * 60); 	//30 days = (30 * 24 * 60 * 60)
-							$_60DaysBack = $currentTime - (60 * 24 * 60 * 60); 
+						case "student_membership": 					
+							$table_output .=  '<td '.$attributes.'>'. rcp_show_user_columns( '(not set)', 'rcp_subscription', $student->ID ). '</td>'; 
+							break; //fix these.
 							
-							if( $lastPymtTime < $_30DaysBack )
-								$lateNote = ' style="color: orange;"';
-							
-							if( $lastPymtTime < $_60DaysBack )
-								$lateNote = ' style="color: red;"';
-						}
+						case "student_grades": $table_output .=  '<td '.$attributes.'><a href="/wp-admin/admin.php?page=edit_grades&amp;student_id='.(int)$student->ID.'">grades</a></td>'; break;
 						
-						
-						$table_output .=  '<td '.$attributes.'><span'.$lateNote.'>'.$lastPymt.'</span></td>'; 
-						
-						break; //fix these.
-						
-					case "student_grades": $table_output .=  '<td '.$attributes.'><a href="/wp-admin/admin.php?page=edit_grades&amp;student_id='.(int)$student->ID.'">grades</a></td>'; break;
-					
+					}
 				}
-			}
 
-			//Close the line
-			$table_output .= '</tr>';
-		}}
+				//Close the line
+				$table_output .= '</tr>';
+			}
+		}
 		
 		print( $table_output );
 	}
@@ -247,18 +248,9 @@ class Table_Students extends List_Table{
 	
 	protected function get_views() {
  
-		$user = wp_get_current_user();
-		$roles = ( array ) $user->roles;
-		
-		//Load current user as trainer, if trainer is set. 
-		$trainer_id = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
-		
-		//Allow for URL override if the trainer paramater is set, so that other trainers can 
-		$trainer_id = $_GET[ 'trainer' ] ?? get_current_user_id(); 
- 
 		$url = 'admin.php?page=students';
 
-		$students = nb_count_students( $trainer_id ) ; 
+		$students = nb_count_students( $this->trainer ) ; 
 	
 		$current_view = $_GET[ 'screen' ] ?? 'my_students';
 		
@@ -274,6 +266,20 @@ class Table_Students extends List_Table{
  
         return $view_links;
     }
+	
+	
+	private function set_trainer(){
+		
+		$user = wp_get_current_user();
+		$roles = ( array ) $user->roles;
+		
+		//Load current user as trainer, if trainer is set. 
+		$this->trainer = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
+		
+		//Allow for URL override if the trainer paramater is set, so that other trainers can 
+		$this->trainer = $_GET[ 'trainer' ] ?? get_current_user_id(); 
+		
+	}
 	
 	
 } /* END Table_Students class */
