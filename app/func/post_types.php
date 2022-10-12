@@ -461,4 +461,253 @@ function get_available_tracks(  ): ARRAY
 }
  */
  
+ 
+/**
+ * 	filter_assignments_by_trainer
+ *
+ *	Loads all available tracks from the database. 
+ *
+ *	returns array
+ **/
+ 
+ function filter_assignments_by_trainer( $query ) {
+
+    global $pagenow;
+
+
+	
+    /* $cpt = "assignment";
+    $cpt_key = "student_trainer";
+    $cpt_value = $_REQUEST[ 'trainer' ] ?? 0;
+
+    if (is_admin() && $pagenow=='edit.php' && 
+		isset( $_GET['post_type'] ) && $_GET['post_type']==$cpt &&
+        isset( $_GET['trainer'] )  && $_GET['trainer'] != 0 &&
+        $query->query['post_type'] == $cpt )  {
+      
+			$query->query_vars['meta_key'] = $cpt_key;
+			$query->query_vars['meta_value'] = $cpt_value;
+
+    }
+	
+	print_pre( $query, 'The Query '.__LINE__ );  */
+
+}
+
+add_filter( 'parse_query', 'Doula_Course\App\Func\filter_assignments_by_trainer' );
+
+
+
+function meta_views( $views ) 
+{
+	
+	//LIFTED FROM GET_VIEWS
+	global $locked_post_status, $avail_post_stati;
+
+	$post_type = get_post_type();
+
+	if ( ! empty( $locked_post_status ) ) {
+		return array();
+	}
+
+	$status_links = array();
+	$num_posts    = wp_count_posts( $post_type, 'readable' );
+	$total_posts  = array_sum( (array) $num_posts );
+	$class        = '';
+
+	$current_user_id = get_current_user_id();
+	$all_args        = array( 'post_type' => $post_type );
+	$mine            = '';
+	
+	
+	
+	$name_filters = [
+		'draft' => 'All Drafts', 
+		'submitted' => 'All Submitted', 
+		'incomplete' => 'All Incompletes', 
+		'resubmitted' => 'All Resubmitted', 
+		'completed' => 'All Completed', 
+		'all' => 'View All', 
+		'trash' => 'Trashed', 
+	];
+	
+	$views = nb_filter_assignment_view_names( $views, $name_filters ); 
+	
+	
+	$trainer_views = [
+		'all_my_pending' => "All My Pending (9)",
+		'my_submitted' => "My Submitted (9)",
+		'my_resubmitted' => "My Resubmitted (9)",
+		'all_my_graded' => "All My Graded (9)",
+	];
+	
+	
+	$views = array_merge( $trainer_views, $views ); 
+	
+	print_pre( $views ); 
+	
+    return $views;
+}
+ 
+
+add_filter( 'views_edit-assignment', 'Doula_Course\App\Func\meta_views', 10, 1 );
+
+
+
+/*
+* nb_filter_assignment_view_names
+*
+* This filters the names of the views displayed on the wp_admin/edit.php?post_type=assignment page. 
+* It also stripes out default views if not included in the $names_filter list. 
+*
+* 
+*/
+
+function nb_filter_assignment_view_names( $views, $name_filters ){
+	
+	$filtered = [];
+
+	foreach( $name_filters as $name => $filter ){
+		if( isset( $views[ $name ] ) )
+			$filtered[ $name ] = str_replace( ucfirst( $name ), $filter , $views[ $name ] ); 
+	}
+	
+	return $filtered; 
+}
+
+
+/**  //REFERENCE ONLY//
+	 * @global array $locked_post_status This seems to be deprecated.
+	 * @global array $avail_post_stati
+	 * @return array
+	 */
+	function reference_only_get_views() {
+		global $locked_post_status, $avail_post_stati;
+
+		$post_type = $this->screen->post_type;
+
+		if ( ! empty( $locked_post_status ) ) {
+			return array();
+		}
+
+		$status_links = array();
+		$num_posts    = wp_count_posts( $post_type, 'readable' );
+		$total_posts  = array_sum( (array) $num_posts );
+		$class        = '';
+
+		$current_user_id = get_current_user_id();
+		$all_args        = array( 'post_type' => $post_type );
+		$mine            = '';
+
+		// Subtract post types that are not included in the admin all list.
+		foreach ( get_post_stati( array( 'show_in_admin_all_list' => false ) ) as $state ) {
+			$total_posts -= $num_posts->$state;
+		}
+
+		if ( $this->user_posts_count && $this->user_posts_count !== $total_posts ) {
+			if ( isset( $_GET['author'] ) && ( $current_user_id === (int) $_GET['author'] ) ) {
+				$class = 'current';
+			}
+
+			$mine_args = array(
+				'post_type' => $post_type,
+				'author'    => $current_user_id,
+			);
+
+			$mine_inner_html = sprintf(
+				/* translators: %s: Number of posts. */
+				_nx(
+					'Mine <span class="count">(%s)</span>',
+					'Mine <span class="count">(%s)</span>',
+					$this->user_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->user_posts_count )
+			);
+
+			$mine = $this->get_edit_link( $mine_args, $mine_inner_html, $class );
+
+			$all_args['all_posts'] = 1;
+			$class                 = '';
+		}
+
+		if ( empty( $class ) && ( $this->is_base_request() || isset( $_REQUEST['all_posts'] ) ) ) {
+			$class = 'current';
+		}
+
+		$all_inner_html = sprintf(
+			/* translators: %s: Number of posts. */
+			_nx(
+				'All <span class="count">(%s)</span>',
+				'All <span class="count">(%s)</span>',
+				$total_posts,
+				'posts'
+			),
+			number_format_i18n( $total_posts )
+		);
+
+		$status_links['all'] = $this->get_edit_link( $all_args, $all_inner_html, $class );
+
+		if ( $mine ) {
+			$status_links['mine'] = $mine;
+		}
+
+		foreach ( get_post_stati( array( 'show_in_admin_status_list' => true ), 'objects' ) as $status ) {
+			$class = '';
+
+			$status_name = $status->name;
+
+			if ( ! in_array( $status_name, $avail_post_stati, true ) || empty( $num_posts->$status_name ) ) {
+				continue;
+			}
+
+			if ( isset( $_REQUEST['post_status'] ) && $status_name === $_REQUEST['post_status'] ) {
+				$class = 'current';
+			}
+
+			$status_args = array(
+				'post_status' => $status_name,
+				'post_type'   => $post_type,
+			);
+
+			$status_label = sprintf(
+				translate_nooped_plural( $status->label_count, $num_posts->$status_name ),
+				number_format_i18n( $num_posts->$status_name )
+			);
+
+			$status_links[ $status_name ] = $this->get_edit_link( $status_args, $status_label, $class );
+		}
+
+		if ( ! empty( $this->sticky_posts_count ) ) {
+			$class = ! empty( $_REQUEST['show_sticky'] ) ? 'current' : '';
+
+			$sticky_args = array(
+				'post_type'   => $post_type,
+				'show_sticky' => 1,
+			);
+
+			$sticky_inner_html = sprintf(
+				/* translators: %s: Number of posts. */
+				_nx(
+					'Sticky <span class="count">(%s)</span>',
+					'Sticky <span class="count">(%s)</span>',
+					$this->sticky_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->sticky_posts_count )
+			);
+
+			$sticky_link = array(
+				'sticky' => $this->get_edit_link( $sticky_args, $sticky_inner_html, $class ),
+			);
+
+			// Sticky comes after Publish, or if not listed, after All.
+			$split        = 1 + array_search( ( isset( $status_links['publish'] ) ? 'publish' : 'all' ), array_keys( $status_links ), true );
+			$status_links = array_merge( array_slice( $status_links, 0, $split ), $sticky_link, array_slice( $status_links, $split ) );
+		}
+
+		return $status_links;
+	}
+
+ 
 ?>

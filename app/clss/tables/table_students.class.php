@@ -56,10 +56,10 @@ class Table_Students extends List_Table{
 	public function get_columns() {
 		$columns = array(
 			'cb'      				=>	'<input type="checkbox" />', 
-			'student_fullname'	=>	__( 'Name' ),
+			'student_fullname'	=>	__( 'Display Name ( Full Name )' ),
 			'student_email'		=>	__( 'Email' ),
 			'student_date'		=>	__( 'Start Date' ),
-			'student_status'		=>	__( 'Role' ),
+			'student_status'		=>	__( 'Roles' ),
 			'student_membership'	=>	__( 'Subscription' ),
 			'student_grades'		=>	__( 'Grades' )
 		);
@@ -203,7 +203,7 @@ class Table_Students extends List_Table{
 					switch ( $column_name ) {
 						case "cb":	$table_output .=  '<th scope="row" class="check-column"><input type="checkbox" /></th>';	break;
 						case "student_id":	$table_output .=  '<td '.$attributes.'>'.stripslashes($student->ID).'</td>';	break;
-						case "student_fullname": $table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($student->display_name).'</a></td>'; break;
+						case "student_fullname": $table_output .=  '<td '.$attributes.'><a href="'.$editlink.'">'.stripslashes($student->display_name). ' ( '. $student->first_name .' '.$student->last_name.' )</a></td>'; break;
 						case "student_email": $table_output .=  '<td '.$attributes.'><a href="'.$email_page_link.'">'.stripslashes($student->user_email).'</a></td>'; break;
 						case "student_date": $table_output .=  '<td '.$attributes.'>'.stripslashes($student->user_registered).'</td>'; break;
 						case "student_status": 
