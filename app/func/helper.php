@@ -158,4 +158,30 @@ function nb_count_students( int $trainer = 0 ):ARRAY
 	return $arr; 
 }
 
+
+
+/*
+*
+*
+* For use in ADMIN areas only. Returns the ID of the current user if they are a trainer, else it looks for it in a $_GET parameter. 
+* If no trainer is set, then the current user will be loaded. 
+*  
+* Return $trainer - a trainer/user ID. 
+*/
+
+function nb_get_current_trainer_id(){
+	
+	$user = wp_get_current_user();
+	$roles = ( array ) $user->roles;
+	
+	//Load current user as trainer, if trainer is set. 
+	$trainer = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
+	
+	//Allow for URL override if the trainer paramater is set, so that other trainers can 
+	$trainer = $_GET[ 'trainer' ] ?? get_current_user_id(); 
+	
+	return intval( $trainer ); 
+}
+
+
 ?>

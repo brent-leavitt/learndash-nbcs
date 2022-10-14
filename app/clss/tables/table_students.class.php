@@ -270,14 +270,7 @@ class Table_Students extends List_Table{
 	
 	private function set_trainer(){
 		
-		$user = wp_get_current_user();
-		$roles = ( array ) $user->roles;
-		
-		//Load current user as trainer, if trainer is set. 
-		$this->trainer = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
-		
-		//Allow for URL override if the trainer paramater is set, so that other trainers can 
-		$this->trainer = $_GET[ 'trainer' ] ?? get_current_user_id(); 
+		$this->trainer = nb_get_current_trainer_id(); 
 		
 	}
 	
