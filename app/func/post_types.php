@@ -502,22 +502,28 @@ function meta_views( $views )
 {
 	
 	//LIFTED FROM GET_VIEWS
-	global $locked_post_status, $avail_post_stati;
-
+	global $avail_post_stati;
 	$post_type = get_post_type();
 
-	if ( ! empty( $locked_post_status ) ) {
-		return array();
-	}
-
+	print_pre( $avail_post_stati, '$avail_post_stati is ' ); 
+	print_pre( $post_type , '$post_type  is ' ); 
+	
 	$status_links = array();
 	$num_posts    = wp_count_posts( $post_type, 'readable' );
+	print_pre( $num_posts, 'num posts' ); 
+	
 	$total_posts  = array_sum( (array) $num_posts );
+	print_pre( $total_posts, 'toatal posts' ); 
 	$class        = '';
 
 	$current_user_id = get_current_user_id();
 	$all_args        = array( 'post_type' => $post_type );
 	$mine            = '';
+	
+	
+	
+	
+	$my_asmts = nb_num_trainer_astms_stati( $trainer );
 	
 	
 	
@@ -575,6 +581,41 @@ function nb_filter_assignment_view_names( $views, $name_filters ){
 	return $filtered; 
 }
 
+
+/*
+*  nb_num_trainer_astms_stati
+*
+*  
+*
+*
+*	@param $trainer - (int) trainer ID
+*/
+function nb_num_trainer_astms_stati( $trainer ){	
+
+
+	//Maybe should get the authors assigned to trainer first, then look for posts matching author ids. 
+	
+	$stati = [ 'submitted', 'resubmitted', 'incomplete', 'complete' ];
+	
+	$nums = []; 
+	
+	foreach( $stati => $status ){
+		
+		$asmts = get_posts( [ 'post_status' => $status ] );
+		
+		//nb_filter_assignments_by_trainer
+		foreach( $asmts as $key => $post )
+			if( $trainer !== nb_get_student_trainer( $post->post_author ) )
+				unset( $asmts[ $key ] );
+			
+		$nums[ $status ] = count( $asmts ); 
+	}
+	
+	return $nums; 
+	
+}
+	
+	
 
 /**  //REFERENCE ONLY//
 	 * @global array $locked_post_status This seems to be deprecated.
