@@ -116,7 +116,21 @@ function build_admin_menus(){
 		foreach( $trainer_sub_menu as $tsm )
 			array_unshift( $asmts_arr, $tsm ); 
 		
-	
+		
+		//unset menues for trainers
+		
+		$unset_menues = [ 'learndash-lms', 'edit.php', 'edit.php?post_type=portfolio' ]; 
+		foreach( $unset_menues as $unset_string ){
+			foreach( $menu as $menu_key => $menu_item ){
+				if( array_search( $unset_string, $menu_item ) ) //Hide dashboard and Learndash from trainers?
+					unset( $menu[ $menu_key ] );
+			}
+		}		
+		
+		//A little more clean up.
+		//unset( $menu[ 4 ] ); //spacer
+		unset( $menu[ 25 ] ); //comments
+		
 	}
 }
  
@@ -127,7 +141,7 @@ add_action( 'admin_menu', 'Doula_Course\App\Func\build_admin_menus', 90 );
 /**
  * filter_selected_asmt_submenu
  * 
- * This sets the code that will insert a new menu spacer in the admin menu. 
+ * This filters the submenus for the assignment CPT to highlight (class=current) for "my assignment" views. 
  * 
  * return $parent_file
  */
