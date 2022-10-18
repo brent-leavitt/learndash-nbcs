@@ -47,7 +47,7 @@ add_action('init', 'Doula_Course\App\Func\not_admin');
  */
 
 function build_admin_menus(){
-	
+	global $menu, $submenu;
 	
 	$admin_menus = [
 	
@@ -81,14 +81,72 @@ function build_admin_menus(){
 	];
 	
 	$builder = new Admin_Menu_Builder();
-	
 	$builder->build( $admin_menus );
-
+	
+	/*--- NEXT SECTION ---*/
+	
+	//print_pre( $submenu, 'The Admin Sub Menu Before' );
+	//If is trainer role: 
+	$roles = nb_get_current_user_roles(); 
+	if( in_array( 'trainer', $roles ) ){
+		
+		$trainer_id = get_current_user_id(); 
+		
+		$submenu[ 'edit.php?post_type=assignment' ][ 5 ][ 0 ] = 'All Assignments'; 
+		
+		$asmt_base_url = 'edit.php?post_type=assignment';
+		
+		//second, intentionally out of order for use in the array_unshift foreach loop action. 
+		$trainer_sub_menu[ 3 ] = [
+			0 => 'My Graded Asmts',
+			1 => 'edit_assignments',
+			2 => 'edit.php?post_type=assignment&view=all_my_graded&trainer='.$trainer_id	,
+		]; 
+		
+		//first
+		$trainer_sub_menu[ 2 ] = [
+			0 => 'My Assignments',
+			1 => 'edit_assignments',
+			2 => 'edit.php?post_type=assignment&view=all_my_pending&trainer='.$trainer_id,
+		]; 
+		
+		//note refenced sub_array. 
+		$asmts_arr = &$submenu[ $asmt_base_url ];
+		
+		foreach( $trainer_sub_menu as $tsm )
+			array_unshift( $asmts_arr, $tsm ); 
+		
+	
+	}
 }
  
  
-add_action( 'admin_menu', 'Doula_Course\App\Func\build_admin_menus' );
+add_action( 'admin_menu', 'Doula_Course\App\Func\build_admin_menus', 90 );
 
+ 
+/**
+ * filter_selected_asmt_submenu
+ * 
+ * This sets the code that will insert a new menu spacer in the admin menu. 
+ * 
+ * return $parent_file
+ */
+
+
+function filter_selected_asmt_submenu( $parent_file ){
+    global $submenu_file;
+	
+    $roles = nb_get_current_user_roles(); 
+	
+	if( in_array( 'trainer', $roles ) ){
+		if (isset($_GET['trainer']) && isset($_GET['view'])) 
+			$submenu_file = 'edit.php?post_type=assignment&view=' . $_GET['view'] . '&trainer=' . $_GET['trainer'];
+	}
+	
+    return $parent_file;
+}
+
+add_filter('parent_file', 'Doula_Course\App\Func\filter_selected_asmt_submenu');
  
 /**
  * Render Admin Page

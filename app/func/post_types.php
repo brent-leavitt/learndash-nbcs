@@ -565,6 +565,27 @@ function nb_filter_assignment_view_names( $views, $name_filters ){
 
 
 /*
+*  nb_get_trainers_students
+*
+*  Returns a numeric array of Student IDs assigned to trainer. User must have role of student to be displayed in the list. 
+*
+*
+*	@param $trainer - (int) trainer ID
+*/
+function nb_get_trainers_students( $trainer ){	
+
+	//Get all users where role is student and user_meta is student_trainer = $trainer
+	return get_users([
+		'fields' => 'ID', 
+		'role' => 'student', 
+		'meta_key' => 'student_trainer',
+		'meta_value' => $trainer
+	]); 
+	
+	
+}
+
+/*
 *  nb_num_trainer_astms_stati
 *
 *  
@@ -574,13 +595,8 @@ function nb_filter_assignment_view_names( $views, $name_filters ){
 */
 function nb_num_trainer_astms_stati( $trainer ){	
 	
-	//Get all users where role is student and user_meta is student_trainer = $trainer
-	$students = get_users([
-		'fields' => 'ID', 
-		'role' => 'student', 
-		'meta_key' => 'student_trainer',
-		'meta_value' => $trainer
-	]); 
+	
+	$students = nb_get_trainers_students( $trainer );  
 	 
 	//Then search through assignments by authors that pertain to this trainer. 
 	$stati = [ 'submitted', 'resubmitted', 'incomplete', 'completed' ];
@@ -603,9 +619,9 @@ function nb_num_trainer_astms_stati( $trainer ){
 }
 	
 /*
-* 
-*
-*
+*	list_assignments_query_args
+*	
+*	
 *
 */
 
@@ -613,20 +629,45 @@ function list_assignments_query_args( $query ){
 	
 	global $pagenow; 
 	
-	if( is_admin() 
-		&& $query->is_main_query() 
-		&& ( strcmp( 'assignment', $_GET[ 'post_type' ] ) == 0 )  
-		&& ( strcmp( 'edit.php', $pagenow ) == 0 )  ){
+	if( !is_admin() || !$query->is_main_query() )
+		return; 
+	
+	
+		
+	if( ( strcmp( 'assignment', $query->get( 'post_type' ) ) == 0 )  && ( strcmp( 'edit.php', $pagenow ) == 0 )  ){
 		
 		//Stopped here. 
+		$trainer = $_GET[ 'trainer' ] ?? 0;
+		$view = $_GET[ 'view' ] ?? 'default'; 
 		
-		echo "This is the Assignment List Page!";
-		print_pre( $query, 'The main query object' ); 
+		if( !empty( $trainer ) ){
 		
+			//$my_views = [ 'all_my_pending', 'my_submitted', 'my_resubmitted', 'all_my_graded' ]; 
+			switch( $view ){
+				
+				case 'all_my_pending':
+					$status = [ 'submitted', 'resubmitted' ];
+					break;
+				case 'my_submitted':
+					$status = 'submitted';
+					break;
+				case 'my_resubmitted':
+					$status = 'resubmitted';
+					break;
+				case 'all_my_graded':
+					$status = [ 'incomplete', 'completed' ];
+					break;
+					
+			} 
+			
+			$students = nb_get_trainers_students( $trainer );  
+			$query->set( 'author__in', $students );
+			$query->set( 'post_status', $status );
+			
+			
+			//print_pre( $query, "The main query" ); 	
+		}
 	}
-	
-	//print_pre( $query, 'The Query Object ' ); 
-	
 }
 
 add_action( 'pre_get_posts', 'Doula_Course\App\Func\list_assignments_query_args', 10 ); 

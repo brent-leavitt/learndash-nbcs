@@ -178,9 +178,25 @@ function nb_get_current_trainer_id(){
 	$trainer = ( in_array( 'trainer', $roles ) ) ? $user->ID : 0; 	
 	
 	//Allow for URL override if the trainer paramater is set, so that other trainers can 
-	$trainer = $_GET[ 'trainer' ] ?? get_current_user_id(); 
+	$trainer = $_GET[ 'trainer' ] ?? $trainer; 
 	
 	return intval( $trainer ); 
+}
+
+/**
+ * Get the user's roles
+ * @since 1.0.0
+ */
+function nb_get_current_user_roles() {
+ if( is_user_logged_in() ) {
+ $user = wp_get_current_user();
+ $roles = ( array ) $user->roles;
+ return $roles; // This returns an array
+ // Use this to return a single value
+ // return $roles[0];
+ } else {
+ return array();
+ }
 }
 
 
