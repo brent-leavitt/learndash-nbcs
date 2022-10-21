@@ -131,8 +131,12 @@ class Table_Students extends List_Table{
 		
 		if( empty( $role ) ){
 			$args[ 'meta_key' ] = 'student_trainer';
-			$args[ 'meta_value' ] = $this->trainer;
+			
+			if( $trainer !== 0 )		
+				$args[ 'meta_value' ] = $this->trainer;
 		}
+		
+		
 		
 		//Final arguments to consider: STUDENT TYPE
 		$args[ 'role' ] = $role ?? 'student';

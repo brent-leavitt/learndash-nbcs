@@ -68,7 +68,7 @@ function add_roles( ){
 				
 			],
 			'inactive' => [
-				
+				'inactive',
 			],
 		]
 	);
@@ -152,7 +152,6 @@ add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_roles' );
 //add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_caps' );
 add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_roles' );
 //add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_caps' );
-
 
 
 ?>

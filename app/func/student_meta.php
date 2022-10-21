@@ -121,4 +121,6 @@ function assign_student_trainer( $membership_id, $data ){
 add_action( 'rcp_new_membership_added', 'Doula_Course\App\Func\assign_student_trainer', 10 , 2 );  
 
 
+
+
 ?>
