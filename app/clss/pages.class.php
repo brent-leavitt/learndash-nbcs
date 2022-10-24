@@ -47,6 +47,9 @@ class Pages{
 	
 	/**
 	 * Runs the wordpress Add_ShortCode method
+	 *
+	 *	This is not quite right: Proper documentation is here: https://developer.wordpress.org/reference/functions/add_shortcode/
+	 *
 	 * @var $page string
 	 */
 	 
@@ -54,7 +57,7 @@ class Pages{
 	
 		add_shortcode( 'nb_'.$page  , function() use ( $page ){
 			
-			return include_once( $this->get_template_path( $page ) );
+			include_once( $this->get_template_path( $page ) );
 			
 		}  );
 
@@ -71,10 +74,5 @@ class Pages{
 
 	}
 
-	/**
-	 *
-	 *
-	 */	 
-	
 }
 ?>

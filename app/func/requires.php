@@ -39,13 +39,13 @@ call_required([
 	'helper', 		//Add helper functions.
 	//'login', 		//Login Screen Customization
 	//'menus', 		//Add Menus based on user permissions
-	'pages', 		//Add Custom Page Functionality 
+	'pages', 		//Add Custom Page Functionality (Shortcodes)
 	'post_types', 	//Add Custom Post Types.
 	'post_status', 	//Add Custom Post Status. 
 	'query_vars', 	//Add Additional Automated Triggers (IPN and Crons)
 	'register', 	//Add Extra Registration Fields to RCP forms.  
 	'roles', 		//Add Roles. 
-	'shortcodes', 	//Add Shortcodes.
+	//'shortcodes', 	//Add Shortcodes.
 	'student_meta', //Add Student Meta actions.
 	'widget', 		//Add Widgets
 ]);

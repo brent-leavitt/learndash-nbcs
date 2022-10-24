@@ -233,6 +233,23 @@ function admin_menu_spacers(): VOID
 
 add_action( 'admin_menu', 'Doula_Course\App\Func\admin_menu_spacers' );
 
+/**
+ * Add_Admin_Styles
+ * 
+ * This allows for the admin CSS to be added. 
+ *
+ * 
+ * 
+ * return void
+ */
+
+
+function nb_add_admin_style() {
+        wp_register_style( 'nb_admin', plugin_dir_url( __DIR__ ) . 'tmpl/admin-styles.css', false, '1.0.0' );
+        wp_enqueue_style( 'nb_admin' );
+}
+add_action( 'admin_enqueue_scripts', 'Doula_Course\App\Func\nb_add_admin_style' );
+
 
 
 ?>

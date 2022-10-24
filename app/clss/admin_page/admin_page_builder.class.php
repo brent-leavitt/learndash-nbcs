@@ -19,6 +19,9 @@ Class Admin_Page_Builder implements Page_Builder
 	
 	/* @var string $title */
 	private $title = '';
+	
+	/* @var array $notices */
+	private $notices = [];
 
 	/* @var obj $page */
 	private $page;
@@ -35,6 +38,8 @@ Class Admin_Page_Builder implements Page_Builder
 				
         $this->reset();
 		$this->title = $title;
+		
+		add_action( 'admin_notices', array( $this, 'do_notices' ), 50 ); 
 
     }
 	
@@ -141,10 +146,26 @@ Class Admin_Page_Builder implements Page_Builder
      */
     public function build_notices( array $notices ): void
 	{
+		$this->notices = $notices; 
 		
-		$notice_str = var_export( $notices, true );
+		print_pre( $this->notices ); 
 		
-		$this->page->sections[] = "<p>The NOTICES are: <br>".$notice_str ."</p>";
+	}		
+	
+    /**
+     * Build Notices
+     *
+     * @return void
+     */
+    public function do_notices(): void
+	{
+		print_pre( $this->notices , "Notices" );
+		$notice_str = var_export( $this->notices, true );
+		 ?>
+		<div class="notice notice-success is-dismissible">
+			<p><?php $notice_str; ?></p>
+		</div>
+		<?php
 		
 	}
 	

@@ -41,7 +41,7 @@ class Student_Progress extends \WP_Widget {
 	public function widget( $args, $instance ) {
 		global $current_user, $post;
 		extract( $args );
-		$user_id = $current_user->ID;					 
+		$user_id = $current_user->ID ?? 0;					 
 		
 		
 		//an extracted arg:	
@@ -54,12 +54,18 @@ class Student_Progress extends \WP_Widget {
 		echo $before_title . "Student Progress" . $after_title;
 
 		//Bulk of Widget Goes Here
+		if( empty( $user_id ) ):
+			
+			echo "<p>Please login to continue:</p>";
+			echo "<div class='check-in-btn'><a class='button' href='/check-in/'>Log In &raquo;</a></div>";
+			
+		else:
 		
 		?>
-		<div class="textwidget" id="status_string"><?php echo $this->student_status_message(); ?>
+		<div class="textwidget" id="status_string"><?php //echo $this->student_status_message(); ?>
 		<?php
-		if( is_object( $post ) )
-			$this->bookmark_widget( $post, $user_id );
+		/* if( is_object( $post ) )
+			$this->bookmark_widget( $post, $user_id ); */
 		?>
 		
 		</div>
@@ -76,11 +82,13 @@ class Student_Progress extends \WP_Widget {
 	
 		<div class="textwidget" id="billing_status">
 			<h4>Billing Information</h4>
-			<?php 
 			
+		<?php 	
 			echo "<p>Our billing systems are in transition at this point in time. Click on the \"Billing Overview\" button for more details on your account.</p>";
-			echo "<div class='bill-overview-btn'><a class='button' href='/billing/'>Billing Overview &raquo;</a></div>";
-			
+			echo "<div class='billing-details-btn'><a class='button' href='/account/'>Billing Details &raquo;</a></div>";
+		
+		
+		endif;
 		echo '</div>
 			  <div class="textwidget last">
 			    <p><strong>Having website troubles?</strong>
@@ -120,7 +128,7 @@ class Student_Progress extends \WP_Widget {
 	private function bookmark_widget( object $post, int $user_id )
 	{
 		//Display only on non-course pages. 
-		if( isset( $post ) && $post->post_type !== 'material' ){
+		if( isset( $post ) && $post->post_type !== 'sw' ){
 			$bkmrk_id = get_user_meta( $user_id, 'course_bookmarks', true );
 			
 			if( !empty( $bkmrk_id ) ){

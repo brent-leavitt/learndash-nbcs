@@ -15,6 +15,18 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  **/
 
  
+
+/*-----------------*/
+//A function to get all the meta data for the student to display and manipulate. 
+function get_student_meta(){
+	global $current_user;
+	return ( $current_user->ID != null)? get_userdata( $current_user->ID ):NULL; 
+	
+}
+ 
+ 
+ 
+ 
 /**
  *	update_student_course_access 
  *
