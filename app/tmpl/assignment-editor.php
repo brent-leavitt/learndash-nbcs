@@ -404,12 +404,15 @@ else:
 	<!-- END SOURCE TEMPLATE -->	
 		
 		<hr>
-		<p>Need a fresh start? Go ahead and clear your submission. (Careful: This action cannot be undone!)</p>
-		<form id="delete_assignment" method="post" action="<?php echo $current_url; ?>#delete_assignment">
-			<input type="hidden" name="post_id" id="post_id" value="<?php echo $asmt_id; ?>" />
-			<?php wp_nonce_field( 'delete_submission', 'delete_submission_nonce' ); ?>
-			<input id="delete_assignment" name="delete_assignment" type="submit" value="Delete Assignment" />
-		</form>
+		<div id="fresh-start">
+			<h4>Need a fresh start?</h4>
+			<p>Go ahead and clear your submission. <em>(Careful: This action cannot be undone!)</em></p>
+			<form id="delete_assignment" method="post" action="<?php echo $current_url; ?>#delete_assignment">
+				<input type="hidden" name="post_id" id="post_id" value="<?php echo $asmt_id; ?>" />
+				<?php wp_nonce_field( 'delete_submission', 'delete_submission_nonce' ); ?>
+				<input id="delete_assignment" class="button button-secondary" name="delete_assignment" type="submit" value="Delete Assignment" />
+			</form>
+		</div><!-- end #fresh-start -->
 		<?php 		
 	} //Has assignments
 endif; // end if( $grade_is_set && ( $asmt_id == 0 ) )

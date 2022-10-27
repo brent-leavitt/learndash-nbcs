@@ -19,9 +19,6 @@ Class Admin_Page_Builder implements Page_Builder
 	
 	/* @var string $title */
 	private $title = '';
-	
-	/* @var array $notices */
-	private $notices = [];
 
 	/* @var obj $page */
 	private $page;
@@ -39,7 +36,6 @@ Class Admin_Page_Builder implements Page_Builder
         $this->reset();
 		$this->title = $title;
 		
-		add_action( 'admin_notices', array( $this, 'do_notices' ), 50 ); 
 
     }
 	
@@ -145,29 +141,26 @@ Class Admin_Page_Builder implements Page_Builder
      * @return void
      */
     public function build_notices( array $notices ): void
-	{
-		$this->notices = $notices; 
-		
-		print_pre( $this->notices ); 
-		
+	{		
+		foreach( $notices as $n_key => $notice_arr ){
+			
+			switch( $n_key ){
+				case 'messages':
+				default:
+					foreach( $notice_arr as $notice ):
+						?>
+						<div class="notice notice-success is-dismissible">
+							<p><?php echo $notice; ?></p>
+						</div>
+						<?php
+					endforeach;
+					break;
+					
+			}
+		}
 	}		
 	
-    /**
-     * Build Notices
-     *
-     * @return void
-     */
-    public function do_notices(): void
-	{
-		print_pre( $this->notices , "Notices" );
-		$notice_str = var_export( $this->notices, true );
-		 ?>
-		<div class="notice notice-success is-dismissible">
-			<p><?php $notice_str; ?></p>
-		</div>
-		<?php
-		
-	}
+
 	
     /**
      *  Employ a nested director/builder set of classes. 

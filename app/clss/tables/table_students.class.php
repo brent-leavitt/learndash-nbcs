@@ -61,7 +61,7 @@ class Table_Students extends List_Table{
 			'student_date'		=>	__( 'Start Date' ),
 			'student_status'		=>	__( 'Roles' ),
 			'student_membership'	=>	__( 'Subscription' ),
-			'student_grades'		=>	__( 'Grades' )
+			'student_grades'		=>	__( 'Student Work' )
 		);
 		
 		return $columns;
@@ -220,7 +220,11 @@ class Table_Students extends List_Table{
 							$table_output .=  '<td '.$attributes.'>'. rcp_show_user_columns( '(not set)', 'rcp_subscription', $student->ID ). '</td>'; 
 							break; //fix these.
 							
-						case "student_grades": $table_output .=  '<td '.$attributes.'><a href="/wp-admin/admin.php?page=edit_grades&amp;student_id='.(int)$student->ID.'">grades</a></td>'; break;
+						case "student_grades": $table_output .=  '<td '.$attributes.'>
+							<a href="/wp-admin/edit.php?post_type=assignment&amp;student_id='.(int)$student->ID.'">submissions</a> |
+							<a href="/wp-admin/admin.php?page=edit_grades&amp;student_id='.(int)$student->ID.'">grades</a>
+							</td>'; 
+							break;
 						
 					}
 				}

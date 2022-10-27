@@ -36,4 +36,4 @@ if( !empty( $s_name ) )
 		<?php endif; ?>
 		
 		
-	</h2>	
+	</h2>

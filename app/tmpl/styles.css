@@ -10,7 +10,35 @@ hr{
 	border-top: #DAE0D5 solid 1px;
 }
 
+.widget .user-only{
+	display:hidden;	
+}
 
+.logged-in .widget .user_only{
+	display: block;
+}
+
+
+
+.wp-block-buttons .button-secondary a.wp-block-button__link,
+.widget_block .button-secondary{
+	background-color: var( --wp--preset--color--theme-palette-7 );
+	border-radius: 3px;
+}
+
+.wp-block-buttons .button-secondary a.wp-block-button__link:hover,
+.widget_block .button-secondary:hover{
+	background-color: var( --wp--preset--color--theme-palette-2 );
+	
+}
+
+.widget_block .button-secondary a,
+.widget_block .button-secondary a:hover{
+	color: var( --wp--preset--color--theme-palette-9 ); 
+	text-decoration: none;
+}
+
+ 
 /*
  Register - Restrict Content Pro
 */
@@ -30,97 +58,52 @@ hr{
 	margin: 30px 0 !important; 	
 }
 
-
-/*
- Widgets
-*/
-
-.widget_student_progress{
-	background-color: #fff;
-	padding: 5px 0;
-
+.rcp_form input.rcp-button{
+	background-color: var( --global-palette-btn-bg );	
 }
 
-.widget_student_progress h4{
-	font-size: 1em;
-    margin-bottom: 0.2em;
-    margin-top: 0.2em;
-
-}
-
-.widget_student_progress .textwidget{
-	border-bottom: 1px solid #DAE0D5;
-	margin: 15px;
-	padding: 0 15px 15px;
-
-}
-
-
-.widget_student_progress .progress-asmt-ratio{
-	display: block;
-	font-size: .8em;
-}
-
-.widget_student_progress .progress-mtr-wrap{
-	border: 1px solid #e5e5e5;
-	padding: 2px; 
-	width: 100%;
-	height: 30px;
-	position: relative;
-}
-.widget_student_progress .progress-mtr{
-	background: #F1CB60;
-	position: relative;
-	width: 100%;
-	height: 24px;
+.rcp_form input.rcp-button:hover{
+	background-color: var( --global-palette-btn-bg-hover );	
 	
 }
-.widget_student_progress .progress-mtr-bar{
-	background: #9EBB09;
-	display: block;
-	position: absolute;
-	top: 0; 
-	left: 0;
+
+.rcp-table{
+	padding: 30px; 
 }
 
-.widget_student_progress .progress-mtr-text{
-	display: block;
-	position: absolute;
-	top: 1px; 
-	right: 5px;
-	color: #fff;
-	text-align: right;
+.rcp-table div > span{
+/* 	display: inline-block; */
+	padding: 5px;
+	
 }
 
-.widget_student_progress .prg-start-date{
-	margin-bottom: 10px;
+.rcp-table div > span:nth-child(even){
+	
+	background-color: var( --wp--preset--color--theme-palette-8 );
+	
 }
 
-.widget_student_progress .prg-start-date .prg-start-date-label{
-	display: block;
-	font-size: .8em;
-	margin-bottom: -5px;
-}
-
-.widget_student_progress .prg-until-date{
-	font-size: .8em;
-	line-height: 1.4em;
-}
-
-.widget_student_progress .prg-until-date strong{
-	font-size: 1.2em;
-	display: block;
-}
-
-.widget_student_progress .prg-bill-detail,
-.widget_student_progress  .bill-overview-btn{
-	margin-top: 20px;
+.rcp-table div > span:nth-child(odd){
+	
+	background-color: var( --wp--preset--color--theme-palette-9 );
+	
 }
 
 
+.rcp_form .rcp_user_fieldset > p > label > span{
+	display: block; 
+	font-size: .9em;	
+	max-width: 600px;
+	color: var( --wp--preset--color--theme-palette-2 );
+}
 
-.widget_student_progress {}
+.rcp_form .rcp_user_fieldset > p > input{
+	max-width: 600px;	
+}
 
+.rcp_form input[type="checkbox"]{
+	margin: 2px 8px 0 0 !important;
+}
 
 
 /*
@@ -137,358 +120,44 @@ span.inactive img{
 }
 
 
-/* Student Dashboard Side Bar*/
-
-#student-window{
-	background-color: #FFF6CE;
-    border: 1px solid #FFDA2F;
-    border-radius: 4px;
-    margin: 0 0 20px;
-    padding: 0; /* 20px */
-}
-
-#student-window .widget-title, #student-window .widget-title-home h3 {
-    display: block;
-	border-bottom: 1px solid #FFDA2F;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 23px;
-    margin: 0;
-    padding: 20px; /* 0 0 20px */
-    text-align: left;
-}
-
-#widgets  #student-window  .textwidget {
-	border-bottom: 1px solid #FFDA2F;
-    display: block;
-    line-height: 1.5em;
-    padding: 20px; /* margin: 20px */
-    word-wrap: break-word;
-}
-
-#widgets  #student-window  .textwidget.last {
-	border-bottom: 0px;
-
-}
-
-#student-window h4 {
-    font-size: 1em;
-    margin-bottom: .2em;
-    margin-top: .2em;
-}
-
-
-
-/*  Course Sections  */
-
-#section-list{
-	margin: 0; 
-	padding: 0;
-}
-
-#section-list  li.page_item{
-	display: inline-block;
-	border: 1px solid #9E9E9E; /* #7F334B; */
-	width: 120px;
-	height: 120px;
-	margin: 3px;
-	box-shadow: 0px 0px 3px #fff inset;
-	background: #BCBCBC; /* #B96E87; */
-	color: #fff;
-	overflow: hidden;
-}
-
-
-#section-list li.page_item a{
-	display: block;
-	width: 120px;
-	height: 120px;
-	color: #fff;
-	line-height: 1em;
-	text-decoration: none;
-	position: relative; 
-}
-
-#section-list li.page_item a .ct_name{
-	background: rgba(255, 255, 255, 0.2);
-	border-bottom: 1px solid;
-	display: block;
-	padding: 5px; 
-	position: absolute;
-	top: 0; 
-	left: 0; 
-	width: 118px;
-}
-
-#section-list li.page_item a .course_title{
-	font-size: .9em;
-	position: absolute;
-	left: 5px;
-	bottom: 5px;
-	width: 110px;
-	
-}
-
-#section-list  li.page_item.ct_content{
-	border-color: #7F334B;
-	background-color: #B96E87;
-}
-
-#section-list  li.page_item.ct_content:hover{
-	background-color: #AF6981;
-}
-
-
-#section-list  li.page_item.ct_assignment{
-	border-color: #B2A465;
-	background-color: #C9B972;
-}
-
-#section-list  li.page_item.ct_assignment:hover{
-	background-color: #BAAB6A;
-}
-
-
-#section-list  li.page_item.ct_section{
-	border-color: #7AAA93;
-	background-color: #93C4A9;
-}
-
-#section-list  li.page_item.ct_section:hover{
-	background-color: #89B79D;
-}
-
-#section-list  li.page_item.ct_cert{
-	border-color: #AC1B5C;
-	background-color: #AC1B5C;
-	width: 160px;
-	height: 160px;	
-}
-
-#section-list  li.page_item.ct_cert:hover{
-	background-color: #8C3C55;
-}
-
-#section-list  li.page_item.ct_cert a{
-	width: 160px;
-	height: 160px;	
-}
-
-#section-list  li.page_item.ct_cert a .ct_name{
-	width: 158px;
-}
-
-#section-list li.page_item.ct_cert a .course_title{
-	width: 150px;
-	font-size: 1.1em;
-	bottom: 10px;
-	left: 10px;
-}
-
-#section-list  li.page_item.ct_manual{
-	border-color: #4E5C4E;
-	background-color: #4E5C4E;
-	width: 140px;
-	height: 140px;	
-}
-
-#section-list  li.page_item.ct_manual:hover{
-	background-color: #5C6F5C;
-}
-
-#section-list  li.page_item.ct_manual.no-access{
-	border-color: rgba( 92, 111, 92, .5);
-	background: rgba( 92, 111, 92, .5) url('img/limited-access.png') no-repeat center center;
-}
-
-#section-list  li.page_item.ct_manual.no-access:hover{
-	background-color: rgba( 92, 111, 92,.5);
-}
-
-
-#section-list  li.page_item.ct_manual a{
-	width: 140px;
-	height: 140px;	
-}
-
-#section-list  li.page_item.ct_manual a .ct_name{
-	width: 138px;
-}
-
-#section-list li.page_item.ct_manual a .course_title{
-	width: 130px;
-	font-size: 1em;
-	bottom: 8px;
-	left: 8px;
-}
-
-
-#section-list  li.page_item.done{
-	background-image: url('img/done_box.png');
-	background-position: center center;
-	background-repeat: no-repeat;
-}
-
 /*  Course Overview  */
 
-body.archive.post-type-archive-course #content .main.postlist{
-	background: transparent; 
-	padding: 0;
-}
-
-.post-type-archive-course .main .course.type-course{
-	padding: 0 15px;
-	margin-right: 15px;
-}
-
-.post-type-archive-course .main .course.type-course .post-entry{
-	padding: 0 10px;
-}
-/* Search Results */
-.subhead{
-	display: none;
-}
-
-h5.entry-title{
-	border-bottom: 1px solid #eee;
-	padding-bottom: 10px !important;
-	margin-bottom: 10px !important;
-}
 
 /* Course Content */
 
-#content .main,
-.post-type-archive-course .main .course.type-course
-{
-	background: #fff;
+#readonly_assignment{
+  background: #F0F3F6;
+  border: 1px solid #7d7c81;
+  padding: 17px 10px;
+  margin: 40px 0 0 0; 
+  min-height: 200px;
+  border-radius: 3px;
+  
 }
 
-#wrapper #content-full.course-content{
-	padding-bottom: 0;
-}
-
-.course-content h1{
-	margin-top: 1em;
-}
-
-.course-content .entry-content{
-	clear: none;
-	padding-bottom: 30px;
-}
-
-.post-side-col {
-	border: 1px solid #dae0d5;
-	float: right; 
-	width: 30%;
-	margin-left: 2%;
-	margin-bottom: 20px;
-	padding: 0 10px 20px;
-	background: rgba(255, 255, 255, 0.5);
-}
-
-.post-side-col h5{
-	padding-left: 10px;
-	padding-bottom: 7px;
-	border-bottom: 1px solid #dae0d5;
-}
-
-.post-side-col:hover,
-.course-nav:hover{
-	background: rgba(255, 255, 255, 0.7);
-}
-
-.post-side-col  ul{
-	margin-left: 10px;
-}
-
-.post-side-col  ul li .ct_name{
-	display:none;
-}
-
-.post-side-col ul li.current_page_item a{
-	color: #AEC1B7;
-}
-
-.course-nav {
-	background: rgba(255, 255, 255, 0.5);
-    margin: 0;
-	padding: 10px;
-	line-height: 30px;
-}
-
-.course-nav-title{
-	display: none;
-}
-
-.course-nav a{
-	color: #89B79D;
-}
-
-.course-nav.top{
-	margin-bottom: 30px;
-}
-
-.course-nav.btm{
-	margin-top: 30px; 
-	clear: both;
-} 
-
-.course-nav-pag{
-	float: right;
-}
-
-.course-nav ul{
-	margin: 0;
-	padding: 0;
-}
-
-.course-nav-pag li{
-	display: inline-block;
-	padding: 0;
-	margin: 0;
-	/* border-radius: 4px; */
-	background: #AC1B5C;
-}
-
-.course-nav-pag li.next{
-	margin-left: 3px; 
-}
-
-.course-nav-pag li:hover{
-	background: #E8609E;
-}
-
-.course-nav-pag li a{
-	padding: 0 20px;
-	display: block;
-	height: 30px;
-	color: #ffffff;
-}
-
-.single-course .post-entry{
-	padding: 0 10px;
-}
-
-.course  .post-entry table{
-	border: 1px solid #e5e5e5;
-	background: #fff;
+#readonly_assignment + p{
+	z-index: 10; 
+	background: #7d7c81;
+	color: #fff;
+	margin-top: -60px;
+	padding: 5px 10px;
 	
 }
-.course  .post-entry table th,
-.course  .post-entry table td{
 
-	border: 1px solid #e5e5e5;
-	padding: 5px 10px; 
-}
-
-.course  .post-entry table th{
-	padding: 10px ;
-	background: #F4F7ED;
-}
-
-/* .course-nav .course-nav-unit a:hover{
-	color: #C8DDD3;
+/* 
+input.button-secondary{
+	background-color: gray;
+	
 } */
+
+
+/* Course Sidebar Widget */
+.learndash-wrapper .ld-course-navigation .ld-table-list.ld-topic-list .ld-table-list-item .ld-table-list-item-preview.ld-is-current-item {
+  background: white;
+  margin-left: -8px; 
+  padding-left: 14px;
+}
+
 
 /* Student Editor Tweek */
 
@@ -506,7 +175,7 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 
 .meta-info td{
 	background: #f3f3f3;
-	color: #555;
+	color: var( --wp--preset--color--theme-palette-7 );
 }
 
 .course input[type="submit"]{
@@ -595,20 +264,24 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 .nb-table{
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid #e5e5e5;
-	background: #fff;
+	border: 1px solid var( --wp--preset--color--theme-palette-9 );
+	background: var( --wp--preset--color--theme-palette-9 );
 	margin-bottom: 20px;
 }
 
 .nb-table th, 
 .nb-table td{
-	border: 1px solid #e5e5e5;
+	border: 1px solid var( --wp--preset--color--theme-palette-9 );
 	padding: 5px 10px; 
 }
 
 .nb-table th{
 	padding: 10px ;
-	background: #F4F7ED
+	background-color: #F1CB60;
+}
+	
+.nb-table th h4{
+	color: var( --wp--preset--color--theme-palette-9 );
 }
 
 .nb-table.profile-table{
@@ -625,7 +298,7 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 }
 
 .nb-table.profile-table td {
-	border-color: #ccc;
+	border-color: var( --wp--preset--color--theme-palette-7 );
 }
 
 

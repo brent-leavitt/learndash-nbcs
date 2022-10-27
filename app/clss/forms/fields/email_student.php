@@ -4,7 +4,7 @@
 
 $mess_arr = get_posts([
 	'numberposts' => 50,
-	'post_type' => 'message',
+	'post_type' => 'notification',
 	'orderby' => 'menu_order',
 	
 ]);

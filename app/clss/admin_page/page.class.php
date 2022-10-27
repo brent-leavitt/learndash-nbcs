@@ -23,11 +23,8 @@ class Page
     public function render( ): void
 	{
 
-		
-		foreach( $this->sections as $section ){
-			echo $section;
-			
-		}		
+		foreach( $this->sections as $section )
+			print( $section );
 		
 	}
 

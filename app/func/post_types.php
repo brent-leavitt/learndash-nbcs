@@ -636,9 +636,10 @@ function list_assignments_query_args( $query ){
 		
 	if( ( strcmp( 'assignment', $query->get( 'post_type' ) ) == 0 )  && ( strcmp( 'edit.php', $pagenow ) == 0 )  ){
 		
-		//Stopped here. 
+
 		$trainer = $_GET[ 'trainer' ] ?? 0;
 		$view = $_GET[ 'view' ] ?? 'default'; 
+		$student_id = $_GET[ 'student_id' ]?? 0;
 		
 		if( !empty( $trainer ) ){
 		
@@ -666,7 +667,13 @@ function list_assignments_query_args( $query ){
 			
 			
 			//print_pre( $query, "The main query" ); 	
+		}elseif( !empty( $student_id ) ){
+			$query->set( 'author', $student_id );
+			
 		}
+		
+		
+		
 	}
 }
 

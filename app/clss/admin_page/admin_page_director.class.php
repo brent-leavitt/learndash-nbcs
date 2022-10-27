@@ -161,8 +161,8 @@ class Admin_Page_Director
 		
 		//$this->builder->add_to_title( $values->get_student_full_name() );
 		$this->builder->build_title();
-		$this->builder->build_top( $this->slug );
 		$this->builder->build_notices( $this->notices );
+		$this->builder->build_top( $this->slug );
 		//$this->builder->build_table( 'transactions_rcp' );
 		//$this->builder->build_table( 'transactions' );
 		$this->builder->build_form( $this->slug, $values );
@@ -238,8 +238,6 @@ class Admin_Page_Director
 		$this->notices = array_merge_recursive( $this->notices, $response );
 		
 	}	
-	
-
 	
 	
 	/**
