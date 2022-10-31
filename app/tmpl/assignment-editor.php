@@ -275,7 +275,7 @@ else:
 									echo "<a href='".wp_get_attachment_url( $atch->ID )."' target='_blank'>
 									<span class='ld-item-icon'>
 										{$atch->post_title}
-										<span class='ld-icon ld-icon-download' aria-label='". esc_html_e( 'Download Assignment', 'learndash' ). "'></span>
+										<span class='ld-icon ld-icon-download' aria-label='". esc_html__( 'Download Assignment', 'learndash' ). "'></span>
 									</span></a>"; 
 									
 									if( $asmt_editable ):
@@ -284,7 +284,7 @@ else:
 									<form id="delete_attachment" method="post" action="<?php echo $current_url; ?>#attachments">
 										<input type="hidden" name="atch_id" id="atch_id" value="<?php echo $atch->ID; ?>" />
 										<input type="hidden" name="delete_attachment_nonce" id="delete_attachment_nonce" value="<?php echo $delete_attach_nonce; ?>" />
-										<input class="ld-icon ld-icon-delete" aria-label="<?php esc_html_e( 'Delete Attachment', 'learndash' ); ?>" id="delete_attachment" name="delete_attachment" type="submit" value="REMOVE X" />
+										<input class="delete-attachment" aria-label="<?php esc_html_e( 'Delete Attachment', 'learndash' ); ?>" id="delete_attachment_<?php echo $atch->ID; ?>" name="delete_attachment" type="submit" value="X" title="Remove Attachment" />
 									</form>
 								
 									<?php
@@ -410,7 +410,7 @@ else:
 			<form id="delete_assignment" method="post" action="<?php echo $current_url; ?>#delete_assignment">
 				<input type="hidden" name="post_id" id="post_id" value="<?php echo $asmt_id; ?>" />
 				<?php wp_nonce_field( 'delete_submission', 'delete_submission_nonce' ); ?>
-				<input id="delete_assignment" class="button button-secondary" name="delete_assignment" type="submit" value="Delete Assignment" />
+				<input id="delete_assignment_submit" class="button button-secondary" name="delete_assignment" type="submit" value="Delete Assignment" />
 			</form>
 		</div><!-- end #fresh-start -->
 		<?php 		
@@ -426,10 +426,10 @@ if( !empty( $asmt_status ) ){
 	
 		echo "<hr>";
 		echo "<div class='commentlist'>";
-		$asmt_comments = get_comments('post_id='.$asmt_id.'&order=DESC'); 
+		$asmt_comments = get_comments('post_id='.$asmt_id.'&order=ASC'); 
 		
 		if( !empty( $asmt_comments ) ){
-			echo "<p class='info-right'>(Feedback is listed newest to oldest.)</p>";
+			echo "<p class='info-right'>(Feedback is listed oldest to newest.)</p>";
 			echo "<h3>Instructor Feedback</h3>";
 			$comment_parms = array( 'reply_text' => '', 'avatar_size' => 0 , 'style' => 'div' );
 			wp_list_comments( $comment_parms, $asmt_comments ); 

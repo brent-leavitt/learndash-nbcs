@@ -10,25 +10,21 @@ hr{
 	border-top: #DAE0D5 solid 1px;
 }
 
-.widget .user-only{
-	display:hidden;	
+.main-navigation .primary-menu-container > ul > li.menu-item > a{
+	color: var(--global-palette7) !important; 
+	
 }
-
-.logged-in .widget .user_only{
-	display: block;
-}
-
 
 
 .wp-block-buttons .button-secondary a.wp-block-button__link,
-.widget_block .button-secondary{
-	background-color: var( --wp--preset--color--theme-palette-7 );
+.button-secondary{
+	background-color: var( --wp--preset--color--theme-palette-5 ) !important;
 	border-radius: 3px;
 }
 
 .wp-block-buttons .button-secondary a.wp-block-button__link:hover,
-.widget_block .button-secondary:hover{
-	background-color: var( --wp--preset--color--theme-palette-2 );
+.button-secondary:hover{
+	background-color: var( --wp--preset--color--theme-palette-2 ) !important;
 	
 }
 
@@ -45,9 +41,14 @@ hr{
 
 .wp-site-blocks .rcp_form p label {
 	line-height: 1.2em !important;
+	color: var( --wp--preset--color--theme-palette-7 ) !important;
 	margin: 0 0 10px; 
 }
 
+#rcp_profile_editor_form fieldset legend{
+	color: var( --wp--preset--color--theme-palette-3 );
+	
+}
 
 .rcp_form .rcp_user_fieldset label span{
 	font-weight: normal;
@@ -128,7 +129,7 @@ span.inactive img{
 #readonly_assignment{
   background: #F0F3F6;
   border: 1px solid #7d7c81;
-  padding: 17px 10px;
+  padding: 17px 10px 60px;
   margin: 40px 0 0 0; 
   min-height: 200px;
   border-radius: 3px;
@@ -143,6 +144,13 @@ span.inactive img{
 	padding: 5px 10px;
 	
 }
+
+#primary .learndash-wrapper .ld-topic-status .ld-breadcrumbs, 
+#primary .learndash-wrapper .ld-lesson-status{
+	background-color: var( --wp--preset--color--theme-palette-5 ); 
+}
+
+
 
 /* 
 input.button-secondary{
@@ -194,15 +202,60 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 }
 
 .asmt_status_box{
-	background: rgba(255, 255, 255, 0.7);
-	padding: 10px 20px; 
-	
+  background: var( --global-palette8);
+  padding: 10px 20px;
+  margin: 0 0 20px 0;
+  border: 1px solid var( --global-palette1);
+  border-radius: 3px;
 }
 
 .asmt_status_box h4{
-	border-bottom: #DAE0D5 solid 1px;
+	border-bottom: 1px solid var( --global-palette5 );
 	padding: 3px 5px;
 	margin: 0 -3px 10px;
+}
+
+.asmt_status_box h4 em{
+	color: var( --global-palette2 );
+}
+
+
+.asmt_detail_status{
+	line-height: 1.15;
+}
+
+#wp-edit_assignment-wrap{
+	margin-bottom: 10px;
+	
+}
+
+#attachments .ld-table-list-items > p{
+	margin: 10px 0;
+}
+
+.learndash-wrapper #attachments .ld-item-icon{
+	font-size: 1.2em;
+}
+
+.learndash-wrapper #attachments .ld-item-icon:hover{
+	color: var( --global-palette2 ); 
+}
+
+
+.learndash-wrapper #attachments.ld-table-list .ld-table-list-item-preview{
+	padding: 10px 0;	
+}
+
+#attachments input[ type="submit" ].delete-attachment{
+	font-size: 12px;
+	border-radius: 16px;
+	margin: 0;
+	text-transform: lowercase;
+	
+}
+
+#fresh-start{
+	margin: 0 0 10px 0;
 }
 
 /*
@@ -211,48 +264,52 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 
 */
 
-.course #commentform .form-submit #submit, 
-.course textarea {
+.learndash #commentform .form-submit #submit, 
+.learndash textarea {
 	border-radius: 0px;
 }
 
-.course .comment-meta a.comment-edit-link{
+.learndash .comment-meta a.comment-edit-link{
 	display: none;
 }
 
-.course .commentlist {
-	background: rgba( 255, 255, 255, 0.5 ) ;
-	padding: 5px 20px;
+
+.learndash .commentlist {
+	background: var( --global-palette9 ) ;
+	padding: 5px 20px 20px;
 	margin-top: 20px;
 }
 
-.course .commentlist .info-right{
+.learndash .commentlist .info-right{
 	float: right;
 	font-size: .8em;
 	font-style: italic;
 }
 
-.course .commentlist .comment-author{
+.learndash .commentlist .comment-author{
 	font-style: italic;
 	font-size: .9em;
 }
 
-.course .commentlist .comment-meta{
+.learndash .commentlist .comment-meta{
 	float: none;
 }
 
-.course .commentlist .comment {
+.learndash .commentlist .comment {
 	padding: 10px 20px;
 	margin-top: 10px;
 }
 
-.course .commentlist .comment .reply{
+.learndash .commentlist .comment .reply{
 	display: none;
 }
 
-.course .commentlist .comment.even{
-	background: #F2E8E4 ;
+.learndash .commentlist .comment.even{
+	background: var( --global-palette8 ) ;
 }
+
+
+
 
 /*
 
