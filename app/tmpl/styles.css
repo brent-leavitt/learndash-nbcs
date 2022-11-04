@@ -3,11 +3,21 @@
  General
 */
 
+.learndash-wrapper pre{
+	
+	background: var( --global-palette9); 
+}
+
 hr{
 	border-color: #dedede !important;
 }
 .post-entry hr{
 	border-top: #DAE0D5 solid 1px;
+	
+}
+
+.single-content .learndash-wrapper hr{
+	margin-top: 10px;
 }
 
 .main-navigation .primary-menu-container > ul > li.menu-item > a{
@@ -150,6 +160,24 @@ span.inactive img{
 	background-color: var( --wp--preset--color--theme-palette-5 ); 
 }
 
+#fresh-start h4 small{
+	font-weight: normal;
+	font-size: .7em;
+}
+
+.learndash-wrapper .verify_delete #verify_delete_input{
+	max-width: 200px; 
+	margin-bottom: 10px; 
+}
+
+.verify_delete input{
+	margin-right: 10px;
+	
+}
+
+.learndash-wrapper .verify_delete input.error{
+	border-color: red; 
+}
 
 
 /* 
@@ -246,7 +274,8 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 	padding: 10px 0;	
 }
 
-#attachments input[ type="submit" ].delete-attachment{
+#attachments input[ type="submit" ].delete-attachment,
+#attachments input[ type="button" ].reject_attach_delete{
 	font-size: 12px;
 	border-radius: 16px;
 	margin: 0;

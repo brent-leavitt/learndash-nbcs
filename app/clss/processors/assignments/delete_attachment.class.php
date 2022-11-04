@@ -92,7 +92,7 @@ if( !class_exists( 'Delete_Attachment' ) ){
 			if( isset( $post[ 'delete_attachment' ] ) ){
 				
 				$this->trash();
-				print_pre( $this->trash, "The value of trash" ); 
+	
 				$this->set_notices(); 
 				
 			}

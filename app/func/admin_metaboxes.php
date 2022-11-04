@@ -246,50 +246,41 @@ function asmt_student_callback( $post ){
 	//Get ID of student who submitted assigment.
 	$student_id = $post->post_author;
 	$student = get_user_by( 'id', $student_id );
+	
 	$grades = new Grades(); 
 	$grades->build( $student_id ); 
 	
-	
 	$course_id = $grades->get_course_id_from_topic_id( $post->post_parent ); 
 	
-	echo "Student Progress: <br>"; 	
-	echo "Parent_ID: ".$post->post_parent ."<br>";
-	echo "Course_ID: ".$course_id ."<br>";
-	echo "Student_ID: ".$student_id ."<br>"; 
 	
-	echo do_shortcode('[learndash_course_progress user_id="'. $student_id .'" course_id="'. $course_id .'" ]');
-	
-	//print_pre( $student ); 
-	
-	//Get Roles Array (in reversed order) and the student's account status. 
-	//$roles_arr = array_reverse( explode( '_', $student->roles[0] ) );
-	//$acct_status = ucwords( implode( ' ', $roles_arr ) );	
-	
-	
-	
-	//Get progress report from the Assignment class. 	
-	$grades = new Grades();
-	$grades->build( $student_id );
-	
-	//NEED TO UPDATE FROM HERE ON. DISABLING FOR THE MOMENT:
-	/* $prg_arr = $nbAsmt->get_progress_report();
-	
+	//Customer info: 
+	$customer = rcp_get_customer_by_user_id( $student_id ); 
+ 
 	//build student progress summary string: ex. 45% (20/45) 
-	$percentComplete = ( !empty( $prg_arr['percentComplete'] ) )? $prg_arr['percentComplete'] : 0 ;
+	/*$totalAsmt = ( !empty( $prg_arr['totalAsmt']) )? $prg_arr['totalAsmt'] : 0 ;
 	$completedAsmts = ( !empty( $prg_arr['completedAsmt']) )? $prg_arr['completedAsmt'] : 0 ;
-	$totalAsmt = ( !empty( $prg_arr['totalAsmt']) )? $prg_arr['totalAsmt'] : 0 ;
-	$stud_progress = $percentComplete."% (".$completedAsmts."/".$totalAsmt.")";
+	$asmt_progress = $percentComplete."% (".$completedAsmts."/".$totalAsmt.")"; */
 	
+	$customer_id = $customer->get_id(); 
+	$active  = in_array( 'student', $student->roles );
 	
-	if( $roles_arr[0] == 'inactive' )
-		echo "<div class='error'><p><strong>This student's account is marked as inactive! Go to <a href='/wp-admin/admin.php?page=edit_student&student_id={$student_id}' target='_blank'>student account</a> for details.</strong></p></div>";
+	if( !$active )
+		echo "<div class='error'><p><strong>This student's account is marked as inactive! Go to student's <a href='/wp-admin/admin.php?page=rcp-customers&customer_id={$customer_id}&view=edit' target='_blank'>Customer Details</a> page for more information.</strong></p></div>";
 	 
-	echo "<strong>Student:</strong> <a href='/wp-admin/admin.php?page=edit_student&student_id={$student_id}' target='_blank'>{$student->display_name}</a><br>
-		  <strong>Account Status:</strong> {$acct_status}<br>
-		  <strong>Start Date:</strong> {$student->user_registered}<br>
-		  <strong>Course Progress:</strong> {$stud_progress}<br>*/
+	echo "<strong>Display Name:</strong> {$student->display_name}<br>
+		  <strong>Full Name:</strong> {$student->first_name} {$student->last_name}<br>
+		  <strong>Location:</strong> {$student->student_city} {$student->student_state}<br><br>
+		  
+		  <strong>Account Status:</strong> <strong><span style='color:";
+		  echo ( $active )? "green'>".__( 'ACTIVE', NBCS_TD ) : "red'>".__( 'INACTIVE', NBCS_TD );
+		  echo"</span></strong><br>
+		  <strong>Start Date:</strong> {$student->user_registered}<br><br>";
+		  //<strong>Assignments Progress:</strong> {$asmt_progress}<br>
+		  echo"<strong>Course Progress:</strong>";
+		  echo do_shortcode('[learndash_course_progress user_id="'. $student_id .'" course_id="'. $course_id .'" ]');
+			
 	echo "  <hr>
-		  Go to <a href='/wp-admin/admin.php?page=edit_student&student_id={$student_id}' target='_blank'>account details.</a><br>";	
+		  Go to <a href='/wp-admin/admin.php?page=edit_student&student_id={$student_id}' target='_blank'>Student Profile</a> | <a href='/wp-admin/admin.php?page=rcp-customers&customer_id={$customer_id}&view=edit' target='_blank'>Subscriptions</a><br>";	
 		  
 }
 
@@ -790,4 +781,47 @@ function exclude_post_types_from_kadence( $post_types ) {
 }
  
 add_filter( 'kadence_classic_meta_box_post_types', 'Doula_Course\App\Func\exclude_post_types_from_kadence' );  
+
+
+
+
+function nb_record_completed_in_learndash( $new_status, $old_status, $post ){
+	if ( $old_status == $new_status || $old_status != 'completed' && $new_status != 'completed' || $post->post_type != 'assignment' )
+		return;
+	
+	$step_id = $post->post_parent;
+	$student_id = $post->post_author;
+	
+	$grades = new Grades(); 
+	$grades->build( $student_id );
+		
+	$course_id = $grades->get_course_id_from_topic_id( $step_id );
+	$grade_status = $grades->get_grade_status( $step_id ); 
+	
+	//Stopped Here: I need something to easily traverse the progress array that gets created with the learndash_user_get_course_progress function and that will insert the needed change if required. What get's called in the template when the button get's clicked? 
+	
+	$progress = learndash_user_get_course_progress( $student_id, $course_id ); 
+	print_pre( $progress, "LearnDash Course Progress by User:" );
+	
+	//If step is marked as completed, but the new status is not completed. 
+	if( learndash_user_progress_is_step_complete( $student_id, $course_id, $step_id ) && $new_status != 'completed'  ){
+		
+		$progress = learndash_user_get_course_progress( $student_id, $course_id ); 
+		
+		print_pre( $progress, "LearnDash Course Progress by User:" ); 
+		
+	}
+	
+	
+	print_pre( $course_id, "Course_ID" );
+	print_pre( $grade_status, "Grade Status" );
+	print_pre( $new_status, "New Status" );
+	print_pre( $old_status, "Old Status" );
+	print_pre( $grades, "Grades" );
+	print_pre( $post, "Post" );
+
+}
+
+add_action( 'transition_post_status', 'Doula_Course\App\Func\nb_record_completed_in_learndash', 10, 3  ); 
+
 ?>

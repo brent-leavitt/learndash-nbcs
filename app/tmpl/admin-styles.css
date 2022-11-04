@@ -26,6 +26,16 @@
 	
 }
 
+#major-publishing-actions{
+	margin: 0 -12px -12px -12px;
+	
+	
+}
+
+.postbox .inside hr{
+	margin: 8px -12px;	
+}
+
 
 @media screen and (max-width: 991px) {
 

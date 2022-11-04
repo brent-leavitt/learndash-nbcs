@@ -281,10 +281,10 @@ else:
 									if( $asmt_editable ):
 									?>
 											
-									<form id="delete_attachment" method="post" action="<?php echo $current_url; ?>#attachments">
+									<form id="delete_attachment_form_<?php echo $atch->ID; ?>" method="post" action="<?php echo $current_url; ?>#attachments">
 										<input type="hidden" name="atch_id" id="atch_id" value="<?php echo $atch->ID; ?>" />
 										<input type="hidden" name="delete_attachment_nonce" id="delete_attachment_nonce" value="<?php echo $delete_attach_nonce; ?>" />
-										<input class="delete-attachment" aria-label="<?php esc_html_e( 'Delete Attachment', 'learndash' ); ?>" id="delete_attachment_<?php echo $atch->ID; ?>" name="delete_attachment" type="submit" value="X" title="Remove Attachment" />
+										<input class="delete-attachment button-secondary" aria-label="<?php esc_html_e( 'Delete Attachment', 'learndash' ); ?>" id="delete_attachment_<?php echo $atch->ID; ?>" name="delete_attachment" type="submit" value="X" title="Remove Attachment" />
 									</form>
 								
 									<?php
@@ -405,9 +405,9 @@ else:
 		
 		<hr>
 		<div id="fresh-start">
-			<h4>Need a fresh start?</h4>
-			<p>Go ahead and clear your submission. <em>(Careful: This action cannot be undone!)</em></p>
-			<form id="delete_assignment" method="post" action="<?php echo $current_url; ?>#delete_assignment">
+			<h4>Need a fresh start?	<small>Go ahead and clear your submission. <em>(Careful: This action cannot be undone!)</em></small></h4>
+
+			<form id="delete_assignment" method="post" action="<?php echo $current_url; ?>#asmt-editor">
 				<input type="hidden" name="post_id" id="post_id" value="<?php echo $asmt_id; ?>" />
 				<?php wp_nonce_field( 'delete_submission', 'delete_submission_nonce' ); ?>
 				<input id="delete_assignment_submit" class="button button-secondary" name="delete_assignment" type="submit" value="Delete Assignment" />
