@@ -462,8 +462,8 @@ function save_asmt_meta_box_data( $post_id ) {
 			$subject = 'Failed to update the student_grade metadata.';
 			$message = "This message originated from ".__METHOD__.", ".__FILE__.": Line ".__LINE__.". \r\n The asmt key is: 'asmt_key' => {$post->post_parent}, 'asmt_status' => $new_p_status \r\n The Student Grades Metadata failed to update. Please investigate the issue.";
 			
-			$msg = new Message();
-			$msg->admin_notice( $subject, $message );
+			/* $msg = new Message();
+			$msg->admin_notice( $subject, $message ); */
 		}  		
 	}		
 }
@@ -798,28 +798,14 @@ function nb_record_completed_in_learndash( $new_status, $old_status, $post ){
 	$course_id = $grades->get_course_id_from_topic_id( $step_id );
 	$grade_status = $grades->get_grade_status( $step_id ); 
 	
-	//Stopped Here: I need something to easily traverse the progress array that gets created with the learndash_user_get_course_progress function and that will insert the needed change if required. What get's called in the template when the button get's clicked? 
-	
-	$progress = learndash_user_get_course_progress( $student_id, $course_id ); 
-	print_pre( $progress, "LearnDash Course Progress by User:" );
-	
-	//If step is marked as completed, but the new status is not completed. 
-	if( learndash_user_progress_is_step_complete( $student_id, $course_id, $step_id ) && $new_status != 'completed'  ){
-		
-		$progress = learndash_user_get_course_progress( $student_id, $course_id ); 
-		
-		print_pre( $progress, "LearnDash Course Progress by User:" ); 
-		
-	}
-	
-	
-	print_pre( $course_id, "Course_ID" );
-	print_pre( $grade_status, "Grade Status" );
-	print_pre( $new_status, "New Status" );
-	print_pre( $old_status, "Old Status" );
-	print_pre( $grades, "Grades" );
-	print_pre( $post, "Post" );
 
+	//If step is marked as completed, but the new status is not completed. 
+	if( learndash_user_progress_is_step_complete( $student_id, $course_id, $step_id ) && $new_status != 'completed'  )	
+		$incomplete = learndash_process_mark_incomplete( $student_id, $course_id, $step_id);
+	 elseif(  ! learndash_user_progress_is_step_complete( $student_id, $course_id, $step_id ) && $new_status == 'completed'  )
+		$completed = learndash_process_mark_complete( $student_id, $step_id, false, $course_id ); 
+	
+	
 }
 
 add_action( 'transition_post_status', 'Doula_Course\App\Func\nb_record_completed_in_learndash', 10, 3  ); 
