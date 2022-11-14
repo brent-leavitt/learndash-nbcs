@@ -429,13 +429,13 @@ if( !empty( $asmt_status ) ){
 		$asmt_comments = get_comments('post_id='.$asmt_id.'&order=ASC'); 
 		
 		if( !empty( $asmt_comments ) ){
-			echo "<p class='info-right'>(Feedback is listed oldest to newest.)</p>";
-			echo "<h3>Instructor Feedback</h3>";
+			echo "<p class='info-right'>". __( '(Feedback is listed oldest to newest.)', NBCS_TD ) ."</p>";
+			echo "<h3>". __( 'Assignment Feedback', NBCS_TD ). "</h3>";
 			$comment_parms = array( 'reply_text' => '', 'avatar_size' => 0 , 'style' => 'div' );
 			wp_list_comments( $comment_parms, $asmt_comments ); 
 			
 			$defaults = array(
-				'title_reply' => 'Reply to Instructor Feedback',
+				'title_reply' => __('Reply to Feedback'),
 				'label_submit'      => __( 'Post Reply' ),
 				'logged_in_as' => '',
 				'comment_field' =>  '
@@ -447,7 +447,7 @@ if( !empty( $asmt_status ) ){
 			echo "</div><!-- comment-form-wrapper -->"; 
 			
 		} else {
-			echo"<p><em>No feedback from the course instructor has been posted for your assignment yet. Feedback for specific assignments will appear here when available. Thank you.</em></p>"; 
+			echo"<p><em>". __( 'No feedback from your trainer has been posted for this assignment yet. Feedback for specific assignments will appear here when available. Thank you.', NBCS_TD ). "</em></p>"; 
 		}
 		
 		echo "</div><!-- end .commentlist --> ";				

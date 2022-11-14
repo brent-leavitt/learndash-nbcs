@@ -168,44 +168,35 @@ function asmt_comments( $comment_id, $comment_obj ){
 //add_action( 'wp_insert_comment', 'Doula_Course\App\Func\asmt_comments' ,10 ,2 );
 
 
+/**
+ *  Title: nb_assignment_comments_on
+ *	
+ *	Description: enables commenting status by default for assignment post types. 
+ * 	
+ *	Returns $data array
+ */	
+ 
 
+
+function nb_assignment_comments_on( $data ) {
+    if( $data['post_type'] == 'assignment' )
+        $data['comment_status'] = 'open';
+ 
+    return $data;
+}
+
+add_filter( 'wp_insert_post_data', 'Doula_Course\App\Func\nb_assignment_comments_on' );
 
  
  
 /**
- * 	filter_assignments_by_trainer
+ * 	edit_assignments_views
  *
- *	Loads all available tracks from the database. 
+ *	Filters the assignment views displayed to trainers from the assignments admin screen.
  *
  *	returns array
  **/
  
- function filter_assignments_by_trainer( $query ) {
-
-    global $pagenow;
-
-
-	
-    /* $cpt = "assignment";
-    $cpt_key = "student_trainer";
-    $cpt_value = $_REQUEST[ 'trainer' ] ?? 0;
-
-    if (is_admin() && $pagenow=='edit.php' && 
-		isset( $_GET['post_type'] ) && $_GET['post_type']==$cpt &&
-        isset( $_GET['trainer'] )  && $_GET['trainer'] != 0 &&
-        $query->query['post_type'] == $cpt )  {
-      
-			$query->query_vars['meta_key'] = $cpt_key;
-			$query->query_vars['meta_value'] = $cpt_value;
-
-    }
-	
-	print_pre( $query, 'The Query '.__LINE__ );  */
-
-}
-
-add_filter( 'parse_query', 'Doula_Course\App\Func\filter_assignments_by_trainer' );
-
 
 
 function edit_assignments_views( $views ) 

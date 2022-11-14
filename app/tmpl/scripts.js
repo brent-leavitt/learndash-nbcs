@@ -45,7 +45,7 @@ jQuery( document ).ready( function ( $ ) {
 			$( element ).removeClass( 'button-secondary' ); 
 			$( element ).val( 'Delete?' );
 			if( $( this ).children( '.reject_attach_delete' ).length === 0 ){
-				$( this ).append( '<input type="button" class="reject_attach_delete button-secondary" title="Do not remove." value="x" />' ); 
+				$( this ).append( '<input type="button" class="reject_attach_delete button-secondary" title="Do not remove." value="&lt;" />' ); 
 				
 				$( element ).on( 'click', function( e3 ){
 					$( element ).parent().unbind( 'submit' ).submit();
@@ -54,8 +54,10 @@ jQuery( document ).ready( function ( $ ) {
 				
 				$( this ).children( 'input.reject_attach_delete' ).on( 'click', function( e1 ){
 					$( this ).remove();
+					$( element ).off( 'click' ); 
 					$( element ).addClass( 'button-secondary' ); 
 					$( element ).val( 'x' );
+					
 
 				}); //end input#reject_attach_delete' on click function
 			}

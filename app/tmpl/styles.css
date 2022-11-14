@@ -34,7 +34,7 @@ hr{
 
 .wp-block-buttons .button-secondary a.wp-block-button__link:hover,
 .button-secondary:hover{
-	background-color: var( --wp--preset--color--theme-palette-2 ) !important;
+	background-color: var( --wp--preset--color--theme-palette-1 ) !important;
 	
 }
 
@@ -179,6 +179,18 @@ span.inactive img{
 	border-color: red; 
 }
 
+.learndash .delete-attachment:focus,
+.learndash .delete-attachment:hover{
+	background-color: var( --wp--preset--color--theme-palette-1 ) !important;
+	
+}
+
+
+.learndash #reject-delete.button-secondary:hover, 
+.learndash .reject_attach_delete.button-secondary:hover {
+	
+	background-color: var( --wp--preset--color--theme-palette-2 ) !important;
+}
 
 /* 
 input.button-secondary{
@@ -293,20 +305,16 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 
 */
 
-.learndash #commentform .form-submit #submit, 
-.learndash textarea {
-	border-radius: 0px;
-}
-
-.learndash .comment-meta a.comment-edit-link{
-	display: none;
-}
-
-
 .learndash .commentlist {
 	background: var( --global-palette9 ) ;
 	padding: 5px 20px 20px;
 	margin-top: 20px;
+}
+
+.learndash .commentlist .comment{
+	margin-top: 10px; 
+	padding: 15px 30px;
+	
 }
 
 .learndash .commentlist .info-right{
@@ -322,12 +330,22 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 
 .learndash .commentlist .comment-meta{
 	float: none;
+	margin-left: 0; 
 }
 
-.learndash .commentlist .comment {
-	padding: 10px 20px;
-	margin-top: 10px;
+.learndash .commentlist .comment-body .edit-link::before{
+    content: '';
+    padding-right: 0;
+	
 }
+
+
+.learndash .comment-meta a.comment-edit-link{
+	display: none;
+}
+
+
+
 
 .learndash .commentlist .comment .reply{
 	display: none;
@@ -337,7 +355,63 @@ select, input[type="text"], input[type="password"], input[type="email"] {
 	background: var( --global-palette8 ) ;
 }
 
+.learndash .commentlist .comment-body {
+ border-bottom: 0;
+ margin-bottom: 0;
+}
 
+.learndash .commentlist .comment-content{
+	margin: 0; 
+	
+}
+
+.learndash #comment-form-wrapper{
+	margin: 30px;
+	
+}
+
+.learndash .form-submit input.submit{
+	border-radius: 4px; 	
+}
+
+
+/*
+
+* Assignment Footer Complete/Incomplete
+
+*/
+
+.learndash .nb-assignment-status-course-step{
+	text-align: center; 
+	
+}
+
+.learndash .nb-assignment-status-course-step div{
+	line-height: 40px;
+	border: 1px solid var( --global-palette1 );
+	border-radius: 4px;
+	
+}
+
+.learndash .nb-assignment-status-course-step div.nb-assignment-complete{
+	
+	border: 0; 
+	background-color: var( --global-palette2 );
+	color: var( --global-palette9 );
+	
+}
+
+.learndash .nb-assignment-status-course-step div.nb-assignment-complete::after{
+	content: ' ✔';
+	
+}
+
+.learndash .nb-assignment-status-course-step small{
+	display: block; 
+	font-size: .7em !important;
+	line-height: 1em;
+	margin: 7px; 
+}
 
 
 /*
