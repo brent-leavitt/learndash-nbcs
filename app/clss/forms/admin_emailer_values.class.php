@@ -76,7 +76,7 @@ class Admin_Emailer_Values implements Form_Values_Interface
 		
 	
 		$this->build_student();
-		$this->build_message();;
+		$this->build_message();
 		
 	}		
 	
@@ -110,12 +110,13 @@ class Admin_Emailer_Values implements Form_Values_Interface
 		
 		$mess_id =  $_POST[ 'email_template' ];
 		$message = get_post( $mess_id );
+		$site_name = get_bloginfo( ); 
+
 		
-		
-		$this->values[ 'email_subject' ] = $message->post_title;
+		$this->values[ 'email_subject' ] = $message->post_title ." - " .$site_name ;
 		$this->values[ 'email_body' ] = do_shortcode( $message->post_content ); //Add a message filter to swap out templated items. 
 		
-		$this->values[ 'message_admin_notes' ] = $message->post_excerpt;
+		$this->values[ 'message_admin_notes' ] = __('The "', NBCS_TD). $message->post_title . __( '" notice has been sent.' );
 		
 		$this->values[ 'to_student_email' ] = $_POST[ 'user_email' ];
 		$this->values[ 'cc_student_email' ] =  $_POST[ 'student_pay_email' ];
