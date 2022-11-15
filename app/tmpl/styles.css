@@ -73,7 +73,10 @@ hr{
 	background-color: var( --global-palette-btn-bg );	
 }
 
-.rcp_form input.rcp-button:hover{
+.rcp_form input.rcp-button:hover,
+.rcp_form input.rcp-button:focus,
+.rcp_form input.rcp-button:active{
+	
 	background-color: var( --global-palette-btn-bg-hover );	
 	
 }
