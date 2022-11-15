@@ -45,7 +45,7 @@ call_required([
 	'query_vars', 	//Add Additional Automated Triggers (IPN and Crons)
 	'register', 	//Add Extra Registration Fields to RCP forms.  
 	'roles', 		//Add Roles. 
-	//'shortcodes', 	//Add Shortcodes.
+	'shortcodes', 	//Add Shortcodes.
 	'student_meta', //Add Student Meta actions.
 	'widget', 		//Add Widgets
 ]);

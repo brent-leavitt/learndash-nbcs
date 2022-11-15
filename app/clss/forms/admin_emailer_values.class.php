@@ -113,7 +113,7 @@ class Admin_Emailer_Values implements Form_Values_Interface
 		
 		
 		$this->values[ 'email_subject' ] = $message->post_title;
-		$this->values[ 'email_body' ] = $message->post_content; //Add a message filter to swap out templated items. 
+		$this->values[ 'email_body' ] = do_shortcode( $message->post_content ); //Add a message filter to swap out templated items. 
 		
 		$this->values[ 'message_admin_notes' ] = $message->post_excerpt;
 		
