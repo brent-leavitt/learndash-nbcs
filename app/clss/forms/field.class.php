@@ -297,6 +297,17 @@ class Field
      * @return void
      */	
 
+	private function format_special(){
+		
+		$this->output = $this->build_special();
+	}
+	
+    /**
+     * 
+     *
+     * @return void
+     */	
+
 	private function format_(){
 		
 		return '<input type="'.$this->type.'" name="'.$this->name.'" id="'.$this->name.'" value="'.$this->val.'" />';
@@ -490,6 +501,7 @@ class Field
 		
 		return $output;
 	}
+
 	
 	
 	
@@ -530,6 +542,34 @@ class Field
 		return $output;
 	}
 		
+		
+	
+    /**
+     * 
+     *
+     * @return string
+     */	
+
+	private function build_special(): STRING
+	{
+		//$output = $this->build_label();
+		
+		$special = new Special_Field(); 
+		
+		$special->build( $this->name, $this->val ); 
+		
+		return $special->get(); 
+		
+		
+		
+		$output .= '<p id="'.$this->name.'" />'.$this->val.'</p>';
+		
+		$output .= '<input type="text" name="'.$this->name.'" id="'.$this->name.'" value="" placeholder="Add New Admin Note Here!"/>';
+		
+		return $output;
+		
+	}		
+
 	
 	
     /**

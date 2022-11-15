@@ -2,6 +2,10 @@
 //Set Trainers_Arr code. 
 $trainers_arr = nb_get_trainers();
 
+//Set Admin Notes
+$admin_notes_arr = []; //nb_get_admin_notes(); 
+
+
 $fields = array(
 			//	[ 'section', 'Section Title', array $fields ],
 				//[ string $type, string $name, string $label, array $extras = [] , array $options = [] ], //because every field can have extras, but not every field has options. 
@@ -62,7 +66,7 @@ $fields = array(
 			]],
 			
 			[ 'section', 'Admin Notes', 1, [
-				[ 'textarea', 'admin_notes', 'Admin Notes' ],
+				[ 'special', 'admin_notes', 'Admin Notes' ],
 			]],
 			[ 'submit', '', 'Update Student' ]
 			
