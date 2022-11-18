@@ -26,6 +26,23 @@
 	
 }
 
+.admin_page_edit_student #form_edit_student .admin_notes .name{
+	flex: 1;
+}
+
+.admin_page_edit_student #form_edit_student .admin_notes .date{
+	flex: 1;
+}
+
+.admin_page_edit_student  #form_edit_student .admin_notes .note{
+	flex: 4;
+}
+
+.admin_page_edit_student  #form_edit_student .admin_notes .actions{
+	flex: 1;
+}
+
+
 #major-publishing-actions{
 	margin: 0 -12px -12px -12px;
 	
