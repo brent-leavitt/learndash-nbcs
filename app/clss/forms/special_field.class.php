@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  //Test JSON 
  //[{"uid":1,"date":"2022-09-14 00:00:00","note":"The first note."},{"uid":2,"date":"2022-10-07 00:00:00","note":"This account has been suspended."},{"uid":1,"date":"2022-11-01 00:00:00","note":"Certificate is being issued today."},{"uid":0,"date":"2022-11-01 00:00:00","note":"System generated comment about the student."}]
  
-//Test Serialized
+//Test PHP Serialized
 a:4:{i:0;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-09-14 00:00:00";s:4:"note";s:15:"The first note.";}i:1;a:3:{s:3:"uid";i:2;s:4:"date";s:19:"2022-10-07 00:00:00";s:4:"note";s:32:"This account has been suspended.";}i:2;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:34:"Certificate is being issued today.";}i:3;a:3:{s:3:"uid";i:0;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:43:"System generated comment about the student.";}}
  
  
@@ -25,7 +25,7 @@ class Special_Field
 	 * @since 2.0
 	 * @var string
 	 */
-	public $output = NULL;	 
+	private $output = NULL;	 
 	
 	
 	
@@ -106,7 +106,7 @@ Christy is part of Amanda's group.
 			</div>
 		";
 		
-		$hidden = "<input type='hidden' id='admin_notes' name='admin_notes' value='{$val}' >"; //Stores the incoming data as the default value.
+		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. $val. '" >'; //Stores the incoming data as the default value.
 			
 		$this->output = $structure . $hidden; 
 		
@@ -132,12 +132,12 @@ Christy is part of Amanda's group.
 			
 		}else{
 			
-			$this->val = maybe_unserialize( $this->val ); 
+			$this->val = unserialize( $this->val ); 
 			
 			 
 			foreach( $this->val as $row ){
 				extract( $row );
-
+				
 				$user = get_user_by( 'id', $uid ); 			
 				$first_name = ( is_object( $user ) )? $user->first_name ?? $user->nickname  : '('. __( 'system', NBCS_TD). ')'; 
 				
@@ -163,14 +163,27 @@ Christy is part of Amanda's group.
     private function build_row( string $first_name, string $date, string $note, string $action = 'default' ): string 
 	{
 		
+		switch( $action ){
+			case 'convert': 
+				$actions = "<a href='#' class='mini_btn note_convert' >Convert</a>"; 
+				break;
+			
+			case 'default':
+			default: 
+				$actions = "<a href='#' class='mini_btn note_remove' >x</a> 
+					<a href='#' class='mini_btn note_move_up' >&mapstoup;</a>
+					<a href='#' class='mini_btn note_move_down' >&mapstodown;</a>";
+				break; 
+			
+		}
+		
+		
 		$row = "<tr>
 				<td class='name' >$first_name</td>
 				<td class='date' >$date</td>
 				<td class='note' >$note</td>
 				<td class='actions'>
-					<a href='#' class='mini_btn note_remove' >x</a> 
-					<a href='#' class='mini_btn note_move_up' >&mapstoup;</a>
-					<a href='#' class='mini_btn note_move_down' >&mapstodown;</a>
+					$actions
 				</td>
 			</tr>";	
 		

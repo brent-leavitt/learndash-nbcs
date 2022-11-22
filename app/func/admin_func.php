@@ -245,8 +245,21 @@ add_action( 'admin_menu', 'Doula_Course\App\Func\admin_menu_spacers' );
 
 
 function nb_add_admin_style() {
-        wp_register_style( 'nb_admin', plugin_dir_url( __DIR__ ) . 'tmpl/admin-styles.css', false, '1.0.0' );
-        wp_enqueue_style( 'nb_admin' );
+    global $pagenow;     
+		
+	wp_register_style( 'nb_admin', plugin_dir_url( __DIR__ ) . 'tmpl/admin-styles.css', false, '1.0.0' );
+	wp_enqueue_style( 'nb_admin' );
+
+	if( strcmp( $pagenow, 'admin.php' ) === 0 
+		&& isset( $_GET[ 'page' ] )  
+		&& strcmp( $_REQUEST[ 'page' ], 'edit_student' ) === 0 )
+		{
+				
+			wp_register_script( 'nb_admin_notes_script', plugin_dir_url( __DIR__ ) . 'tmpl/nb_admin_notes_script.js', array('jquery'), 1.0, true );
+			wp_enqueue_script( 'nb_admin_notes_script' ); 
+			
+		}
+		
 }
 add_action( 'admin_enqueue_scripts', 'Doula_Course\App\Func\nb_add_admin_style' );
 
