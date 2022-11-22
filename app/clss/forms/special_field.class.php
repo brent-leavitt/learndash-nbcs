@@ -25,7 +25,15 @@ class Special_Field
 	 * @since 2.0
 	 * @var string
 	 */
-	private $output = NULL;	 
+	private $output = '';	 
+	
+		
+	/**
+	 *
+	 * @since 2.0
+	 * @var array
+	 */
+	private $out_arr = [];	 
 	
 	
 	
@@ -56,11 +64,13 @@ class Special_Field
 
 	public function build( string $name, $val = '' )
 	{
+		print_pre( $val, "The value being sent through ". __METHOD__ ); 
+
 		//Temporary Holding Pattern;
 		//$val = 'a:4:{i:0;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-09-14 00:00:00";s:4:"note";s:15:"The first note.";}i:1;a:3:{s:3:"uid";i:2;s:4:"date";s:19:"2022-10-07 00:00:00";s:4:"note";s:32:"This account has been suspended.";}i:2;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:34:"Certificate is being issued today.";}i:3;a:3:{s:3:"uid";i:0;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:43:"System generated comment about the student.";}}';
 		
 		//Another temp value (non serialized)
-		$val ="Trainer: Cherylyn
+		/*$val ="Trainer: Cherylyn
 
 Christy is part of Amanda's group.
 
@@ -69,7 +79,7 @@ Christy is part of Amanda's group.
 20 Jul 2022 - Payment subscription has been suspended. Student account moved to inactive status. Notice Sent. 
 22 Jul 2022 - (Brent) Billing for Michelle to be resumed by It Takes a Village/Amanda Rhodes. I've sent Amanda Rhodes an invoice to start payments. 
 22 Jul 2022 - (Brent) Invoice Paid and Account Reactivated. 
-26 Sep 2022 - Christy's payments have been paused because she only has the birth packets left to turn in. - Cherylyn"; 
+26 Sep 2022 - Christy's payments have been paused because she only has the birth packets left to turn in. - Cherylyn"; */
 		
 		
 		$this->name = $name;
@@ -83,7 +93,7 @@ Christy is part of Amanda's group.
 		$form = "<tr>
 					<td class='name' >". $user->first_name ."</td>
 					<td class='date' >". current_time( 'mysql' ) ."</td>
-					<td class='note' ><textarea id='admin_notes_row' class='admin_notes_row' placeholder='Enter new admin note here.' > </textarea></td>
+					<td class='note' ><textarea id='admin_notes_row' name='admin_notes_row' class='admin_notes_row' placeholder='Enter new admin note here.' > </textarea></td>
 					<td class='actions' ><a href='#' class='mini_btn add_note' >&#10095;</a></td>
 				</tr>";
 		
@@ -106,7 +116,10 @@ Christy is part of Amanda's group.
 			</div>
 		";
 		
-		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. $val. '" >'; //Stores the incoming data as the default value.
+		$hidden_val = ( !empty( $this->out_arr ) )? maybe_serialize( $this->out_arr ) : maybe_serialize( $this->val ); 
+
+
+		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. htmlspecialchars( $hidden_val ) . '" >'; //Stores the incoming data as the default value.
 			
 		$this->output = $structure . $hidden; 
 		
@@ -126,25 +139,41 @@ Christy is part of Amanda's group.
 		
 		$rows = '';
 		
-		if( !is_serialized( $this->val ) ){
+		if( !is_serialized( $this->val ) && !is_array( $this->val ) ){
 			
 			$rows = $this->build_row( __('(old admin notes)', NBCS_TD ), __('(not set)', NBCS_TD ), $this->val, 'convert' ); 
 			
-		}else{
+			$this->out_arr[] = [ 
+				'uid'	=> -1,
+				'date' 	=> NULL,
+				'note'	=> $this->val
+			];
+
+		}else{	
 			
-			$this->val = unserialize( $this->val ); 
-			
-			 
-			foreach( $this->val as $row ){
-				extract( $row );
-				
-				$user = get_user_by( 'id', $uid ); 			
-				$first_name = ( is_object( $user ) )? $user->first_name ?? $user->nickname  : '('. __( 'system', NBCS_TD). ')'; 
-				
-				$rows .= $this->build_row( $first_name, $date, $note ); 
-				
-			} 	
-				
+			$unserialized = maybe_unserialize( $this->val ); 
+			if( !empty( $unserialized ) ){
+				foreach( $unserialized as $row ){
+					extract( $row );
+					
+					switch( $uid ){
+					case -1: 
+						$first_name = '('. __( 'old admin notes', NBCS_TD). ')';
+						break; 
+					case 0: 
+						$first_name = '('. __( 'system', NBCS_TD). ')';
+						break; 
+					default: 
+						$user = get_user_by( 'id', $uid ); 			
+						$first_name = ( is_object( $user ) )?  $user->first_name ?? $user->display_name: '(not set)';
+						break;
+					}
+					
+					$action = ( $uid === -1 )? 'convert' : 'default';
+
+					$rows .= $this->build_row( $first_name, $date, $note, $action );			 	
+				}
+			}	
 		}
 		
 		return $rows;

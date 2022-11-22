@@ -8,6 +8,11 @@
 	flex: 1;
 }
 
+.admin_page_edit_student #form_edit_student td.note{
+	display: block;
+}
+
+
 .admin_page_edit_student #form_edit_student td label{
 	flex: 1;
 }

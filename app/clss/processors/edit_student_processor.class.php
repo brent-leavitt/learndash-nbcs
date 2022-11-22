@@ -145,8 +145,15 @@ class Edit_Student_Processor implements Processor
 	private function set_meta(): void
 	{
 		foreach( $this->meta as $key => $val ){
-			if( isset( $this->post[ $key ] ) )
+			if( isset( $this->post[ $key ] ) ){
 				$this->meta[ $key ] = $this->post[ $key ]  ?: '';
+				unset( $this->post[ $key ] ); 
+			}
+		}
+	
+		if( !empty( $admin_note = $this->post[ 'admin_notes_row' ] ) ){
+			$this->add_admin_notes_row(  $admin_note  ); 
+			unset( $this->post[ 'admin_notes_row' ] ); 
 		}
 	}
 		
@@ -216,6 +223,31 @@ class Edit_Student_Processor implements Processor
 			$this->notices[ 'messages' ][] = "The user's data has been updated.";
 		
 		return $this->notices;
+	}
+		
+	
+	/**
+	* Append the new admin note to the admin_notes meta data. 
+	*
+	* @return NULL 
+	*/
+	public function add_admin_notes_row( $note )
+	{
+		$admin_notes = ( !empty( $this->meta[ 'admin_notes' ] ) )? 
+						$this->meta[ 'admin_notes' ] : 
+						''; 
+
+		
+		$insert = [
+			'uid' 	=> wp_get_current_user()->ID,
+			'date'	=> current_time( 'mysql' ),
+			'note'	=> $note
+
+		];
+		
+		print_pre( $insert, "The value to be inserted " ); 
+		print_pre( $admin_notes, "The admin Notes to be modified " ); 
+
 	}
 	
 	
