@@ -64,8 +64,6 @@ class Special_Field
 
 	public function build( string $name, $val = '' )
 	{
-		print_pre( $val, "The value being sent through ". __METHOD__ ); 
-
 		//Temporary Holding Pattern;
 		//$val = 'a:4:{i:0;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-09-14 00:00:00";s:4:"note";s:15:"The first note.";}i:1;a:3:{s:3:"uid";i:2;s:4:"date";s:19:"2022-10-07 00:00:00";s:4:"note";s:32:"This account has been suspended.";}i:2;a:3:{s:3:"uid";i:1;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:34:"Certificate is being issued today.";}i:3;a:3:{s:3:"uid";i:0;s:4:"date";s:19:"2022-11-01 00:00:00";s:4:"note";s:43:"System generated comment about the student.";}}';
 		
@@ -116,10 +114,14 @@ Christy is part of Amanda's group.
 			</div>
 		";
 		
-		$hidden_val = ( !empty( $this->out_arr ) )? maybe_serialize( $this->out_arr ) : maybe_serialize( $this->val ); 
+		$hidden_val = ( !empty( $this->out_arr ) )? 
+						maybe_serialize( $this->out_arr ) :  
+						( ( is_array( $this->val ) )? 
+							maybe_serialize( $this->val ) :
+							$this->val ); 
 
 
-		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. htmlspecialchars( $hidden_val ) . '" >'; //Stores the incoming data as the default value.
+		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. htmlentities( $hidden_val , ENT_QUOTES ) . '" >'; //Stores the incoming data as the default value.
 			
 		$this->output = $structure . $hidden; 
 		
@@ -152,7 +154,7 @@ Christy is part of Amanda's group.
 		}else{	
 			
 			$unserialized = maybe_unserialize( $this->val ); 
-			if( !empty( $unserialized ) ){
+			if( is_array( $unserialized ) ){
 				foreach( $unserialized as $row ){
 					extract( $row );
 					

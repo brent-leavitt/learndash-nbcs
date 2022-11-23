@@ -150,7 +150,12 @@ class Edit_Student_Processor implements Processor
 				unset( $this->post[ $key ] ); 
 			}
 		}
-	
+		
+		//Turns the incoming string into an array. 
+		if( !empty( $this->meta[ 'admin_notes' ] ) )
+			$this->meta[ 'admin_notes' ]  =  maybe_unserialize( stripslashes( $this->meta[ 'admin_notes' ] ) );			
+
+		//Append the new row to the admin_notes meta array. 
 		if( !empty( $admin_note = $this->post[ 'admin_notes_row' ] ) ){
 			$this->add_admin_notes_row(  $admin_note  ); 
 			unset( $this->post[ 'admin_notes_row' ] ); 
@@ -233,21 +238,12 @@ class Edit_Student_Processor implements Processor
 	*/
 	public function add_admin_notes_row( $note )
 	{
-		$admin_notes = ( !empty( $this->meta[ 'admin_notes' ] ) )? 
-						$this->meta[ 'admin_notes' ] : 
-						''; 
-
-		
-		$insert = [
+		$this->meta[ 'admin_notes' ][] = [
 			'uid' 	=> wp_get_current_user()->ID,
 			'date'	=> current_time( 'mysql' ),
 			'note'	=> $note
-
 		];
 		
-		print_pre( $insert, "The value to be inserted " ); 
-		print_pre( $admin_notes, "The admin Notes to be modified " ); 
-
 	}
 	
 	

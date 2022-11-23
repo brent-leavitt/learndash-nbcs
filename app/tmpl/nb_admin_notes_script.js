@@ -18,9 +18,9 @@ jQuery( document ).ready( function ( $ ) {
 		$new_notes += break_apart( line );
 	});
 
-	let $new_texts = "<tr><td class='name' >(old admin notes - js)</td><td class='date' >(n/a)</td><td class='note' >"
+	let $new_texts = "<tr><td class='name' >(old admin notes)</td><td class='date' >(n/a)</td><td class='note' >"
 	+ $new_notes +
-	"</td><td class='actions'>(not available)</td></tr>";
+	"</td><td class='actions'>(code not ready to convert)</td></tr>";
 
 	$converter.parent().parent( 'tr' ).remove();
 
