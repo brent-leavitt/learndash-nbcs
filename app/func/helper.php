@@ -23,7 +23,9 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 function print_pre( $arr = array(), string $title = "No Title" ): VOID
 {
 	
-	$output = $title.": "; 
+	$output = !empty( $title )? $title.": " : ''; 
+
+	$output .=  "line ".__LINE__ .', '.__METHOD__ ;
 
 	$output .= '<br><pre>';
 	 

@@ -110,7 +110,8 @@ if( !class_exists( 'Course' ) ){
 			 
 			spl_autoload_register( function( $class ){
 
-				$path = strtolower( substr( str_replace( '\\', '/', $class), 0 ) );				
+				//$path = strtolower( substr( str_replace( '\\', '/', $class), 0 ) );				
+				$path = strtolower( str_replace( '\\', '/', $class) );				
 				$path = str_replace( 'doula_course/', '', $path );				
 				$path = DOULA_COURSE_PATH. $path . '.class.php';
 				

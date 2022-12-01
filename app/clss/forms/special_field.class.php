@@ -91,7 +91,7 @@ Christy is part of Amanda's group.
 		$form = "<tr>
 					<td class='name' >". $user->first_name ."</td>
 					<td class='date' >". current_time( 'mysql' ) ."</td>
-					<td class='note' ><textarea id='admin_notes_row' name='admin_notes_row' class='admin_notes_row' placeholder='Enter new admin note here.' > </textarea></td>
+					<td class='note' ><textarea id='admin_notes_row' name='admin_notes_row' class='admin_notes_row' placeholder='Enter new admin note here.' ></textarea></td>
 					<td class='actions' ><a href='#' class='mini_btn add_note' >&#10095;</a></td>
 				</tr>";
 		
@@ -147,7 +147,7 @@ Christy is part of Amanda's group.
 			
 			$this->out_arr[] = [ 
 				'uid'	=> -1,
-				'date' 	=> NULL,
+				'date' 	=> '',
 				'note'	=> $this->val
 			];
 
@@ -161,6 +161,7 @@ Christy is part of Amanda's group.
 					switch( $uid ){
 					case -1: 
 						$first_name = '('. __( 'old admin notes', NBCS_TD). ')';
+						$date = $date ?? ''; 
 						break; 
 					case 0: 
 						$first_name = '('. __( 'system', NBCS_TD). ')';

@@ -2,7 +2,7 @@
 
 namespace Doula_Course\App\Clss\Forms;
 
-use Doula_Course\App\Clss\Student;
+//use Doula_Course\App\Clss\Student;
 
 //use student ?
 
@@ -75,7 +75,7 @@ class Student_Values implements Form_Values_Interface
 	*/	
 	public function set_student( int $sid ){
 
-		$this->student = new Student( $sid );
+		$this->student = new \WP_User( $sid );
 		$this->build_values();
 		
 	}

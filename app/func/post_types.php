@@ -59,7 +59,7 @@ function register_post_types()
 		'show_in_menu' => true,	//
 		'menu_pos' => 54,			//
 		'menu_icon' => 'buddicons-pm',	//
-		'supports' => array( 'title', 'editor', 'page-attributes', 'revisions', 'excerpt', 'author' ),		//
+		'supports' => array( 'title', 'editor', 'revisions', 'excerpt', 'author' ),		//
 		'has_archive' => true,		//
 	];
 

@@ -736,7 +736,7 @@ add_action( 'wp_ajax_track_courses_action', 'Doula_Course\App\Func\do_track_cour
  */
 function exclude_post_types_from_rcp( $post_types ) {
     // We do NOT want the meta box displayed on the "assignment" post type.
-    $post_types[] = 'assignment';
+   array_push( $post_types, 'assignment', 'certificate', 'notification' );
     
     return $post_types;
 }
@@ -755,8 +755,12 @@ add_filter( 'rcp_metabox_excluded_post_types', 'Doula_Course\App\Func\exclude_po
  * @return array
  */
 function exclude_post_types_from_ld_course_grid( $post_types ) {
-    // We do NOT want the meta box displayed on the "assignment" post type.
-    unset( $post_types[ 'assignment' ] );
+	$rm_post_types = [ 'assignment', 'certificate', 'notification' ];
+
+    foreach( $rm_post_types as $type)
+	{
+		unset( $post_types[ $type ] );
+	}
    
     return $post_types;
 }
@@ -773,10 +777,14 @@ add_filter( 'learndash_course_grid_post_types', 'Doula_Course\App\Func\exclude_p
  * @return array
  */
 function exclude_post_types_from_kadence( $post_types ) {
-    // We do NOT want the meta box displayed on the "assignment" post type.
-	
-    unset( $post_types[ array_search( 'assignment', $post_types ) ] );
-	
+    
+	$rm_post_types = [ 'assignment', 'certificate', 'notification' ];
+
+    foreach( $rm_post_types as $type)
+	{
+    	unset( $post_types[ array_search( $type, $post_types ) ] );
+	}
+
     return $post_types;
 }
  
