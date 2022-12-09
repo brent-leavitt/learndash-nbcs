@@ -141,6 +141,7 @@ Christy is part of Amanda's group.
 		
 		$rows = '';
 		
+		//If this is the old admin notes, push to an array entry.
 		if( !is_serialized( $this->val ) && !is_array( $this->val ) ){
 			
 			$rows = $this->build_row( __('(old admin notes)', NBCS_TD ), __('(not set)', NBCS_TD ), $this->val, 'convert' ); 
