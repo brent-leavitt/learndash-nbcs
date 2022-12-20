@@ -207,7 +207,7 @@ if( !class_exists( 'Assignment_Processor' ) ){
 		public function do_actions(){
 			
 			foreach( $this->actions as $key => $action ){
-				$action = "Doula_Course\App\Clss\Processors\Assignments\\".$action; //(22Jun22)Not sure why this is requiring a full namespace. 
+				$action = "Doula_Course\App\Clss\Processors\Assignments\\".$action; 
 				$this->context->set_action( new $action );
 				$this->context->set_messages( $this->messages ); 				
 				$this->context->do_action( $this->student_id, $this->post );

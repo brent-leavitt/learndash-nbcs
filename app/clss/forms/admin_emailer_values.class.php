@@ -58,7 +58,7 @@ class Admin_Emailer_Values implements Form_Values_Interface
 	*/	
 	public function set_student( int $sid ){
 
-		$this->student = new Student( $sid );
+		$this->student = new \WP_User( $sid );
 		//$this->build_values();
 		
 	}

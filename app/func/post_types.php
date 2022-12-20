@@ -51,25 +51,15 @@ function register_post_types()
 		'has_archive' => false,		//
 	];
 	
-	$notification_args = [
-		'post_type' => 'notification', 	//
-		'description' => 'Templated notifications used to communicate with the students.', 		//
-		'hierarchical' => false,		//
-		'exclude_from_search' => false, 	//
-		'show_in_menu' => true,	//
-		'menu_pos' => 54,			//
-		'menu_icon' => 'buddicons-pm',	//
-		'supports' => array( 'title', 'editor', 'revisions', 'excerpt', 'author' ),		//
-		'has_archive' => true,		//
-	];
+	//Notifications CPT have been moved to the Nb_Notes plugin but is still dependent upon the PostTypes class defined in this plugin. 
 
 	
 	$post_types = [
 		/* 'track' => $track_args,
-		'material' => $material_args, */
+		'material' => $material_args,
+		'notification' => $notification_args, */
 		'assignment' => $assignment_args,
-		'certificate' => $certificate_args,
-		'notification' => $notification_args
+		'certificate' => $certificate_args
 	];
 	
 	$results = [];

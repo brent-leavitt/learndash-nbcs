@@ -82,6 +82,15 @@ if( !class_exists( 'Save_Submission' ) ){
 		
 		private $student_id; 
 
+		/**
+		 * Was the post successfully updated?
+		 *
+		 * @since   1.0.0
+		 * @var		mixed 
+		 */
+		
+		private $updated; 
+
 		
 		//Then Methods
 
@@ -112,7 +121,7 @@ if( !class_exists( 'Save_Submission' ) ){
 			if( strcmp( $student_id, $post[ 'student_id' ] ) !== 0 )
 				wp_die( 'Plagerism?! Not the same user who clicked the submit button.' ); 
 			
-			//save attachment only button was clicked. 
+			//the "save attachment only" button was clicked. 
 			if( isset( $post[ 'save_attachment_only' ] ) )
 					$post[ 'edit_assignment' ] = $post[ 'attachment_only' ];
 			
@@ -133,7 +142,7 @@ if( !class_exists( 'Save_Submission' ) ){
 				
 				$this->submission->build( $student_id, $post );
 				
-				$this->save();
+				$this->updated = $this->save();
 				
 			}		
 			
@@ -201,7 +210,7 @@ if( !class_exists( 'Save_Submission' ) ){
 			else
 				$this->messages->add( 'student' , 'notice', __( 'We are assuming that the assignment has been saved.', NBCS_TD ) );
 			//Check Submission class for notices. 
-			
+
 		}		
 		
 		
@@ -229,7 +238,7 @@ if( !class_exists( 'Save_Submission' ) ){
 			if( !empty( $id ) )
 				$result = $this->set_grade( $id, $args );
 			
-			return ( isset( $result ) )? $result : FALSE ; 
+			return $result ?? FALSE ; 
 			
 		}	
 			
