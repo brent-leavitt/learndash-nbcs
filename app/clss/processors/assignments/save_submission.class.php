@@ -236,8 +236,15 @@ if( !class_exists( 'Save_Submission' ) ){
 			$id = $this->update( $args ); 
 			
 			if( !empty( $id ) )
+			{
 				$result = $this->set_grade( $id, $args );
-			
+				
+				//do action hook on student submitted work. 
+				$post = get_post( $id );
+				if( strcmp( $post->post_status, 'draft' ) !== 0  )
+					do_action( "nb_assignment_{$post->post_status}", $id, $post );				
+			}
+		
 			return $result ?? FALSE ; 
 			
 		}	

@@ -204,25 +204,6 @@ if( !class_exists( 'Message' ) ){
 			return $this->get_by( $user, $type ); 
 		
 		}
-		
-	
-
-		
-			
-		/**
-		 * 	send
-		 *
-		 *	(descrip)
-		 *
-		 *	returns VOID
-		 **/
-		 
-			 
-		public function send()
-		{
-			
-			
-		}
 
 		
 		/**

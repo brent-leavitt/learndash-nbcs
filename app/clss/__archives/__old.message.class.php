@@ -64,8 +64,8 @@ New Beginnings Doula Training';
 	
 	private function set_date(){
 	
-		$dtz = new DateTimeZone( "America/Phoenix" ); //Your timezone
-		$mess_date = new DateTime( date("Y-m-d H:i:s"), $dtz );
+		$dtz = new \DateTimeZone( "America/Phoenix" ); //Your timezone
+		$mess_date = new \DateTime( date("Y-m-d H:i:s"), $dtz );
 		$this->mess_date = $mess_date->format("Y-m-d H:i:s");
 		
 	}

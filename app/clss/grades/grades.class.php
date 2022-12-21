@@ -443,10 +443,6 @@ if( !class_exists( 'Grades' ) ){
 			}
 			//student_grades meta data.
 			$updated = update_user_meta( $this->student_id, 'student_grades', $grades_meta, $this->raw_data );
-				
-			//fire relevant action hooks. 
-			
-			do_action(  )
 
 			return ( !empty( $updated ) )? TRUE : FALSE ; 
 		}

@@ -431,7 +431,7 @@ function save_asmt_meta_box_data( $post_id ) {
 	$p_status = $post->post_status;
 	$new_p_status = $_POST['asmt_post_status'];
 		
-	if( strcmp( $p_status, $new_p_status ) != 0 ){ 
+	if( strcmp( $p_status, $new_p_status ) !== 0 ){ 
 		
 		remove_action('save_post', 'Doula_Course\App\Func\save_asmt_meta_box_data'); // prevent loop infinitely
 		
@@ -447,7 +447,7 @@ function save_asmt_meta_box_data( $post_id ) {
 		$update = true; 
 	}	
 		
-	if( $update ){
+	if( $update ){ 
 		
 		$update_student_meta = false; 
 		$grades = new Grades();
@@ -465,6 +465,16 @@ function save_asmt_meta_box_data( $post_id ) {
 			/* $msg = new Message();
 			$msg->admin_notice( $subject, $message ); */
 		}  		
+
+		//If draft, we're done here. 
+		if( strcmp( $new_p_status, 'draft' ) == 0  ) return; 
+
+	    //These check prevents the hook at the end from firing twice
+		if( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) return;  
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) return;
+		
+		//Should only fire once!
+		do_action( "nb_assignment_{$new_p_status}", $post_id, $post );
 	}		
 }
 
