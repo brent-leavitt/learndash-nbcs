@@ -102,37 +102,6 @@ class Edit_Student_Processor implements Processor
 	
 	
 	
-	/**
-	* set role
-	*
-	* Sets the user role based on the student_status post field  
-	*
-	* @return void 
-	*/
-	private function set_role(): void
-	{
-		
-		$status = intval( $this->post[ 'student_status' ] ) ; //1 = current or 0 = inactive
-		
-		$role_actions = [
-			[ 'alumnus_active', 0, 'alumnus_inactive' ],
-			[ 'alumnus_inactive', 1, 'alumnus_active' ],
-			[ 'student_active', 0, 'student_inactive' ],
-			[ 'student_inactive', 1, 'student_active' ],
-		];
-		
-		foreach( $role_actions as $actions ){
-			
-			if( $this->check_role( $actions[ 0 ] ) && ( $status == $actions[ 1 ] )  ){
-				$this->post[ 'role' ] = $actions[ 2 ];
-				break; //As soon as we meet one qualifying value we can exit. 
-			}
-							
-		}
-		
-		unset( $this->post[ 'student_status' ] );
-		
-	}
 	
 	
 	/**
@@ -162,23 +131,6 @@ class Edit_Student_Processor implements Processor
 		}
 	}
 		
-		
-	
-	/**
-	* check role
-	*
-	* checks if a user has a specific role
-	*
-	* @return bool
-	*/
-	private function check_role( string $role ): bool
-	{
-		// Check if the role you're interested in, is present in the array.
-		return in_array( $role , $this->user->roles, true ); 
-		
-	}
-			
-		
 	
 	/**
 	* update_user_meta
@@ -191,15 +143,25 @@ class Edit_Student_Processor implements Processor
 	{
 		$results = [];
 		
-		foreach( $this->meta as $key => $val ){
+		foreach( $this->meta as $key => $val )
+		{
+			//setting old value for nb_trainer_reassignment action hook
+			if( $key == 'student_trainer' ) 
+				$old_val = get_user_meta( $this->uid, $key, true ); 
+
 			if( !empty( $val ) )
 				$results[] = update_user_meta( $this->uid, $key, $val );	
 			else
 				$results[] = delete_user_meta( $this->uid, $key );
 			
 			//Need to set an action hook for trainers to be notified of changes. 
-			if( $key == 'student_trainer' )
-				do_action( 'nb_student_trainer_change', $this->uid, $val ); 
+			//action hook params: user_id, old_trainer, new_trainer, userdata
+			if( $key == 'student_trainer' ){
+				if( ( strcmp( $old_val, $val  ) !== 0 )  )
+					do_action( 'nb_trainer_reassignment', $this->uid, $old_val, $val, $this->user );
+			}
+				 
+	
 		}
 		
 		return $results;
@@ -218,7 +180,6 @@ class Edit_Student_Processor implements Processor
 		
 		$this->post[ 'ID' ] = $this->uid;
 		
-		//$this->set_role(); //Not relevant after LMS/Content Restriction updates. 
 		$this->set_meta();
 		
 		$user_data = wp_update_user( $this->post );

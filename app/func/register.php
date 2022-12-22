@@ -247,9 +247,7 @@ function nb_profile_extra_user_fields() {
 	foreach( $sets as $args )
 		nb_add_single_user_field( $args ); 
 		
-
 }
-
 
 add_action( 'rcp_profile_editor_after', 'Doula_Course\App\Func\nb_profile_extra_user_fields' );
 

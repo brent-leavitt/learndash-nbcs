@@ -70,7 +70,7 @@ add_action( 'learndash_update_course_access', 'Doula_Course\App\Func\update_stud
  *  This plugin may require additional filtering based on the type of membership being created.
  *	For example, no trainer should be assigned to reader accounts. 
  *
- *	do_action: 'rcp_new_membership_added' in plugins\restrict-content-pro\core\includes\memberships\membership-functions.php
+ *	do_action: 'rcp_membership_post_activate' in plugins\restrict-content-pro\core\includes\memberships\membership-functions.php
  *	
  * @param int          $membership_id      Membership ID, not needed. 
  * @param arr          $data		       Data, $data[ 'user_id' ] is needed value. 
@@ -105,14 +105,13 @@ add_action( 'learndash_update_course_access', 'Doula_Course\App\Func\update_stud
 
 function assign_student_trainer( $membership_id, $data ){
 	
-	$student_id = $data[ 'user_id' ];
+	//Check if membership is training subscription, assumed to be ID: 1. 
+	if( ( strcmp( $data->get_object_type(), 'membership' ) !== 0 ) || ( $data->get_object_id() != 1 ) ) return;
 	
-	$trainers = nb_get_trainers(); 
-	
+	$student_id = $data->get_user_id();
+	$trainers = nb_get_trainers();
 	$last_trainer_id = get_option( 'last_trainer_assigned' );
-	
 	$trainer_ids = array_keys( $trainers ); 
-	
 	$next = array_search( $last_trainer_id ,$trainer_ids ) + 1;
 	
 	//0 index is no trainer ID, so reset goes to 1. 
@@ -122,15 +121,14 @@ function assign_student_trainer( $membership_id, $data ){
 					add_user_meta( $student_id, 'student_trainer', $next_trainer_id ):
 					false ; 
 	
-	if( $updated !== false ){
-		
+	if( $updated !== false )
+	{
 		update_option( 'last_trainer_assigned', $next_trainer_id ); 
-		
-		do_action( 'nb_student_trainer_assigned', $student_id, $next_trainer_id );
+		do_action( 'nb_trainer_new_student', $student_id,  $next_trainer_id ); 
 	}
 }
 
-add_action( 'rcp_new_membership_added', 'Doula_Course\App\Func\assign_student_trainer', 10 , 2 );  
+add_action( 'rcp_membership_post_activate', 'Doula_Course\App\Func\assign_student_trainer', 10 , 2 );  
 
 
 
