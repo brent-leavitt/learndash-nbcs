@@ -133,4 +133,146 @@ add_action( 'rcp_membership_post_activate', 'Doula_Course\App\Func\assign_studen
 
 
 
+/**
+ *  This adds an admin note to the student's file. 
+ *	
+ * @param 	int   	$student_id     User ID 
+ * @param 	string  $note			Message to be recorded in the admin notes. 	     
+ * @param 	string  $soure			ID of user/trainer who made the note. Default is 0 for system generated. 		
+ *	
+ * @return 	boolean
+ */
+
+function add_admin_student_note( $student_id, $note, $source = 0 )
+{
+
+	//Calls the classes that have be created to handle and process Admin_Notes. 
+
+	//Returns true or false based on successful insertion into Admin Notes table. 
+
+	return false; 
+}
+
+
+
+
+/**
+ * Posts an admin note when a student cancels their their membership
+ *	
+ * @param 	int            	$membership_id 	ID of the membership.
+ * @param 	RCP_Membership 	$membership    	Membership object.
+ *	
+ * @return 	boolean
+ */
+
+ function subscription_cancellation( $membership_id, $membership )
+ {
+	if ( !$membership->is_disabled() && ! $membership->was_upgraded() ) {
+		// rcp_send_membership_email( $membership, 'cancelled' );
+	}
+ 
+	 return false; 
+ }
+ 
+ add_action( 'rcp_membership_post_cancel', 'Doula_Course\App\Func\subscription_cancellation', 10, 2  ); 
+
+
+
+
+/**
+ *   Posts an admin note when the student's subscription is suspended due to failed payment. 
+ *	
+ *	Reference: restrict-content-pro\core\includes\email-functions.php:471
+ *
+ * @param 	RCP_Member 				$member  	The member (RCP_Member object).
+ * @param 	RCP_Payment_Gateway 	$gateway 	The gateway used to process the renewal.
+ *	
+ * @return 	boolean
+ */
+
+ function subscription_suspension(  RCP_Member $member, RCP_Payment_Gateway $gateway  )
+ {
+ 
+ 
+	 return false; 
+ }
+ 
+ add_action( 'rcp_recurring_payment_failed', 'Doula_Course\App\Func\subscription_suspension', 10, 2  ); 
+
+
+/**
+ *  Posts an admin note when the student subscription is expired.  
+ *	
+ * @param 	string 	$old_status			Prior status of membership, current is expired. 
+ * @param 	int   	$membership_id     	Membership ID, can be used to find the user ID.  
+ *	
+ * @return 	boolean
+ */
+
+ function subscription_expired(  $old_status, $membership_id  )
+ {
+ 
+	if ( 'expired' == $old_status || 'new' == $old_status ) {
+		return;
+	}
+
+	//$membership = rcp_get_membership( $membership_id );
+
+	//rcp_send_membership_email( $membership, 'expired' );
+
+	add_admin_student_note( $student_id, $note ); 
+ }
+ 
+ add_action( 'rcp_transition_membership_status_expired', 'Doula_Course\App\Func\subscription_expired', 10, 2  ); 
+
+
+
+
+/**
+ *   
+ *	
+ * @param 	int   	$_     User ID 
+ *	
+ * @return 	boolean
+ */
+
+ function subscription_reactivation()
+ {
+ 
+ 	/**
+	 * @var RCP_Payments $rcp_payments_db
+	 */
+	global $rcp_payments_db;
+
+	$payment = $rcp_payments_db->get_payment( $payment_id );
+
+	$user_info = get_userdata( $payment->user_id );
+
+	if( ! $user_info ) {
+		return;
+	}
+	
+	//Need to assess if the account was previously inactive. 
+	
+	
+	return false; 
+
+
+
+ }
+ 
+add_action( 'rcp_update_payment_status_complete', 'Doula_Course\App\Func\subscription_reactivation', 10, 2  ); 
+//or
+
+//https://help.ithemes.com/hc/en-us/articles/360051739814-rcp-membership-post-renew 
+/*
+    $expiration (string) - New membership expiration date, in MySQL format.
+    $membership_id (int) - ID of the membership.
+    $membership (RCP_Membership) - Membership object.
+*/ 
+add_action( 'rcp_membership_post_renew', 'Doula_Course\App\Func\subscription_reactivation', 10, 3  ); 
+
+
+
+
 ?>
