@@ -9,6 +9,10 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  *
  */
 
+
+
+
+ 
  
 //Customize the emails being sent from the system. 
 add_filter( 'wp_mail_from', function( $name ) {

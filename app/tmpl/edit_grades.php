@@ -44,7 +44,7 @@ if( isset($_GET['student_id']) ){
 				
 				//print_pre( $args,  ); 
 				//Adding a grade that doesn't have an assignment attached to it.
-				$grades->add_grade( 0, $args );
+				$grades->add_grade( $args, 0 );
 			}
 			
 			if( is_numeric( $mat_id ) && ( strcmp( $status, 'draft' ) == 0 ) )

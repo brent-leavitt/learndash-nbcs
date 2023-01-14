@@ -160,7 +160,7 @@ if( !class_exists( 'Revert_To_Draft' ) ){
 			
 			$grades->build( $this->student_id ); 
 			
-			$grades->add_grade( $id, $args ); 
+			$grades->add_grade( $args,  $id ); 
 			
 			return $grades->update_grades();
 			

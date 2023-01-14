@@ -187,7 +187,7 @@ if( !class_exists( 'Save_Submission' ) ){
 			
 			$grades->build( $this->student_id ); 
 			
-			$grades->add_grade( $id, $args ); 
+			$grades->add_grade(  $args, $id ); 
 			
 			return $grades->update_grades();
 			

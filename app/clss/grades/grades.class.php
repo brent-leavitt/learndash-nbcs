@@ -236,7 +236,7 @@ if( !class_exists( 'Grades' ) ){
 		 * 
 		 **/
 		 
-		public function add_grade( int $assignment_id = 0, array $args ):VOID
+		public function add_grade(  array $args, int $assignment_id = 0 ):VOID
 		{
 			$material_id = $args[ 'post_parent' ];
 			
