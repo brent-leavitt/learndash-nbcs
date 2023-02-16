@@ -216,9 +216,9 @@ function add_admin_student_note( $student_id, $note, $source = 0 )
 		return;
 	}
 
-	//$membership = rcp_get_membership( $membership_id );
+	$membership = rcp_get_membership( $membership_id );
 
-	//rcp_send_membership_email( $membership, 'expired' );
+	rcp_send_membership_email( $membership, 'expired' );
 
 	add_admin_student_note( $student_id, $note ); 
  }
@@ -236,7 +236,7 @@ function add_admin_student_note( $student_id, $note, $source = 0 )
  * @return 	boolean
  */
 
- function subscription_reactivation()
+ function subscription_reactivation( $payment_id )
  {
  
  	/**
@@ -246,12 +246,15 @@ function add_admin_student_note( $student_id, $note, $source = 0 )
 
 	$payment = $rcp_payments_db->get_payment( $payment_id );
 
+	//error_log( "The ". __FILE__ ."::". __METHOD__ ." has been called. Here is the value of PAYMENT var. ". var_export( $payment, true ) );
+				
+	/*
 	$user_info = get_userdata( $payment->user_id );
 
 	if( ! $user_info ) {
 		return;
 	}
-	
+	*/
 	//Need to assess if the account was previously inactive. 
 	
 	
@@ -261,7 +264,7 @@ function add_admin_student_note( $student_id, $note, $source = 0 )
 
  }
  
-add_action( 'rcp_update_payment_status_complete', 'Doula_Course\App\Func\subscription_reactivation', 10, 2  ); 
+add_action( 'rcp_update_payment_status_complete', 'Doula_Course\App\Func\subscription_reactivation', 10, 1  ); 
 //or
 
 //https://help.ithemes.com/hc/en-us/articles/360051739814-rcp-membership-post-renew 

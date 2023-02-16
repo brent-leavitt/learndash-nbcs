@@ -16,7 +16,8 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 
 
 /**
- * Not Admin
+ * //DISABLED FOR BUG - 16 Feb 2023
+ * Not Admin  - THIS CREATES A BUG or CONFLICT with RCP plugin registration page. Maybe I don't need this now?!
  * 
  * This filters out users that are not admins and sends them out of the admin area. 
  * 
@@ -34,7 +35,7 @@ function not_admin()
 	return false;
 }
 
-add_action('init', 'Doula_Course\App\Func\not_admin'); 
+//add_action('init', 'Doula_Course\App\Func\not_admin'); 
 
 
 /**
