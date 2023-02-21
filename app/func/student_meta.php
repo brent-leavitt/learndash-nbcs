@@ -109,6 +109,12 @@ function assign_student_trainer( $membership_id, $data ){
 	if( ( strcmp( $data->get_object_type(), 'membership' ) !== 0 ) || ( $data->get_object_id() != 1 ) ) return;
 	
 	$student_id = $data->get_user_id();
+
+	//If the user is not a student, then we need to not assign them a trainer. 
+	$user = get_user_by( 'id', $student_id ); 
+	if( !in_array( 'student', (array) $user->roles ) ) return; 
+
+
 	$trainers = nb_get_trainers();
 	$last_trainer_id = get_option( 'last_trainer_assigned' );
 	$trainer_ids = array_keys( $trainers ); 
@@ -218,9 +224,11 @@ function add_admin_student_note( $student_id, $note, $source = 0 )
 
 	$membership = rcp_get_membership( $membership_id );
 
-	rcp_send_membership_email( $membership, 'expired' );
+	//rcp_send_membership_email( $membership, 'expired' );
+   
+	$note = 'The student account has been marked as expired.'; //The note to send to the admin_student_note. 
 
-	add_admin_student_note( $student_id, $note ); 
+	add_admin_student_note( $membership->get_user_id(), $note ); 
  }
  
  add_action( 'rcp_transition_membership_status_expired', 'Doula_Course\App\Func\subscription_expired', 10, 2  ); 

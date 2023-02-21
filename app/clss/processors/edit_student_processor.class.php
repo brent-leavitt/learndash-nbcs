@@ -157,7 +157,7 @@ class Edit_Student_Processor implements Processor
 			//Need to set an action hook for trainers to be notified of changes. 
 			//action hook params: user_id, old_trainer, new_trainer, userdata
 			if( $key == 'student_trainer' ){
-				if( ( strcmp( $old_val, $val  ) !== 0 )  )
+				if( ( strcmp( $old_val, $val  ) !== 0 ) && !empty( $val ) )
 					do_action( 'nb_trainer_reassignment', $this->uid, $old_val, $val, $this->user );
 			}
 				 
