@@ -69,8 +69,8 @@ class Edit_Student_Processor implements Processor
 		'student_phone' 			=> '',  
 		
 		
-		'student_trainer' 			=> '', 
-		'admin_notes' 				=> '', 
+		'student_trainer' 			=> 0, 
+		'admin_notes' 				=> ''
 		 
 	]; 
 	
@@ -122,7 +122,7 @@ class Edit_Student_Processor implements Processor
 		
 		//Turns the incoming string into an array. 
 		if( !empty( $this->meta[ 'admin_notes' ] ) )
-			$this->meta[ 'admin_notes' ]  =  maybe_unserialize( stripslashes( $this->meta[ 'admin_notes' ] ) );			
+			$this->meta[ 'admin_notes' ]  =  maybe_json_decode( stripslashes( $this->meta[ 'admin_notes' ] ) );			
 
 		//Append the new row to the admin_notes meta array. 
 		if( !empty( $admin_note = $this->post[ 'admin_notes_row' ] ) ){

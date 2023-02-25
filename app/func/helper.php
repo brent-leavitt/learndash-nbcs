@@ -189,16 +189,91 @@ function nb_get_current_trainer_id(){
  * Get the user's roles
  * @since 1.0.0
  */
-function nb_get_current_user_roles() {
- if( is_user_logged_in() ) {
- $user = wp_get_current_user();
- $roles = ( array ) $user->roles;
- return $roles; // This returns an array
- // Use this to return a single value
- // return $roles[0];
- } else {
- return array();
+function nb_get_current_user_roles() 
+{
+	if( is_user_logged_in() ) {
+		$user = wp_get_current_user();
+		$roles = ( array ) $user->roles;
+		return $roles; // This returns an array
+	} 
+	
+	return array();
+}
+
+
+/**
+ * Encodes a json string if not already so encoded. 
+ *
+ * @since     1.0.0
+ * @param     int    $sid   //student ID
+ * @return    int    $tid   //trainer ID
+ */
+
+ function maybe_json_encode( $mixed )
+ {
+
+	if( is_json( $mixed ) ) return $mixed; 
+
+	return json_encode( $mixed );
+
  }
+
+
+/**
+ * Decodes a json string if not already decoded. 
+ *
+ * @since     1.0.0
+ * @param     int    $sid   //student ID
+ * @return    int    $tid   //trainer ID
+ */
+
+ function maybe_json_decode( $mixed )
+ {
+
+    if( !is_json( $mixed ) ) return $mixed; 
+
+	return json_decode( $mixed ); 
+
+ }
+
+
+/**
+ * Check if incoming data is in JSON format, or not. 
+ * credit: https://stackoverflow.com/a/45241792/356958
+ * 
+ * @since     1.0.0
+ * @param     int    $sid   //student ID
+ * @return    int    $tid   //trainer ID
+ */
+
+ function is_json( $value ) {
+    // Numeric strings are always valid JSON.
+    if ( is_numeric( $value ) ) { return true; }
+
+    // A non-string value can never be a JSON string.
+    if ( ! is_string( $value ) ) { return false; }
+
+    // Any non-numeric JSON string must be longer than 2 characters.
+    if ( strlen( $value ) < 2 ) { return false; }
+
+    // "null" is valid JSON string.
+    if ( 'null' === $value ) { return true; }
+
+    // "true" and "false" are valid JSON strings.
+    if ( 'true' === $value ) { return true; }
+    if ( 'false' === $value ) { return true; }
+
+    // Any other JSON string has to be wrapped in {}, [] or "".
+    if ( '{' != $value[0] && '[' != $value[0] && '"' != $value[0] ) { return false; }
+
+    // Verify that the trailing character matches the first character.
+    $last_char = $value[strlen($value) -1];
+    if ( '{' == $value[0] && '}' != $last_char ) { return false; }
+    if ( '[' == $value[0] && ']' != $last_char ) { return false; }
+    if ( '"' == $value[0] && '"' != $last_char ) { return false; }
+
+    // See if the string contents are valid JSON.
+    return null !== json_decode( $value );
 }
 
 

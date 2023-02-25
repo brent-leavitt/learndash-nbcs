@@ -115,13 +115,13 @@ Christy is part of Amanda's group.
 		";
 		
 		$hidden_val = ( !empty( $this->out_arr ) )? 
-						maybe_serialize( $this->out_arr ) :  
+						maybe_json_encode( $this->out_arr ) :  
 						( ( is_array( $this->val ) )? 
-							maybe_serialize( $this->val ) :
+							maybe_json_encode( $this->val ) :
 							$this->val ); 
 
 
-		$hidden = '<input type="hidden" id="admin_notes" name="admin_notes" value="'. htmlentities( $hidden_val , ENT_QUOTES ) . '" >'; //Stores the incoming data as the default value.
+		$hidden = "<input type='hidden' id='admin_notes' name='admin_notes' value='". htmlentities( $hidden_val , ENT_QUOTES ) . "' >"; //Stores the incoming data as the default value.
 			
 		$this->output = $structure . $hidden; 
 		
@@ -142,7 +142,7 @@ Christy is part of Amanda's group.
 		$rows = '';
 		
 		//If this is the old admin notes, push to an array entry.
-		if( !is_serialized( $this->val ) && !is_array( $this->val ) ){
+		if( !is_json( $this->val ) && !is_array( $this->val ) ){
 			
 			$rows = $this->build_row( __('(old admin notes)', NBCS_TD ), __('(not set)', NBCS_TD ), $this->val, 'convert' ); 
 			
@@ -154,9 +154,11 @@ Christy is part of Amanda's group.
 
 		}else{	
 			
-			$unserialized = maybe_unserialize( $this->val ); 
-			if( is_array( $unserialized ) ){
-				foreach( $unserialized as $row ){
+			$decoded = maybe_json_decode( $this->val ); 
+			if( is_array( $decoded ) ){
+				array_shift( $decoded ); 
+				foreach( $decoded as $row ){
+
 					extract( $row );
 					
 					switch( $uid ){
@@ -175,7 +177,8 @@ Christy is part of Amanda's group.
 					
 					$action = ( $uid === -1 )? 'convert' : 'default';
 
-					$rows .= $this->build_row( $first_name, $date, $note, $action );			 	
+					$rows .= $this->build_row( $first_name, $date, $note, $action );	
+					
 				}
 			}	
 		}
