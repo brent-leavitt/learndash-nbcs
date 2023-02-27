@@ -141,48 +141,55 @@ Christy is part of Amanda's group.
 		
 		$rows = '';
 		
-		//If this is the old admin notes, push to an array entry.
-		if( !is_json( $this->val ) && !is_array( $this->val ) ){
-			
-			$rows = $this->build_row( __('(old admin notes)', NBCS_TD ), __('(not set)', NBCS_TD ), $this->val, 'convert' ); 
-			
-			$this->out_arr[] = [ 
-				'uid'	=> -1,
-				'date' 	=> '',
-				'note'	=> $this->val
-			];
-
-		}else{	
-			
-			$decoded = maybe_json_decode( $this->val ); 
-			if( is_array( $decoded ) ){
-				array_shift( $decoded ); 
-				foreach( $decoded as $row ){
-
-					extract( $row );
-					
-					switch( $uid ){
-					case -1: 
-						$first_name = '('. __( 'old admin notes', NBCS_TD). ')';
-						$date = $date ?? ''; 
-						break; 
-					case 0: 
-						$first_name = '('. __( 'system', NBCS_TD). ')';
-						break; 
-					default: 
-						$user = get_user_by( 'id', $uid ); 			
-						$first_name = ( is_object( $user ) )?  $user->first_name ?? $user->display_name: '(not set)';
-						break;
-					}
-					
-					$action = ( $uid === -1 )? 'convert' : 'default';
-
-					$rows .= $this->build_row( $first_name, $date, $note, $action );	
-					
-				}
-			}	
-		}
 		
+
+		if( !empty( $this->val ) ){
+
+			//If this is the old admin notes, push to an array entry.
+			if( !is_json( $this->val ) && !is_array( $this->val ) ){
+				
+				$rows = $this->build_row( __('(old admin notes)', NBCS_TD ), __('(not set)', NBCS_TD ), $this->val, 'convert' ); 
+
+				$this->out_arr[] = [ 
+					'uid'	=> -1,
+					'date' 	=> '',
+					'note'	=> $this->val
+				];
+
+			}else{	
+
+				$decoded = maybe_json_decode( $this->val ); 
+				
+				print_pre( $decoded, __METHOD__.":".__LINE__ ); 
+
+				if( is_array( $decoded ) ){
+					foreach( $decoded as $row ){
+						extract( $row );
+						
+						switch( $uid ){
+						case -1: 
+							$first_name = '('. __( 'old admin notes', NBCS_TD). ')';
+							$date = $date ?? ''; 
+							break; 
+						case 0: 
+							$first_name = '('. __( 'system', NBCS_TD). ')';
+							break; 
+						default: 
+							$user = get_user_by( 'id', $uid ); 			
+							$first_name = ( is_object( $user ) )?  $user->first_name ?? $user->display_name: '(not set)';
+							break;
+						}
+						
+						$action = ( $uid === -1 )? 'convert' : 'default';
+
+						$rows .= $this->build_row( $first_name, $date, $note, $action );	
+						
+					}
+				}	
+			}
+		}
+		print_pre( $rows, __METHOD__.":".__LINE__ ); 
+
 		return $rows;
  
 	}

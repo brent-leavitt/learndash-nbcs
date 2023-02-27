@@ -66,18 +66,15 @@ class Edit_Student_Processor implements Processor
 		'student_state' 			=> '', 
 		'student_country' 			=> '', 
 		'student_postalcode' 		=> '',  
-		'student_phone' 			=> '',  
-		
-		
+		'student_phone' 			=> '',
 		'student_trainer' 			=> 0, 
-		'admin_notes' 				=> ''
+		'admin_notes' 				=> []
 		 
 	]; 
 	
 	
 	/**
-	 * notices
-	 * 
+	 * notices	 * 
 	 * notices returned on update.
 	 *
 	 * @since 2.0
@@ -98,6 +95,7 @@ class Edit_Student_Processor implements Processor
 		$this->uid = $uid;
 		$this->post = $_POST;
 		$this->user = get_userdata( $this->uid );
+		print_pre( $this, __CLASS__ .":". __LINE__ ); 
 	}
 	
 	
@@ -120,15 +118,17 @@ class Edit_Student_Processor implements Processor
 			}
 		}
 		
-		//Turns the incoming string into an array. 
-		if( !empty( $this->meta[ 'admin_notes' ] ) )
-			$this->meta[ 'admin_notes' ]  =  maybe_json_decode( stripslashes( $this->meta[ 'admin_notes' ] ) );			
+		//Turns the incoming string into an array. This is the hidden field which holds admin notes info. If empty, set empty array.
+		$this->meta[ 'admin_notes' ]  =  ( !empty( $this->meta[ 'admin_notes' ] ) )? 
+				maybe_json_decode( stripslashes( $this->meta[ 'admin_notes' ] ) ):
+				[];			
 
 		//Append the new row to the admin_notes meta array. 
 		if( !empty( $admin_note = $this->post[ 'admin_notes_row' ] ) ){
 			$this->add_admin_notes_row(  $admin_note  ); 
 			unset( $this->post[ 'admin_notes_row' ] ); 
 		}
+		print_pre( $this, __CLASS__ .":". __LINE__ ); 
 	}
 		
 	
@@ -199,11 +199,11 @@ class Edit_Student_Processor implements Processor
 	*/
 	public function add_admin_notes_row( $note )
 	{
-		$this->meta[ 'admin_notes' ][] = [
+		array_push( $this->meta[ 'admin_notes' ], [
 			'uid' 	=> wp_get_current_user()->ID,
 			'date'	=> current_time( 'mysql' ),
 			'note'	=> $note
-		];
+		] );
 		
 	}
 	

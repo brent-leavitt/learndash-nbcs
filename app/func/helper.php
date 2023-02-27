@@ -25,10 +25,7 @@ function print_pre( $arr = array(), string $title = "No Title" ): VOID
 	
 	$output = !empty( $title )? $title.": " : ''; 
 
-	$output .=  "line ".__LINE__ .', '.__METHOD__ ;
-
 	$output .= '<br><pre>';
-	 
 	
 	$output .= var_export( $arr, true ); //true to return the array as a string instead of printing it out on the screen. 
 
@@ -205,8 +202,8 @@ function nb_get_current_user_roles()
  * Encodes a json string if not already so encoded. 
  *
  * @since     1.0.0
- * @param     int    $sid   //student ID
- * @return    int    $tid   //trainer ID
+ * @param     mixed  	$mixed   //data to be encoded in a json string. 
+ * @return    string   //A JSON encoded string
  */
 
  function maybe_json_encode( $mixed )
@@ -223,8 +220,8 @@ function nb_get_current_user_roles()
  * Decodes a json string if not already decoded. 
  *
  * @since     1.0.0
- * @param     int    $sid   //student ID
- * @return    int    $tid   //trainer ID
+ * @param     mixed    $mixed   //possibly an encoded json string, or something else. 
+ * @return    mixed    //if it was an encoded json string, the unencoded version of that. 
  */
 
  function maybe_json_decode( $mixed )
@@ -232,7 +229,7 @@ function nb_get_current_user_roles()
 
     if( !is_json( $mixed ) ) return $mixed; 
 
-	return json_decode( $mixed ); 
+	return json_decode( $mixed, true ); 
 
  }
 
