@@ -95,7 +95,6 @@ class Edit_Student_Processor implements Processor
 		$this->uid = $uid;
 		$this->post = $_POST;
 		$this->user = get_userdata( $this->uid );
-		print_pre( $this, __CLASS__ .":". __LINE__ ); 
 	}
 	
 	
@@ -128,7 +127,6 @@ class Edit_Student_Processor implements Processor
 			$this->add_admin_notes_row(  $admin_note  ); 
 			unset( $this->post[ 'admin_notes_row' ] ); 
 		}
-		print_pre( $this, __CLASS__ .":". __LINE__ ); 
 	}
 		
 	
@@ -142,12 +140,16 @@ class Edit_Student_Processor implements Processor
 	private function update_user_meta( ): array
 	{
 		$results = [];
+
+		//This is a bit of hack. Holding space for trainer reassignments. 
+		$old_trainer = 0; 
+		$new_trainer = 0;
 		
 		foreach( $this->meta as $key => $val )
 		{
 			//setting old value for nb_trainer_reassignment action hook
 			if( $key == 'student_trainer' ) 
-				$old_val = get_user_meta( $this->uid, $key, true ); 
+				$old_trainer = get_user_meta( $this->uid, $key, true ); 
 
 			if( !empty( $val ) )
 				$results[] = update_user_meta( $this->uid, $key, $val );	
@@ -157,12 +159,14 @@ class Edit_Student_Processor implements Processor
 			//Need to set an action hook for trainers to be notified of changes. 
 			//action hook params: user_id, old_trainer, new_trainer, userdata
 			if( $key == 'student_trainer' ){
-				if( ( strcmp( $old_val, $val  ) !== 0 ) && !empty( $val ) )
-					do_action( 'nb_trainer_reassignment', $this->uid, $old_val, $val, $this->user );
-			}
-				 
-	
+				if( ( strcmp( $old_trainer, $val  ) !== 0 ) && !empty( $val ) )
+					$new_trainer = $val;
+				
+			}	
 		}
+
+		if( !empty( $old_trainer ) &&  !empty( $new_trainer )  )
+			do_action( 'nb_trainer_reassignment', $this->uid, $old_trainer, $new_trainer, $this->user );
 		
 		return $results;
 		

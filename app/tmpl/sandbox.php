@@ -9,6 +9,12 @@ echo "The Sandbox has been loaded! <br>";
 
 print( "<pre>" ); 
 
+print_pre( nb_add_admin_student_note( 27, 'Adding another admin note programmatically from the sandbox.', 0 ) , 'Added another admin note' ); 
+
+print( "</pre>" ); 
+
+
+
 /*
 $a = array('<foo>',"'bar'",'"baz"','&blong&', "\xc3\xa9");
 
@@ -34,7 +40,7 @@ $d = array('foo' => 'bar', 'baz' => 'long');
 
 echo "Associative array always output as object: ", maybe_json_encode($d), "\n";
 echo "Associative array always output as object: ", maybe_json_encode($d, JSON_FORCE_OBJECT), "\n\n";
-*/
+
 
 echo "<hr>";
 
@@ -80,7 +86,7 @@ var_dump( $maybe_decoded_assoc1 );
 
 echo "<hr>";
 
+*/
 
 
-print( "</pre>" ); 
 ?>	

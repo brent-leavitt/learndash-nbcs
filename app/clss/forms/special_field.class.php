@@ -160,8 +160,6 @@ Christy is part of Amanda's group.
 
 				$decoded = maybe_json_decode( $this->val ); 
 				
-				print_pre( $decoded, __METHOD__.":".__LINE__ ); 
-
 				if( is_array( $decoded ) ){
 					foreach( $decoded as $row ){
 						extract( $row );
@@ -188,8 +186,7 @@ Christy is part of Amanda's group.
 				}	
 			}
 		}
-		print_pre( $rows, __METHOD__.":".__LINE__ ); 
-
+		
 		return $rows;
  
 	}

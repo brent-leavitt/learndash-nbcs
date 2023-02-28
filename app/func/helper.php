@@ -274,4 +274,38 @@ function nb_get_current_user_roles()
 }
 
 
+
+
+
+
+/**
+ * Adds an admin note to the student's admin notes file. 
+ * 
+ * @since     1.0.0
+ * @param     int    $student_id   	//obviously, the student ID
+ * @param     string $note   		//Message to be recorded
+ * @param     int    $source  		//user_id recorded as source, 0 = system, -1 = old admin notes. Should usually be 0. 
+ * @return    bool   //successfully upated the 
+ */
+
+ function nb_add_admin_student_note( int $student_id, string $note, int $source ): bool
+ {
+	//Build out the admin note to add. 
+	$insert_arr = [
+		'uid'	=> $source,
+		'date' 	=> current_time( 'mysql' ),
+		'note'	=> $note
+	];
+
+	//Get the admin notes meta key for the student. 
+	$results = get_user_meta( $student_id, 'admin_notes', true );
+	$admin_notes = ( !empty( $results ) )? $results : []; 
+	$admin_notes[] = $insert_arr;
+	
+	//append back to the meta key and insert it back into the databse. 
+	return ( update_user_meta( $student_id, 'admin_notes', $admin_notes  ) )? true : false ;
+
+	
+
+ }
 ?>
