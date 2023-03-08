@@ -9,10 +9,6 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  *
  */
 
-
-
-
- 
  
 //Customize the emails being sent from the system. 
 add_filter( 'wp_mail_from', function( $name ) {
@@ -23,6 +19,19 @@ add_filter( 'wp_mail_from_name', function( $name ) {
 	return 'New Beginnings';
 });
 
+
+
+//Adding a custom template for use in the Restricted Content Pro Plugin
+function nb_rcp_email_templates( $templates ) {
+    $templates['nb-email'] = __( 'New Beginnings Template', 'doula_course' );
+
+    return $templates;
+}
+
+add_filter( 'rcp_email_templates', 'Doula_Course\App\Func\nb_rcp_email_templates', 10, 1 );
+
+
+
 /**
  *
  *
@@ -30,7 +39,6 @@ add_filter( 'wp_mail_from_name', function( $name ) {
 	//Change name to base_email_template
 	//Wait to rename until you know who's calling it. 
  */
-
 
 
 
