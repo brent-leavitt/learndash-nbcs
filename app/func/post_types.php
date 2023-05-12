@@ -191,7 +191,25 @@ add_filter( 'wp_insert_post_data', 'Doula_Course\App\Func\nb_assignment_comments
 
 function edit_assignments_views( $views ) 
 {
-	$trainer = nb_get_current_trainer_id(); 	
+	$current_user = wp_get_current_user();
+	$trainer = 	nb_get_current_trainer_id();
+
+	$trainer_views = []; //final output of trainer views. 
+
+	//First check if we are in another trainer's view and display notice if true. 
+	if( ( strcmp( $current_user->ID, $trainer ) !== 0 ) && ( $trainer !== 0 ) ){
+
+		$other_trainer = get_user_by( 'id', $trainer ); 
+		$other_trainer_name = $other_trainer->first_name .' '. $other_trainer->last_name;
+		$view_name =  "{$other_trainer_name}'s Students";
+		$trainer_views[ 'notice' ] ="<span style='color: red; font-weight: bold;'>{$view_name}</span> <a href='edit.php?post_type=assignment&trainer=".$current_user->ID."&view=all_my_pending' title='Return to my students' >x</a>";
+	}
+		
+	//If view all pending screen is loded with &trainer=0, revert back to current user for stats. 
+	if( $trainer == 0 )//View all pending. 
+		$trainer = $current_user->ID; 
+	
+	//Then proceed to build additional views depending on user.
 	$my_asmts = nb_num_trainer_astms_stati( $trainer );
 	
 	$count_all_my_pending = $my_asmts[ 'submitted' ] + $my_asmts[ 'resubmitted' ];
@@ -199,8 +217,7 @@ function edit_assignments_views( $views )
 	
 	$my_views = [ 'all_my_pending', 'my_submitted', 'my_resubmitted', 'all_my_graded' ]; 
 	
-	$trainer_views = [];
-	
+
 	foreach( $my_views as $view ){
 		
 		$class = ( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'trainer' ] == $trainer ) && ( $_GET[ 'view' ] == $view ) )? 'current' : ''; 
@@ -211,6 +228,14 @@ function edit_assignments_views( $views )
 		$trainer_views[ $view ] = '<a href="edit.php?post_type=assignment&trainer='.$trainer.'&view='.$view.'"  class="'.$class.'" >'.ucwords( str_replace( '_', ' ', $view ) ). " <span class='count'>($count)</span></a>"; 
 	}
 	
+	//Adding an all pending view. 
+	$all_asmts = nb_num_trainer_astms_stati( 0 );
+	$count_all_pending = $all_asmts[ 'submitted' ] + $all_asmts[ 'resubmitted' ];
+	$class_all_pending = ( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'view' ] == 'all_pending' ) )? 'current' : '';
+
+	$trainer_views[ 'all_pending' ] = "<a href='edit.php?post_type=assignment&trainer=0&view=all_pending' class='{$class_all_pending}' >All Pending <span class='count'>({$count_all_pending})</span></a>";
+
+
 	$name_filters = [
 		/* 'draft' => 'All Drafts', 
 		'submitted' => 'All Submitted', 
@@ -263,15 +288,20 @@ function nb_filter_assignment_view_names( $views, $name_filters ){
 *
 *	@param $trainer - (int) trainer ID
 */
-function nb_get_trainers_students( $trainer ){	
+function nb_get_trainers_students( int $trainer = 0 ){	
 
 	//Get all users where role is student and user_meta is student_trainer = $trainer
-	return get_users([
-		'fields' => 'ID', 
-		'role' => 'student', 
-		'meta_key' => 'student_trainer',
-		'meta_value' => $trainer
-	]); 
+	return ( $trainer !== 0 )?  
+		get_users([
+			'fields' => 'ID', 
+			'role' => 'student', 
+			'meta_key' => 'student_trainer',
+			'meta_value' => $trainer
+		]):
+		get_users([
+			'fields' => 'ID', 
+			'role' => 'student'
+		]); 
 	
 	
 }
@@ -284,7 +314,7 @@ function nb_get_trainers_students( $trainer ){
 *
 *	@param $trainer - (int) trainer ID
 */
-function nb_num_trainer_astms_stati( $trainer ){	
+function nb_num_trainer_astms_stati( int $trainer = 0 ){	
 	
 	
 	$students = nb_get_trainers_students( $trainer );  
@@ -338,6 +368,7 @@ function list_assignments_query_args( $query ){
 			switch( $view ){
 				
 				case 'all_my_pending':
+				case 'all_pending':
 					$status = [ 'submitted', 'resubmitted' ];
 					break;
 				case 'my_submitted':

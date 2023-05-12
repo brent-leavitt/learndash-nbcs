@@ -260,11 +260,12 @@ function asmt_student_callback( $post ){
 	/*$totalAsmt = ( !empty( $prg_arr['totalAsmt']) )? $prg_arr['totalAsmt'] : 0 ;
 	$completedAsmts = ( !empty( $prg_arr['completedAsmt']) )? $prg_arr['completedAsmt'] : 0 ;
 	$asmt_progress = $percentComplete."% (".$completedAsmts."/".$totalAsmt.")"; */
-	
-	$customer_id = $customer->get_id(); 
+	if( method_exists( $customer, 'get_id' ) )
+		$customer_id = $customer->get_id(); 
+		
 	$active  = in_array( 'student', $student->roles );
 	
-	if( !$active )
+	if( !$active && isset( $customer_id ) )
 		echo "<div class='error'><p><strong>This student's account is marked as inactive! Go to student's <a href='/wp-admin/admin.php?page=rcp-customers&customer_id={$customer_id}&view=edit' target='_blank'>Customer Details</a> page for more information.</strong></p></div>";
 	 
 	echo "<strong>Display Name:</strong> {$student->display_name}<br>

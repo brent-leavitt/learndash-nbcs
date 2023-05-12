@@ -5,13 +5,57 @@ namespace Doula_Course\App\Tmpl;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+function nb_build_content_to_assignment_array( $user_id )
+{
+	global $wpdb;
+	
+	$output = []; //The output array; 
+	
+	$meta_query = "SELECT `meta_value` FROM `wp_usermeta` WHERE `user_id` = {$user_id} AND `meta_key` = 'student_grades' LIMIT 1"; 
+	
+	echo $meta_query ."<br>"; 
+	
+	$metas = $wpdb->get_results( $meta_query ); 
+
+	print_pre( $metas, 'The student grades that we are converting.'); 
+	
+	foreach ( $metas->BD as $entry )
+	{
+		$entry_id = key( $entry ); 
+		//Get the assignment ID for the respective Parent ID (which is stored in the student_grades meta)
+		$entry_query = "SELECT `ID` FROM `wp_posts` WHERE `post_author` = {$user_id} AND `post_parent = {$entry_id} LIMIT 1"; 	
+		echo $entry_query . "<br>";
+		
+		$entry_result = $wpdb->get_results( $entry_query ); 
+		
+		print_pre( $entry_result, "The results of the entry_query are:" ); 
+		
+		if( !empty( $entry_result[ 0 ] ) )
+			$output[ $entry_id ] = $entry_result[ 0 ]->ID; 
+		
+	}	
+	
+	print_pre( $output, "Output to be returned by the ". __FUNCTION__ ); 
+	
+	return $output?: false ; 
+}
+
+
+$users = get_users( [ 'fields' => 'ID' ] ); 
+$array_of_user_info = []; 
+
+foreach( $users as $user_id ){
+		$array_of_user_info[ $user_id ] = nb_build_content_to_assignment_array( $user_id );
+		
+} 
+
+print_pre( $array_of_user_info, 'The list of all content to assignments per user'  ); 
+
+
+
 echo "The Sandbox has been loaded! <br>";
 
-print( "<pre>" ); 
 
-print_pre( nb_add_admin_student_note( 27, 'Adding another admin note programmatically from the sandbox.', 0 ) , 'Added another admin note' ); 
-
-print( "</pre>" ); 
 
 
 
