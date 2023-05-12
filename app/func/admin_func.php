@@ -87,36 +87,46 @@ function build_admin_menus(){
 	/*--- NEXT SECTION ---*/
 	
 	//print_pre( $submenu, 'The Admin Sub Menu Before' );
+	
 	//If is trainer role: 
 	$roles = nb_get_current_user_roles(); 
 	if( in_array( 'trainer', $roles ) ){
 		
 		$trainer_id = get_current_user_id(); 
-		
-		$submenu[ 'edit.php?post_type=assignment' ][ 5 ][ 0 ] = 'All Assignments'; 
-		
+
 		$asmt_base_url = 'edit.php?post_type=assignment';
 		
+		$submenu[ $asmt_base_url ][ 5 ][ 0 ] = 'All Assignments'; 
+		
+		
 		//second, intentionally out of order for use in the array_unshift foreach loop action. 
-		$trainer_sub_menu[ 3 ] = [
+		$trainer_sub_menu[ 4 ] = [
 			0 => 'My Graded Asmts',
 			1 => 'edit_assignments',
-			2 => 'edit.php?post_type=assignment&view=all_my_graded&trainer='.$trainer_id	,
+			2 => $asmt_base_url .'&view=all_my_graded&trainer='.$trainer_id	,
+		]; 
+		
+		$trainer_sub_menu[ 3 ] = [
+			0 => 'All Pending',
+			1 => 'edit_assignments',
+			2 => $asmt_base_url .'&view=all_pending&trainer=0',
 		]; 
 		
 		//first
 		$trainer_sub_menu[ 2 ] = [
 			0 => 'My Assignments',
 			1 => 'edit_assignments',
-			2 => 'edit.php?post_type=assignment&view=all_my_pending&trainer='.$trainer_id,
+			2 => $asmt_base_url .'&view=all_my_pending&trainer='.$trainer_id,
 		]; 
 		
-		//note refenced sub_array. 
+		//note referenced sub_array. 
 		$asmts_arr = &$submenu[ $asmt_base_url ];
 		
 		foreach( $trainer_sub_menu as $tsm )
 			array_unshift( $asmts_arr, $tsm ); 
 		
+		//unset 'Add New' assignment link for trainers. 
+		unset( $asmts_arr[ 4 ] );
 		
 		//unset menues for trainers
 		
@@ -133,6 +143,8 @@ function build_admin_menus(){
 		unset( $menu[ 25 ] ); //comments
 		
 	}
+
+	//print_pre( $submenu, 'The Admin Sub Menu After filtering, on line'.__LINE__.' in file '.__FILE__ );
 }
  
  

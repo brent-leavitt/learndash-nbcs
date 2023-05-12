@@ -214,7 +214,7 @@ function edit_assignments_views( $views )
 	
 	$count_all_my_pending = $my_asmts[ 'submitted' ] + $my_asmts[ 'resubmitted' ];
 	$count_all_my_graded = $my_asmts[ 'incomplete' ] + $my_asmts[ 'completed' ];
-	
+
 	$my_views = [ 'all_my_pending', 'my_submitted', 'my_resubmitted', 'all_my_graded' ]; 
 	
 
@@ -337,7 +337,8 @@ function nb_num_trainer_astms_stati( int $trainer = 0 ){
 			'fields' => 'ids', 
 			'post_type' => 'assignment', 
 			'post_status' => $status, 
-			'author__in' => $students
+			'author__in' => $students, 
+			'numberposts' => -1
 		] );
 			
 		$nums[ $status ] = count( $asmts ); 
