@@ -220,7 +220,11 @@ function edit_assignments_views( $views )
 
 	foreach( $my_views as $view ){
 		
-		$class = ( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'trainer' ] == $trainer ) && ( $_GET[ 'view' ] == $view ) )? 'current' : ''; 
+		$class = ( isset( $_GET[ 'view' ] ) )? 
+			( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'trainer' ] == $trainer ) && ( $_GET[ 'view' ] == $view ) )?
+				 'current' : 
+				 '':
+			''; 
 		
 		$count_name = "count_".$view;
 		$count = $$count_name ?? $my_asmts[ str_replace( 'my_', '', $view) ];
@@ -231,7 +235,11 @@ function edit_assignments_views( $views )
 	//Adding an all pending view. 
 	$all_asmts = nb_num_trainer_astms_stati( 0 );
 	$count_all_pending = $all_asmts[ 'submitted' ] + $all_asmts[ 'resubmitted' ];
-	$class_all_pending = ( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'view' ] == 'all_pending' ) )? 'current' : '';
+	$class_all_pending = ( isset( $_GET[ 'view' ] ) )? 
+		( isset( $_GET[ 'trainer' ] ) && ( $_GET[ 'view' ] == 'all_pending' ) )? 
+			'current' : 
+			'' :
+		'';
 
 	$trainer_views[ 'all_pending' ] = "<a href='edit.php?post_type=assignment&trainer=0&view=all_pending' class='{$class_all_pending}' >All Pending <span class='count'>({$count_all_pending})</span></a>";
 
@@ -352,17 +360,17 @@ function list_assignments_query_args( $query ){
 	
 	if( !is_admin() || !$query->is_main_query() )
 		return; 
-	
-	
 		
 	if( ( strcmp( 'assignment', $query->get( 'post_type' ) ) == 0 )  && ( strcmp( 'edit.php', $pagenow ) == 0 )  ){
-		
 
 		$trainer = $_GET[ 'trainer' ] ?? 0;
 		$view = $_GET[ 'view' ] ?? 'default'; 
 		$student_id = $_GET[ 'student_id' ]?? 0;
 		
-		if( !empty( $trainer ) ){
+		if( !empty( $student_id ) ){
+			$query->set( 'author', $student_id );
+			
+		} else {
 		
 			//$my_views = [ 'all_my_pending', 'my_submitted', 'my_resubmitted', 'all_my_graded' ]; 
 			switch( $view ){
@@ -385,21 +393,44 @@ function list_assignments_query_args( $query ){
 			
 			$students = nb_get_trainers_students( $trainer );  
 			$query->set( 'author__in', $students );
-			$query->set( 'post_status', $status );
+			if( isset( $status ) )
+				$query->set( 'post_status', $status );
 			
-			
-			//print_pre( $query, "The main query" ); 	
-		}elseif( !empty( $student_id ) ){
-			$query->set( 'author', $student_id );
-			
+			//print_pre( $query, "The main query" ); 
+
 		}
-		
-		
-		
 	}
 }
 
 add_action( 'pre_get_posts', 'Doula_Course\App\Func\list_assignments_query_args', 10 ); 
 
- 
+
+/*
+*	filter assignments by trainer
+*	
+*	
+*
+*/
+
+function nb_assignment_trainers_dropdown( $post_type ){
+    global $pagenow;
+
+    if( ( strcmp( 'assignment', $post_type ) == 0 )  && ( strcmp( 'edit.php', $pagenow ) == 0 ) )  {
+        $my_args = array(
+            'show_option_all'   => 'All Trainers',
+            'orderby'           => 'display_name',
+            'order'             => 'ASC',
+            'name'              => 'trainer',
+            'role'              => 'trainer',
+            'include_selected'  => true
+        );
+
+        if( isset( $_GET[ 'trainer' ] ) )
+            $my_args[ 'selected' ] = (int) sanitize_text_field( $_GET[ 'trainer' ] );
+        
+        wp_dropdown_users( $my_args );
+    }
+}
+add_action( 'restrict_manage_posts', 'Doula_Course\App\Func\nb_assignment_trainers_dropdown' ); 
+
 ?>
