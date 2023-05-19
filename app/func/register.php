@@ -201,15 +201,11 @@ add_action( 'rcp_after_password_registration_field', 'Doula_Course\App\Func\nb_r
 
 function nb_profile_extra_user_fields() {
 	
-	echo "	</fieldset>
-			<fieldset>
-				<legend>Update Contact Information</legend>";
-	
 	$sets = [
 		[
 			'name' => 'address',
 			'title' => 'Address',
-			'detail' => 'Current physical address'
+			'detail' => 'Current physical address; used for connecting with other students and potential clients  .'
 		],
 		[
 			'name' => 'address2',
@@ -239,7 +235,7 @@ function nb_profile_extra_user_fields() {
 		[
 			'name' => 'phone',
 			'title' => 'Phone Number',
-			'detail' => 'Text, voice, or cell numbers are okay'
+			'detail' => 'Should we need to contact you by phone, please provide a current, working number. Text, voice, or cell numbers are okay.'
 		]
 	];
 	

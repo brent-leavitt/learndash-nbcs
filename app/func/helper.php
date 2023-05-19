@@ -274,10 +274,6 @@ function nb_get_current_user_roles()
 }
 
 
-
-
-
-
 /**
  * Adds an admin note to the student's admin notes file. 
  * 
@@ -305,7 +301,23 @@ function nb_get_current_user_roles()
 	//append back to the meta key and insert it back into the databse. 
 	return ( update_user_meta( $student_id, 'admin_notes', $admin_notes  ) )? true : false ;
 
-	
-
  }
+
+ 		
+/**
+ * A simple role toggle switch.
+ *
+ * @since     1.0.0
+ * @param     string 	$role	
+ * @return    bool		true if found, false if not
+ */	 
+
+function nb_role_is( $role ): bool
+{
+
+	$user = wp_get_current_user();
+	return in_array( $role, (array) $user->roles ); 
+	
+}
+
 ?>
