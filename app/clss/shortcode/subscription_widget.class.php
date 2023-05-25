@@ -5,14 +5,14 @@ namespace Doula_Course\App\Clss\Shortcode;
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
 /**
- *  Reader Upgrade Widget Shortcodes Class
+ *  Subscription Overview Widget Shortcodes Class
  *
  * 	
  *
  * 
  */
 
-class Reader_Upgrade{
+class Subscription_Widget{
 	
 
 	/**
@@ -26,19 +26,13 @@ class Reader_Upgrade{
 	public static function load_callback( $attr, $content = NULL ){
 		
 		ob_start();
-		
-	if( nb_role_is( 'reader' ) )
-	{
-		?>
+		if( !nb_role_is( 'trainer' ) && !nb_role_is( 'administrator' ) )
+		{
+			
+			echo "<h3>Subscription</h3>";
 
-		<h3>Ready to Certify?</h3>
-		<p>Upgrade your subscription to "Student" and start submitting assignments today. 
-			Get access to a personal trainer and community of doula students! </p>
-
-		<p><a href="/register/">Upgrade!</a></p> 
-		<?php
-	}
-	
+			echo "<p>Details of your active or inactive subscription goes here.</p>";
+		}
 		return ob_get_clean();
 				 
 		

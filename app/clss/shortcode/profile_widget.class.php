@@ -5,14 +5,14 @@ namespace Doula_Course\App\Clss\Shortcode;
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
 /**
- *  Reader Upgrade Widget Shortcodes Class
+ *  Profile Widget Shortcodes Class
  *
  * 	
  *
  * 
  */
 
-class Reader_Upgrade{
+class Profile_Widget{
 	
 
 	/**
@@ -27,18 +27,14 @@ class Reader_Upgrade{
 		
 		ob_start();
 		
-	if( nb_role_is( 'reader' ) )
-	{
-		?>
-
-		<h3>Ready to Certify?</h3>
-		<p>Upgrade your subscription to "Student" and start submitting assignments today. 
-			Get access to a personal trainer and community of doula students! </p>
-
-		<p><a href="/register/">Upgrade!</a></p> 
-		<?php
-	}
+		$user_info = wp_get_current_user(); 
 	
+		//Username 
+		echo "<p>{$user_info->display_name}</p>
+		<p>( {$user_info->user_email} )</p>";
+		//Email
+
+				
 		return ob_get_clean();
 				 
 		

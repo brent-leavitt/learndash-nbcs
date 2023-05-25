@@ -5,14 +5,14 @@ namespace Doula_Course\App\Clss\Shortcode;
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
 /**
- *  Reader Upgrade Widget Shortcodes Class
+ *  Progress Sidebar Widget Shortcodes Class
  *
  * 	
  *
  * 
  */
 
-class Reader_Upgrade{
+class Progress_Widget{
 	
 
 	/**
@@ -27,18 +27,11 @@ class Reader_Upgrade{
 		
 		ob_start();
 		
-	if( nb_role_is( 'reader' ) )
-	{
-		?>
+		echo "<h3>Program Progress</h3>";
 
-		<h3>Ready to Certify?</h3>
-		<p>Upgrade your subscription to "Student" and start submitting assignments today. 
-			Get access to a personal trainer and community of doula students! </p>
-
-		<p><a href="/register/">Upgrade!</a></p> 
-		<?php
-	}
-	
+		echo "<p>Contents of progress will be displayed here depending upon whether any course progress has been made yet.</p> <p>Only display programs where progress has been made if any.</p>";
+		
+		
 		return ob_get_clean();
 				 
 		

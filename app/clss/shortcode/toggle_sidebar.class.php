@@ -5,14 +5,14 @@ namespace Doula_Course\App\Clss\Shortcode;
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
 /**
- *  Reader Upgrade Widget Shortcodes Class
+ *  Logged In or Out Widget Shortcodes Class
  *
  * 	
  *
  * 
  */
 
-class Reader_Upgrade{
+class Toggle_Sidebar{
 	
 
 	/**
@@ -27,18 +27,21 @@ class Reader_Upgrade{
 		
 		ob_start();
 		
-	if( nb_role_is( 'reader' ) )
-	{
-		?>
+		$logged_in = is_user_logged_in(); 
+		
+		if( !$logged_in )//Not Logged In
+		{
+			echo "<p>User is not logged in.</p>"; 
+		}
+		else //Is Logged In
+		{
+			echo Trainer_Assignments::load_callback( [] ); 
+			echo Reader_Upgrade::load_callback( [] );  
+			
+			echo "<p>User is logged in!</p>";
 
-		<h3>Ready to Certify?</h3>
-		<p>Upgrade your subscription to "Student" and start submitting assignments today. 
-			Get access to a personal trainer and community of doula students! </p>
-
-		<p><a href="/register/">Upgrade!</a></p> 
-		<?php
-	}
-	
+		}
+		
 		return ob_get_clean();
 				 
 		
