@@ -34,6 +34,7 @@ function build_shortcodes( ){
 		'profile_widget', 			// Profile Summary for the Sidebar Widget
 		'toggle_sidebar', 			// A master shortcode that allows for us to programmatically switch what gets shown based on logged in status.
 		'page_menu', 				// Adds an in page menu for jumping to various parts of the page. 
+		'students_only', 			// Adds Students-only features such as New Student Orientation, Support, and coaching links. 
 		'message', 			//
 	/* 	'payment',  		//
 		'progress_report',	//

@@ -28,15 +28,34 @@ class Certificates_Overview{
 		ob_start();
 		
 		//get available certificates for user. 
+		if( nb_role_is( 'alumnus' ) )
+		{
+			echo "";
+			echo"
+				<div id='nb_certificates_overview_wrap' class='nb_account_section_wrap'>
+				<h3 id='certificates'>Certificates Granted</h3>
+					<div class='nb_account_section'>";
+						/* <div class='nb_flex_item'>
+							
+							
 
-		echo "<p>An overview of the certificates available goes here.</p>"; 
-		//If not avaialble, post a preview or promo code here. 
-		print_pre( $attr, "Attributes of the Shortcode"  );
-		print_pre( $content, "There is no CONTENT" );
-		print_pre( $handler, "The name of the shortcode handler" );
+						</div>
+						<div class='nb_flex_item'>
 
+						
+						</div> */
+				echo "<p class='nb_account_notice'>
+						If you are seeing this section, our records indicate that you have completed a certifiation program in the past, and that you have been granted alumnus status. 
+						We have not yet fully automated the certificate review and renewal process. Click on the 'Review/Renew Certificates' link for more information about renewals.
+					</p>"; 
+				echo "</div><!-- end nb_account_section -->
+					<div class='edit-link' >
+						<p class='has-text-align-right'><a href='/account/certificates/'>Review/Renew Certificates</a></p>
+					</div>
+				</div><!-- end nb_account_section_wrap -->
+			";
 		
-		
+		}
 		return ob_get_clean();
 				 
 		
