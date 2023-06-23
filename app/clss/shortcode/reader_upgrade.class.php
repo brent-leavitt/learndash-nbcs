@@ -12,39 +12,25 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  * 
  */
 
-class Reader_Upgrade{
-	
+ class Reader_Upgrade {
 
-	/**
-	 *  
-	 *
-	 * Pay attention to the static callback. 
-	 *
-	 *
-	 */
-	 
-	public static function load_callback( $attr, $content = NULL ){
-		
-		ob_start();
-		
-	if( nb_role_is( 'reader' ) )
-	{
-		?>
+    public static function load_callback($atts) {
 
-		<h3>Ready to Certify?</h3>
-		<p>Upgrade your subscription to "Student" and start submitting assignments today. 
-			Get access to a personal trainer and community of doula students! </p>
+        // Check if the current user has the "reader" role
+        if( nb_role_is( 'reader' ) ){
 
-		<p><a href="/register/">Upgrade!</a></p> 
-		<?php
-	}
-	
-		return ob_get_clean();
-				 
-		
-		//return "This is the Payment class method: load_callback! <br>";
-	}	
-	
+            // Prepare the promotional box HTML
+            $output = '<div class="upgrade-promo">';
+            $output .= '<h3>Upgrade to Student Doula</h3>';
+            $output .= '<p>Unlock the full potential of your doula journey. Become a student doula and gain full access to training, a personal trainer, and community support.</p>';
+            $output .= '<a href="/register/upgrade/" class="cta-button">Upgrade Now</a>';
+            $output .= '</div>';
 
+            return $output;
+        }
+
+        return ''; // Return empty string if the user doesn't have the "reader" role
+    }
 }
+
 ?>

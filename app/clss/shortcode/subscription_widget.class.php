@@ -13,32 +13,46 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
  */
 
 class Subscription_Widget{
-	
-
-	/**
-	 *  
-	 *
-	 * Pay attention to the static callback. 
-	 *
-	 *
-	 */
 	 
-	public static function load_callback( $attr, $content = NULL ){
-		
-		ob_start();
-		if( !nb_role_is( 'trainer' ) && !nb_role_is( 'administrator' ) )
-		{
-			
-			echo "<h3>Subscription</h3>";
-
-			echo "<p>Details of your active or inactive subscription goes here.</p>";
-		}
-		return ob_get_clean();
-				 
-		
-		//return "This is the Payment class method: load_callback! <br>";
-	}	
+	 public static function load_callback($atts) {
+        // Check if the user is logged in
+        if (!is_user_logged_in() || ) 
+            return ''; // Return empty if user is not logged in
+    
 	
+		if( nb_role_is( 'trainer' ) || nb_role_is( 'administrator' ) )
+			return ''; // Return empty if user is trainer or admin. 
+
+
+		
+		 // Get the current user's memberships
+        $user_id = get_current_user_id();
+        $memberships = rcp_get_customer_memberships($user_id);
+
+        if (!$memberships) {
+            return ''; // Return empty if no active memberships found
+        }
+
+        // Prepare the subscription widget HTML
+        $output = '<div class="subscription-widget">';
+        $output .= '<h3>Active Memberships</h3>';
+
+        foreach ($memberships as $membership) {
+            $subscription_name = $membership->get_subscription_name();
+            $auto_renewal = $membership->is_recurring();
+
+            $output .= '<div class="membership">';
+            $output .= '<p class="membership-name">' . $subscription_name . '</p>';
+            $output .= '<p class="auto-renewal">' . ($auto_renewal ? 'Auto Renewal: Enabled' : 'Auto Renewal: Disabled') . '</p>';
+            $output .= '<p class="cta-link"><a href="/account/billing/modify/">Edit</a></p>';
+            $output .= '</div>';
+        }
+
+        $output .= '</div>';
+
+        return $output;
+	}	
 
 }
+
 ?>

@@ -22,20 +22,17 @@ function build_shortcodes( ){
 	//	ex: payment = nbcs_payment
 
 	$shortcodes = [ 
-		'profile_overview', 		// User Profile Overview on the Accounts Overview Page
-		'certificates_overview', 	// Certificates Overview on the Accounts Overview Page
-		'subscription_summary', 	// Subscription Summary on the Accounts Overview Page
-		'billing_summary', 			// Billing Summary on the Accounts Overview Page
-		'trainer_assignments', 		// For Trainers, an overview of assignments for the Sidebar Widget
 		'alumnus_certificates', 	// For Alumnus, Certificates earned for the Sidebar Widget
+		'billing_summary', 			// Billing Summary on the Accounts Overview Page
+		'message', 					//
+		'page_menu', 				// Adds an in page menu for jumping to various parts of the page. 
+		'profile_widget', 			// Profile Summary for the Sidebar Widget
+		'profile_overview', 		// User Profile Overview on the Accounts Overview Page
 		'progress_widget', 			// For Students, Progress Report Summary for the Sidebar Widget
 		'reader_upgrade', 			// For Readers, an upgrade to Student notice for the Sidebar Widget
-		'subscription_widget', 		// Subscription Summary for the Sidebar Widget
-		'profile_widget', 			// Profile Summary for the Sidebar Widget
-		'toggle_sidebar', 			// A master shortcode that allows for us to programmatically switch what gets shown based on logged in status.
-		'page_menu', 				// Adds an in page menu for jumping to various parts of the page. 
 		'students_only', 			// Adds Students-only features such as New Student Orientation, Support, and coaching links. 
-		'message', 			//
+		'subscription_summary', 	// Subscription Summary on the Accounts Overview Page
+		'subscription_widget', 		// Subscription Summary for the Sidebar Widget
 	/* 	'payment',  		//
 		'progress_report',	//
 		'register', 		//
