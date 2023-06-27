@@ -44,7 +44,7 @@ class Billing_Summary{
 
 	   // Close the HTML output
 	   echo '</ul>';
-	   echo '<a href="/account/billing_overview/">View More</a>';
+	   echo '<a href="/account/billing_overview/">Go to Billing &rarr;</a>';
 	   echo '</div>';
 
 
@@ -57,7 +57,8 @@ class Billing_Summary{
         $user_id = get_current_user_id();
     
         // Retrieve the last three payments for the user using RCP_Payments::get_payments()
-        $payments = RCP_Payments::get_payments( array(
+        $rcp_payments = new \RCP_Payments(); 
+        $payments= $rcp_payments->get_payments( array(
             'number'  => 3,
             'order'   => 'DESC',
             'orderby' => 'date',
@@ -69,6 +70,7 @@ class Billing_Summary{
     
         // Loop through the payments and retrieve transaction details
         foreach ( $payments as $payment ) {
+            //print_pre( $payment, "Available Payment info:" ); 
             $transaction = array(
                 'link'   => 'code to generate link is pending', //get_permalink( $payment->membership_id ),
                 'date'   => date( 'F j, Y', strtotime( $payment->date ) ),
