@@ -30,9 +30,10 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
                 $inprogress_courses = array();
 
                 foreach( $enrolled_courses as $course ){
-                    $course_id = $course->ID;
-                    $course_progress = learndash_course_progress(array('user_id' => $user_id, 'course_id' => $course_id));
-                    $progress_percentage = $course_progress['completed'];
+                    //$course_id = $course;
+                    $course_progress = learndash_course_progress(array('user_id' => $user_id, 'course_id' => $course));
+                    print_pre( $course_progress, 'Course Progress' ); 
+                    $progress_percentage = 0; //$course_progress['completed'];
 
                     if ($progress_percentage == 100) {
                         $completed_courses[] = $course;
@@ -43,7 +44,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 
                 // Sort the in-progress courses by course ID
                 usort($inprogress_courses, function($a, $b) {
-                    return $a['course']->ID - $b['course']->ID;
+                    return $a['course'] - $b['course'];
                 });
 
                 // Generate the HTML for in-progress courses
@@ -53,7 +54,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
                     foreach ($inprogress_courses as $course_data) {
                         $course = $course_data['course'];
                         $progress_percentage = $course_data['progress'];
-                        $course_title = get_the_title($course->ID);
+                        $course_title = get_the_title( $course );
 
                         $output .= '<li>';
                         $output .= '<span class="course-title">' . $course_title . '</span>';
@@ -71,7 +72,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
                     $output .= '<ul class="completed-courses">';
 
                     foreach ($completed_courses as $course) {
-                        $course_title = get_the_title($course->ID);
+                        $course_title = get_the_title( $course );
                         $output .= '<li class="completed">' . $course_title . ' (Completed)</li>';
                     }
 

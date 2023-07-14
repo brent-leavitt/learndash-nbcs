@@ -44,7 +44,7 @@ class Billing_Summary{
 
 	   // Close the HTML output
 	   echo '</ul>';
-	   echo '<a href="/account/billing_overview/">Go to Billing &rarr;</a>';
+	   echo '<a href="/account/billing/">Go to Billing &rarr;</a>';
 	   echo '</div>';
 
 
