@@ -30,8 +30,8 @@ class Profile_Widget{
 		$user_info = wp_get_current_user(); 
 	
 		//Username 
-		echo "<p>{$user_info->display_name}</p>
-		<p>( {$user_info->user_email} )</p>";
+		echo "<h3>Welcome,</h3>
+			<p class='profile-widget'><a href='/account/' title='Go to your profile page.'><span>$user_info->display_name</span><br>($user_info->user_email)</a></p>";
 		//Email
 
 				

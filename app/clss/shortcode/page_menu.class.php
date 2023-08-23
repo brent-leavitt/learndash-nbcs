@@ -27,7 +27,7 @@ class Page_Menu{
 		
 		ob_start();
 		
-		echo "<ul id='in-page-menu' class='row cat-list'>"; 
+		echo "<ul id='in-page-menu' class='cat-list'>"; 
 		
 		$i = 1;
 		foreach( $attr as $id => $name )

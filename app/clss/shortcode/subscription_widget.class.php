@@ -34,16 +34,16 @@ class Subscription_Widget{
 
         // Prepare the subscription widget HTML
         $output = '<div class="subscription-widget">';
-        $output .= '<h3>Active Memberships</h3>';
+        $output .= '<h3>Subscription</h3>';
 
         foreach ($memberships as $membership) {
-            $subscription_name = $membership->get_membership_level_name();
-            $auto_renewal = $membership->is_recurring();
-
+            $sub_status = $membership->is_active()? 'Active' : 'Inactive';
+           
             $output .= '<div class="membership">';
-            $output .= '<p class="membership-name">' . $subscription_name . '</p>';
-            $output .= '<p class="auto-renewal">Auto Renewal: ' . ($auto_renewal ? 'Enabled' : 'Disabled') . '</p>';
-            $output .= '<p class="cta-link"><a href="/account/billing/modify/">Edit</a></p>';
+            $output .= '<p class="membership-name">' . $membership->get_membership_level_name() . '</p>';
+            $output .= '<p class="account-status">Status: <span class="'. strtolower( $sub_status ) .'">' . ( $sub_status ) .'</span></p>';
+            $output .= '<p class="auto-renewal">Auto Renewal: ' . ($membership->is_recurring() ? 'Yes' : 'No') . '</p>';
+            $output .= '<p class="cta-link"><a href="/account/billing/">Edit</a></p>';
             $output .= '</div>';
         }
 

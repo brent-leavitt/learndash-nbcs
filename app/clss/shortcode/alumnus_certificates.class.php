@@ -34,7 +34,7 @@ class Alumnus_Certificates{
 			$user_id = get_current_user_id();
 
 			// Query all certificates associated with the user
-			$certificates_query = new WP_Query( array(
+			$certificates_query = new \WP_Query( array(
 				'post_type'      => 'certificates',
 				'posts_per_page' => -1,
 				'author'         => $user_id,

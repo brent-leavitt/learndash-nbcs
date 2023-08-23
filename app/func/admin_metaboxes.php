@@ -427,7 +427,7 @@ function save_asmt_meta_box_data( $post_id ) {
 		
 		$update = true; 
 	}
-		
+
 	//Check and update post status
 	$p_status = $post->post_status;
 	$new_p_status = $_POST['asmt_post_status'];
@@ -453,13 +453,29 @@ function save_asmt_meta_box_data( $post_id ) {
 		$update_student_meta = false; 
 		$grades = new Grades();
 		$grades->build( $post->post_author ); 
+
+		//If assignment doesn't exist, add it. 
+		// if( ! $grades->assignment_exists( $post_id ) ){
+		// 	$args = [
+		// 		'post_parent' => $post->post_parent,
+		// 		'post_status' => $new_p_status,
+		// 		'post_meta' => [ 'instr_status'=> $new_instr_status ]
+		// 	];
+
+		// 	$grades->add_grade( $args,  $post_id ); 	
+
+		// }
+		
+		//If the grade already exists (which it should at this point), set the grade variable. 
 		$grade = $grades->get_grade_by_id( $post->post_parent); 		
 		
+		//If we are successful at updating the student meta, then let's update the student's complete file. 
 		if( $grade->update_student_meta() )	
 			$update_student_meta = $grades->update_student(); 
-		
+	
 		//I don't know that this works. 
 		if( !$update_student_meta ){
+
 			$subject = 'Failed to update the student_grade metadata.';
 			$message = "This message originated from ".__METHOD__.", ".__FILE__.": Line ".__LINE__.". \r\n The asmt key is: 'asmt_key' => {$post->post_parent}, 'asmt_status' => $new_p_status \r\n The Student Grades Metadata failed to update. Please investigate the issue.";
 			

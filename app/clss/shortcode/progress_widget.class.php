@@ -31,8 +31,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 
                 foreach( $enrolled_courses as $course ){
                     //$course_id = $course;
-                    $course_progress = learndash_course_progress(array('user_id' => $user_id, 'course_id' => $course));
-                    print_pre( $course_progress, 'Course Progress' ); 
+                    
                     $progress_percentage = 0; //$course_progress['completed'];
 
                     if ($progress_percentage == 100) {
@@ -49,22 +48,24 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
 
                 // Generate the HTML for in-progress courses
                 if( !empty( $inprogress_courses ) ){
-                    $output .= '<ul>';
+                   /*  $output .= '<ul>'; */
 
                     foreach ($inprogress_courses as $course_data) {
                         $course = $course_data['course'];
                         $progress_percentage = $course_data['progress'];
-                        $course_title = get_the_title( $course );
-
-                        $output .= '<li>';
+                        $output .= '<p class="course_title">'. get_the_title( $course ) .'</p>';
+                        
+                        $output .= learndash_course_progress(array('user_id' => $user_id, 'course_id' => $course));
+                     
+                       /*  $output .= '<li>';
                         $output .= '<span class="course-title">' . $course_title . '</span>';
                         $output .= '<div class="progress-bar">';
                         $output .= '<div class="progress" style="width: ' . $progress_percentage . '%;"></div>';
                         $output .= '</div>';
-                        $output .= '</li>';
+                        $output .= '</li>'; */
                     }
 
-                    $output .= '</ul>';
+                    /* $output .= '</ul>'; */
                 }
 
                 // Generate the HTML for completed courses
@@ -77,7 +78,12 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
                     }
 
                     $output .= '</ul>';
+                    
                 }
+
+                //Link to progress report 
+                $output .= '<p><a href="/progress-report/">View Progress Report</a></p>'; 
+
             } else {
 
                 $output .= '<p>No enrolled courses found.</p>';

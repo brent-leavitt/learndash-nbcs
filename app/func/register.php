@@ -364,6 +364,6 @@ function nb_reg_get_meta_name( $name ){
 	
 }
 
-
-
+//Allows for grandfathering of current registation levels. 
+add_filter( 'rcp_can_renew_deactivated_membership_levels', '__return_true' );
 ?>

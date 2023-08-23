@@ -377,7 +377,7 @@ if( !class_exists( 'Grades' ) ){
 		public function assignment_exists( $id )
 		{
 			$grade = $this->grades[ $id ]; 			
-			return ( $grade->get_material_id() ) ?: false ;
+			return ( $grade )? $grade->get_material_id() : false ;
 			
 		}			
 		
