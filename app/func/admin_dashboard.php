@@ -109,7 +109,7 @@ function assignment_admin_widget() {
 
 function message_admin_widget() {
 	global $wpdb; 
-	$admin_url = admin_url('/admin-post.php?action=message_dismiss&message_id=');
+/* 	$admin_url = admin_url('/admin-post.php?action=message_dismiss&message_id=');
 	$msgs_url = admin_url( 'admin.php?page=admin_messages' );
 	$rcnt_msgs = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM nb_messages WHERE message_recipient=1 AND message_active = 'y' LIMIT 10" );
 	$actv_msg_count = $wpdb->get_var( "SELECT FOUND_ROWS()" );
@@ -124,7 +124,7 @@ function message_admin_widget() {
 	echo "</ul>
 	<h3>Total Active Messages: {$actv_msg_count}</h3>
 	<hr>
-	<p><a href='$msgs_url'>View All Messages &rarr; </a></p>";
+	<p><a href='$msgs_url'>View All Messages &rarr; </a></p>"; */
 }
 
 
@@ -139,11 +139,11 @@ function message_admin_widget() {
 
 function billing_admin_widget() {
 
-	// Display whatever it is you want to show.
+/* 	// Display whatever it is you want to show.
 	echo "<h3>Accounts Requiring Action</h3>";
 	echo "<p>Holding queue.</p>";
 	echo "<h3>Recent Billing Activities</h3>";
-	echo "<p>Holding bay</p>";
+	echo "<p>Holding bay</p>"; */
 }
 
 

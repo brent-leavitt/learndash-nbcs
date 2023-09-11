@@ -165,6 +165,11 @@ class Edit_Student_Processor implements Processor
 			}	
 		}
 
+		//In no trainer is set fire the new student email trigger. 
+		if( empty( $old_trainer ) && !empty( $new_trainer ) )
+			do_action( 'nb_trainer_new_student', $this->uid,  $new_trainer );
+
+		//If a trainer is being switched, firt the switch trigger. 
 		if( !empty( $old_trainer ) &&  !empty( $new_trainer )  )
 			do_action( 'nb_trainer_reassignment', $this->uid, $old_trainer, $new_trainer, $this->user );
 		

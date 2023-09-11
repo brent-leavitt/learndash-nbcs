@@ -295,7 +295,23 @@ function nb_get_current_user_roles()
 
 	//Get the admin notes meta key for the student. 
 	$results = get_user_meta( $student_id, 'admin_notes', true );
-	$admin_notes = ( !empty( $results ) )? $results : []; 
+
+	$admin_notes = array(); 
+
+	//converting old data into an array. 
+	if( !empty( $results ) && !is_array( $results ) ){
+		$admin_notes = [[
+			'uid'	=> '(old admin notes)',
+			'date' 	=> '(n/a)',
+			'note'	=> $results
+		]]; 
+	}
+
+	//Otherise just adding Results if in an array format; 
+	if( is_array( $results ))
+		$admin_notes = $results;
+
+	//Finally, add the new info onto the end of the array. 
 	$admin_notes[] = $insert_arr;
 	
 	//append back to the meta key and insert it back into the databse. 

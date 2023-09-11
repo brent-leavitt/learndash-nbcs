@@ -113,7 +113,7 @@ add_filter( 'rcp_registration_email_label', 'Doula_Course\App\Func\nb_reg_email_
 
 function nb_reg_firstname_label( $title ){
 
-	$detail = 'Your first given name that you are formally recognized as; this will be printed on your certificate.';
+	$detail = 'Your first given name that you are formally recognized as; this will be printed on your certificate if registering for certification.';
 	return nb_add_detail_to_title_label( $title, $detail );  
 }
 

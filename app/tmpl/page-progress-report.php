@@ -18,6 +18,7 @@ if( class_exists( 'Doula_Course\App\Clss\Grades\Grades' ) ){
 	$grades->build( $student_id );
 	$asmts = $grades->get_map()->get_assignments_map();
 	$my_grades = $grades->get_grades();
+	
 }
 //END SETUP 	
 

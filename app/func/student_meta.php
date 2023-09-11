@@ -105,17 +105,17 @@ add_action( 'learndash_update_course_access', 'Doula_Course\App\Func\update_stud
 
 function assign_student_trainer( $membership_id, $data ){
 	
-	//Check if membership is training subscription, assumed to be ID: 1. 
-	if( ( strcmp( $data->get_object_type(), 'membership' ) !== 0 ) || ( $data->get_object_id() != 1 ) ) return;
-	
+	//Check if membership object. 
+	if( strcmp( $data->get_object_type(), 'membership' ) !== 0 ) return;
+
 	$student_id = $data->get_user_id();
 
-	//If the user is not a student, then we need to not assign them a trainer. 
+	//If the user is not a student, then we do need to not assign them a trainer. 
 	$user = get_user_by( 'id', $student_id ); 
 	if( !in_array( 'student', (array) $user->roles ) ) return; 
 
-
 	$trainers = nb_get_trainers();
+	
 	$last_trainer_id = get_option( 'last_trainer_assigned' );
 	$trainer_ids = array_keys( $trainers ); 
 	$next = array_search( $last_trainer_id ,$trainer_ids ) + 1;

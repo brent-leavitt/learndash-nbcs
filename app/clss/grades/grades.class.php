@@ -102,7 +102,6 @@ if( !class_exists( 'Grades' ) ){
 			
 			//load assignments object properties. 
 			$this->assignments_map->build();
-
 		}
 			
 

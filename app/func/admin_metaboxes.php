@@ -176,7 +176,7 @@ function asmt_rubric_callback( $post ){
 	$assessment_id = $post->post_parent;
 	$rubric = get_post_meta( $assessment_id, 'assessment_rubric', true );
 
-	echo "$rubric <hr><p><a href='/wp-admin/post.php?post={$assessment_id}&action=edit#assessment-rubric-div' target='_blank'>Edit rubric</a></p>";
+	echo "{$rubric} <hr><p><a href='/wp-admin/post.php?post={$assessment_id}&action=edit#assessment-rubric-div' target='_blank'>Edit rubric</a></p>";
 
 }
 
@@ -270,7 +270,7 @@ function asmt_student_callback( $post ){
 	 
 	echo "<strong>Display Name:</strong> {$student->display_name}<br>
 		  <strong>Full Name:</strong> {$student->first_name} {$student->last_name}<br>
-		  <strong>Location:</strong> {$student->student_city} {$student->student_state}<br><br>
+		  <strong>Location:</strong> {$student->student_city}, {$student->student_state}, {$student->student_country}<br><br>
 		  
 		  <strong>Account Status:</strong> <strong><span style='color:";
 		  echo ( $active )? "green'>".__( 'ACTIVE', NBCS_TD ) : "red'>".__( 'INACTIVE', NBCS_TD );
