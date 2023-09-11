@@ -119,22 +119,22 @@ if( !class_exists( 'Grades' ) ){
 		private function set_tracks(  ): VOID
 		{
 			if( $this->student_id > 0 ){
-				$active_tracks = get_user_meta( $this->student_id, 'student_tracks', true );
+				$progress = get_user_meta( $this->student_id, '_sfwd-course_progress', true );
 			
-				if( !empty( $active_tracks ) ){
+				if( !empty( $progress ) ){
 					
 					//Invert the structure of the array to move values to key positions for array_intersect_key filtering. 
-					foreach( $active_tracks as $track )
-						$this->tracks[ $track ] = 0; 
+					foreach( $progress as $course_id => $course )
+						$this->tracks[ $course_id ] = 0; 
 						
 					//Find and filter out inactive tracks: 
 					$ld_tracks = []; 
-					$ld_progress = get_user_meta( $this->student_id, '_sfwd-course_progress', true ); 
+					$ld_programs = get_option( 'nbcs_assignments_map' ); 
 					
 					//List all course with student course progress. 
-					if( !empty( $ld_progress ) ){
-						foreach( $ld_progress as $course_id => $course_arr )
-							$ld_tracks[ $course_id ] = 0;
+					if( !empty( $ld_programs ) ){
+						foreach( $ld_programs as $program_id => $asmt_map )
+							$ld_tracks[ $program_id ] = 0;
 					}
 					
 

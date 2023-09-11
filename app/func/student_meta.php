@@ -28,7 +28,7 @@ function get_student_meta(){
  
  
 /**
- *	update_student_course_access 
+ *	update_student_course_access -- OBSOLETE 
  *
  *	do_action: 'learndash_update_course_access' in plugins\sfwd-lms\includes\course\ld-course-user-functions.php
  *	
@@ -39,7 +39,7 @@ function get_student_meta(){
  *	
  * 	return 
  */
-
+/* 
 function update_student_course_access( $user_id, $course_id, $no_use_list, $remove ){
 	
 	$updated = []; 
@@ -60,7 +60,7 @@ function update_student_course_access( $user_id, $course_id, $no_use_list, $remo
 	
 
 add_action( 'learndash_update_course_access', 'Doula_Course\App\Func\update_student_course_access', 10 , 4 );  
-
+ */
 
 
 
