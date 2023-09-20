@@ -147,11 +147,59 @@ function remove_caps( ){
 	
 }
 
-
 add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_roles' );
 //add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_caps' );
 add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_roles' );
 //add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_caps' );
+
+
+
+
+/*
+*  Sets the default role to inactive when all roles are removed by Restrict Content Pro
+*
+*/
+
+function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membership_id ) {
+    // Get the membership
+	$membership = rcp_get_membership( $membership_id );
+	rcp_log( "Running the 'nb_set_inactive_when_role_not_set' function from the 'rcp_membership_post_disable' action hook." );
+
+   	//print_pre( $membership_obj, 'The Membership object'); 
+	
+	// Get the user
+    $user = new WP_User($membership->get_user_id());
+	rcp_log( sprintf( 'Setting role to inactive for user #%d', $user->ID )); 
+	
+    // Check if the user has no roles
+    if( empty( $user->roles ) ){
+		rcp_log( "User's roles are empty! Proceeding to update." ); 
+		
+		// Add the 'Inactive' role
+        $result = $user->add_role( 'inactive' );  // replace 'Inactive' with the role you want to assign
+		rcp_log( sprintf( 'The result of Add User Role: %s', $result ) ); 
+
+    } else {
+		rcp_log( "The user's role was not empty, so it was not updated." );
+
+	}
+}
+
+/**
+ * Action "rcp_transition_membership_status" will run.
+ *
+ * @see   \RCP\Database\Query::transition_item()
+ *
+ * @param string $old_status    Old membership status.
+ * @param string $new_status    New membership status.
+ * @param int    $membership_id ID of the membership.
+ *
+ * @since 3.0
+ */
+
+add_action( 'rcp_transition_membership_status', 'nb_set_inactive_when_role_not_set', 20, 3 );
+
+
 
 
 ?>

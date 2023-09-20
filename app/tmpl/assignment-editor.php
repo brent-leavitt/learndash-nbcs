@@ -223,7 +223,9 @@ else:
 		
 		?>
 		<hr>
-		<p>An assignment should first be created before you can include attachments. Begin working on your assignment and click "Save Draft", or click below to add attachments without a written assignment.</p> 
+		<p>Before adding attachments, please remember to click the 'Save Draft' button. The 'Attachments' box will automatically become available after you have saved your assignment.</p>
+
+		<p>Alternatively, if you'd like to include attachments without a written assignment, you can click the button below. <b>Please be aware that using the 'Add Attachments Only' option will remove any unsaved text in the Assignment Editor.</b></p> 
 		
 			<input type="hidden" name="attachment_only" value="[No written assignment; see attachments]" />				
 			<input type="submit" id="save_attachment_only" name="save_attachment_only" value="Add Attachments Only" />
