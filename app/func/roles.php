@@ -168,7 +168,7 @@ function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membershi
    	//print_pre( $membership_obj, 'The Membership object'); 
 	
 	// Get the user
-    $user = new WP_User($membership->get_user_id());
+    $user = new \WP_User($membership->get_user_id());
 	rcp_log( sprintf( 'Setting role to inactive for user #%d', $user->ID )); 
 	
     // Check if the user has no roles
@@ -176,8 +176,7 @@ function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membershi
 		rcp_log( "User's roles are empty! Proceeding to update." ); 
 		
 		// Add the 'Inactive' role
-        $result = $user->add_role( 'inactive' );  // replace 'Inactive' with the role you want to assign
-		rcp_log( sprintf( 'The result of Add User Role: %s', $result ) ); 
+       	$user->add_role( 'inactive' );  // replace 'Inactive' with the role you want to assign
 
     } else {
 		rcp_log( "The user's role was not empty, so it was not updated." );
@@ -197,9 +196,6 @@ function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membershi
  * @since 3.0
  */
 
-add_action( 'rcp_transition_membership_status', 'nb_set_inactive_when_role_not_set', 20, 3 );
-
-
-
+add_action( 'rcp_transition_membership_status', 'Doula_Course\App\Func\nb_set_inactive_when_role_not_set', 20, 3 );
 
 ?>
