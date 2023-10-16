@@ -163,10 +163,7 @@ add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_roles' );
 function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membership_id ) {
     // Get the membership
 	$membership = rcp_get_membership( $membership_id );
-	rcp_log( "Running the 'nb_set_inactive_when_role_not_set' function from the 'rcp_membership_post_disable' action hook." );
 
-   	//print_pre( $membership_obj, 'The Membership object'); 
-	
 	// Get the user
     $user = new \WP_User($membership->get_user_id());
 	rcp_log( sprintf( 'Setting role to inactive for user #%d', $user->ID )); 
@@ -197,5 +194,40 @@ function nb_set_inactive_when_role_not_set( $old_status, $new_status, $membershi
  */
 
 add_action( 'rcp_transition_membership_status', 'Doula_Course\App\Func\nb_set_inactive_when_role_not_set', 20, 3 );
+
+
+/*
+*  Sends Office a notice when student role goes from "inactive" to "student" 
+*
+*/
+
+function nb_reactivated_status( $old_status, $new_status, $membership_id ) {
+    // Get the membership
+	$membership = rcp_get_membership( $membership_id );
+
+	// Get the user
+    $user = new \WP_User($membership->get_user_id());
+
+	//check to make sure this is not a new user registration. 
+	if( date( 'Y-m-d', strtotime( $user->user_registered ) ) == date( 'Y-m-d' ) )
+		return; 
+
+	$old_stati = ['expired', 'cancelled', 'pending'];
+	
+	if( in_array( $old_status, $old_stati )  && ( strcmp( $new_status, 'active' ) == 0 ) ){
+		
+		rcp_log( "The users's role has been activated so we need to send them an email." );
+		// The status has changed to 'active', send an email
+        $to = 'office@trainingdoulas.com';
+        $subject = 'Student Account Reactivated';
+        $message = "The subscription for {$user->first_name} {$user->last_name} (id:{$user->ID}) has been REACTIVATED! (Please make any adjustments to other student records as needed.)";
+        wp_mail( $to, $subject, $message );
+
+	}
+
+}
+
+
+add_action( 'rcp_transition_membership_status', 'Doula_Course\App\Func\nb_reactivated_status', 20, 3 );
 
 ?>
