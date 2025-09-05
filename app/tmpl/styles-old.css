@@ -1,0 +1,727 @@
+
+/*
+ General
+*/
+
+.learndash-wrapper pre{
+	
+	background: var( --global-palette9); 
+}
+
+hr{
+	border-color: #dedede !important;
+}
+.post-entry hr{
+	border-top: #DAE0D5 solid 1px;
+	
+}
+
+.single-content .learndash-wrapper hr{
+	margin-top: 10px;
+}
+
+.main-navigation .primary-menu-container > ul > li.menu-item > a{
+	color: var(--global-palette7) !important; 
+	
+}
+
+
+.wp-block-buttons .button-secondary a.wp-block-button__link,
+.button-secondary{
+	background-color: var( --wp--preset--color--theme-palette-5 ) !important;
+	border-radius: 3px;
+}
+
+.wp-block-buttons .button-secondary a.wp-block-button__link:hover,
+.button-secondary:hover{
+	background-color: var( --wp--preset--color--theme-palette-1 ) !important;
+	
+}
+
+.widget_block .button-secondary a,
+.widget_block .button-secondary a:hover{
+	color: var( --wp--preset--color--theme-palette-9 ); 
+	text-decoration: none;
+}
+
+ 
+/*
+ Register - Restrict Content Pro
+*/
+
+.wp-site-blocks .rcp_form p label {
+	line-height: 1.2em !important;
+	color: var( --wp--preset--color--theme-palette-7 ) !important;
+	margin: 0 0 10px; 
+}
+
+#rcp_profile_editor_form fieldset legend{
+	color: var( --wp--preset--color--theme-palette-3 );
+	
+}
+
+.rcp_form .rcp_user_fieldset label span{
+	font-weight: normal;
+		
+}
+
+.rcp_form hr{
+	margin: 30px 0 !important; 	
+}
+
+.rcp_form input.rcp-button{
+	background-color: var( --global-palette-btn-bg );	
+}
+
+.rcp_form input.rcp-button:hover,
+.rcp_form input.rcp-button:focus,
+.rcp_form input.rcp-button:active{
+	
+	background-color: var( --global-palette-btn-bg-hover );	
+	
+}
+
+.rcp-table{
+	padding: 30px; 
+}
+
+.rcp-table div > span{
+/* 	display: inline-block; */
+	padding: 5px;
+	
+}
+
+.rcp-table div > span:nth-child(even){
+	
+	background-color: var( --wp--preset--color--theme-palette-8 );
+	
+}
+
+.rcp-table div > span:nth-child(odd){
+	
+	background-color: var( --wp--preset--color--theme-palette-9 );
+	
+}
+
+
+.rcp_form .rcp_user_fieldset > p > label > span{
+	display: block; 
+	font-size: .9em;	
+	max-width: 600px;
+	color: var( --wp--preset--color--theme-palette-2 );
+}
+
+.rcp_form .rcp_user_fieldset > p > input{
+	max-width: 600px;	
+}
+
+.rcp_form input[type="checkbox"]{
+	margin: 2px 8px 0 0 !important;
+}
+
+
+/*
+
+* Course styles
+
+*/
+
+/* Inactive Pages */
+
+span.inactive img{
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+}
+
+
+/*  Course Overview  */
+
+
+/* Course Content */
+
+#readonly_assignment{
+  background: #F0F3F6;
+  border: 1px solid #7d7c81;
+  padding: 17px 10px 60px;
+  margin: 40px 0 0 0; 
+  min-height: 200px;
+  border-radius: 3px;
+  
+}
+
+#readonly_assignment + p{
+	z-index: 10; 
+	background: #7d7c81;
+	color: #fff;
+	margin-top: -60px;
+	padding: 5px 10px;
+	
+}
+
+#primary .learndash-wrapper .ld-topic-status .ld-breadcrumbs, 
+#primary .learndash-wrapper .ld-lesson-status{
+	background-color: var( --wp--preset--color--theme-palette-5 ); 
+}
+
+#fresh-start h4 small{
+	font-weight: normal;
+	font-size: .7em;
+}
+
+.learndash-wrapper .verify_delete #verify_delete_input{
+	max-width: 200px; 
+	margin-bottom: 10px; 
+}
+
+.verify_delete input{
+	margin-right: 10px;
+	
+}
+
+.learndash-wrapper .verify_delete input.error{
+	border-color: red; 
+}
+
+.learndash .delete-attachment:focus,
+.learndash .delete-attachment:hover{
+	background-color: var( --wp--preset--color--theme-palette-1 ) !important;
+	
+}
+
+
+.learndash #reject-delete.button-secondary:hover, 
+.learndash .reject_attach_delete.button-secondary:hover {
+	
+	background-color: var( --wp--preset--color--theme-palette-2 ) !important;
+}
+
+/* 
+input.button-secondary{
+	background-color: gray;
+	
+} */
+
+
+/* Course Sidebar Widget */
+.learndash-wrapper .ld-course-navigation .ld-table-list.ld-topic-list .ld-table-list-item .ld-table-list-item-preview.ld-is-current-item {
+  background: white;
+  margin-left: -8px; 
+  padding-left: 14px;
+}
+
+
+/* Student Editor Tweek */
+
+.wp-editor-tools {
+	clear: both;
+}
+
+.wp-editor-container {
+    border: 1px solid #e5e5e5;
+}
+
+select, input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+}
+
+.meta-info td{
+	background: #f3f3f3;
+	color: var( --wp--preset--color--theme-palette-7 );
+}
+
+.course input[type="submit"]{
+	background: #AC1B5C; 
+	color: #ffffff;
+	border: none;
+    display: inline-block;
+    margin-top: 10px;
+	padding: 10px 16px;
+    transition: background 0.6s ease-out 0s;
+	
+	
+}
+.course input[type="submit"]:hover{
+	background: #B56A83;
+}
+
+.asmt_status_box{
+  background: var( --global-palette8);
+  padding: 10px 20px;
+  margin: 0 0 20px 0;
+  border: 1px solid var( --global-palette1);
+  border-radius: 3px;
+}
+
+.asmt_status_box h4{
+	border-bottom: 1px solid var( --global-palette5 );
+	padding: 3px 5px;
+	margin: 0 -3px 10px;
+}
+
+.asmt_status_box h4 em{
+	color: var( --global-palette2 );
+}
+
+
+.asmt_detail_status{
+	line-height: 1.15;
+}
+
+#wp-edit_assignment-wrap{
+	margin-bottom: 10px;
+	
+}
+
+#attachments .ld-table-list-items > p{
+	margin: 10px 0;
+}
+
+.learndash-wrapper #attachments .ld-item-icon{
+	font-size: 1.2em;
+}
+
+.learndash-wrapper #attachments .ld-item-icon:hover{
+	color: var( --global-palette2 ); 
+}
+
+
+.learndash-wrapper #attachments.ld-table-list .ld-table-list-item-preview{
+	padding: 10px 0;	
+}
+
+#attachments input[ type="submit" ].delete-attachment,
+#attachments input[ type="button" ].reject_attach_delete{
+	font-size: 12px;
+	border-radius: 16px;
+	margin: 0;
+	text-transform: lowercase;
+	
+}
+
+#fresh-start{
+	margin: 0 0 10px 0;
+}
+
+/*
+
+* Assignment Commenting
+
+*/
+
+.learndash .commentlist {
+	background: var( --global-palette9 ) ;
+	padding: 5px 20px 20px;
+	margin-top: 20px;
+}
+
+.learndash .commentlist .comment{
+	margin-top: 10px; 
+	padding: 15px 30px;
+	
+}
+
+.learndash .commentlist .info-right{
+	float: right;
+	font-size: .8em;
+	font-style: italic;
+}
+
+.learndash .commentlist .comment-author{
+	font-style: italic;
+	font-size: .9em;
+}
+
+.learndash .commentlist .comment-meta{
+	float: none;
+	margin-left: 0; 
+}
+
+.learndash .commentlist .comment-body .edit-link::before{
+    content: '';
+    padding-right: 0;
+	
+}
+
+
+.learndash .comment-meta a.comment-edit-link{
+	display: none;
+}
+
+
+
+
+.learndash .commentlist .comment .reply{
+	display: none;
+}
+
+.learndash .commentlist .comment.even{
+	background: var( --global-palette8 ) ;
+}
+
+.learndash .commentlist .comment-body {
+ border-bottom: 0;
+ margin-bottom: 0;
+}
+
+.learndash .commentlist .comment-content{
+	margin: 0; 
+	
+}
+
+.learndash #comment-form-wrapper{
+	margin: 30px;
+	
+}
+
+.learndash .form-submit input.submit{
+	border-radius: 4px; 	
+}
+
+
+/*
+
+* Assignment Footer Complete/Incomplete
+
+*/
+
+.learndash .nb-assignment-status-course-step{
+	text-align: center; 
+	
+}
+
+.learndash .nb-assignment-status-course-step div{
+	line-height: 40px;
+	border: 1px solid var( --global-palette1 );
+	border-radius: 4px;
+	
+}
+
+.learndash .nb-assignment-status-course-step div.nb-assignment-complete{
+	
+	border: 0; 
+	background-color: var( --global-palette2 );
+	color: var( --global-palette9 );
+	
+}
+
+.learndash .nb-assignment-status-course-step div.nb-assignment-complete::after{
+	content: ' ✔';
+	
+}
+
+.learndash .nb-assignment-status-course-step small{
+	display: block; 
+	font-size: .7em !important;
+	line-height: 1em;
+	margin: 7px; 
+}
+
+
+/*
+
+* Student Management Pages
+
+*/
+
+
+.nb-table{
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid var( --wp--preset--color--theme-palette-9 );
+	background: var( --wp--preset--color--theme-palette-9 );
+	margin-bottom: 20px;
+}
+
+.nb-table th, 
+.nb-table td{
+	border: 1px solid var( --wp--preset--color--theme-palette-9 );
+	padding: 5px 10px; 
+}
+
+.nb-table th{
+	padding: 10px ;
+	background-color: #F1CB60;
+}
+	
+.nb-table th h4{
+	color: var( --wp--preset--color--theme-palette-9 );
+}
+
+
+.nb-table.profile-table td .reason{
+	font-size: .8em;
+	
+}
+.nb-table.profile-table td {
+	padding: 20px;
+	line-height: .8em;
+}
+
+.nb-table.profile-table td {
+	border-color: var( --wp--preset--color--theme-palette-7 );
+}
+
+
+.nb-table.profile-table td input{
+	margin: 20px 0 0;
+}
+
+.nb-table.profile-table td input:disabled,
+input[type="text"]:read-only{
+	background-color: #F5F9EF;
+	color: #8F9388;
+}
+
+.entry-content #message{
+	background: #fff none repeat scroll 0 0;
+    height: 32px;
+    line-height: 1.6em;
+    padding: 3px 10px;
+    width: 100%;
+	box-shadow: 0 1px 3px #999;
+	margin-bottom: 20px;	
+}
+
+.entry-content #message.updated{
+	border-left: #009966 solid 5px;
+}
+
+
+
+
+
+
+/*
+
+* Registration form
+
+*/
+
+.feedback {
+    background: #91c2a8 none repeat scroll 0 0;
+    border-radius: 80px;
+    box-shadow: -1px 3px 5px #565656;
+    height: auto;
+    padding: 5px;
+    position: absolute;
+    right: 40px;
+    text-align: center;
+    top: -50px;
+    width: 140px;
+}
+#wrapper .feedback p {
+    border: 1px solid #e8f2ed;
+    border-radius: 75px;
+    color: #ffffff;
+    font-size: 12px;
+	line-height: 1em;
+    margin: 0;
+    padding: 20px;
+}
+#wrapper .feedback p a {
+    color: #e8f2ed;
+}
+#wrapper .feedback p a:hover {
+    color: #fff;
+}
+
+.complete-registration label small,
+.complete-registration p small{
+	color: #7E7F7C;
+	font-weight: normal;
+	font-size: .8em;
+}
+
+.complete-registration label small{
+	display: block;
+}
+
+
+
+/*-- Start In-Page Menus --*/
+
+ul#in-page-menu{
+	border-top: 1px solid #F2F1F5;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	gap: 10px; 
+	margin: 0;
+	padding: 0;
+}
+
+
+
+ul#in-page-menu li.page-menu-item{
+
+	display: flex; 
+	flex: 1 1 0;
+	margin: 0;
+	align-items: stretch;
+
+}
+
+
+
+
+ul#in-page-menu li a{
+	display: flex;
+	flex: 1; 
+	flex-direction: column;
+	color: #ffffff;
+	text-decoration: none;
+	background: #BFBEC0 no-repeat right bottom;
+	font-size: 20px;
+}
+
+ul#in-page-menu li a span{
+  display: flex;
+  
+}
+
+ul#in-page-menu li a span.menu-id{
+	flex: 1 1 1;
+	background: rgba( 255, 255, 255, .2 );
+	padding: 10px;
+	font-size: .8em;
+	
+}
+
+ul#in-page-menu li a span.menu-name{
+	display: flex; 
+	flex: 1 1 1; 
+	padding: 45px 10px 15px 10px;
+	line-height: 1em;
+	font-weight: bold; 
+	font-size: 1.1em;
+}
+
+ul#in-page-menu li a{
+
+	background: #F1CB60 url('img/floral_yellow_2.png') no-repeat right bottom ;
+}
+
+
+ul#in-page-menu li a span.menu-id{
+
+	color: #D0A017;	
+}
+
+ul#in-page-menu li.menu-item-2 a{
+
+	background: #F1CB60 url('img/floral_yellow_1.png') no-repeat right bottom ;
+}
+
+ul#in-page-menu li.menu-item-3 a{
+
+	background: #F1CB60 url('img/floral_yellow_6.png') no-repeat right bottom ;
+}
+
+ul#in-page-menu li.menu-item-4 a{
+
+	background: #F1CB60 url('img/floral_yellow_5.png') no-repeat right bottom ;
+}
+
+ul#in-page-menu li.menu-item-5 a{
+
+	background: #F1CB60 url('img/floral_yellow_7.png') no-repeat right bottom ;
+}
+
+
+
+
+
+ul#in-page-menu li.ct_other a{
+	
+	background: #BFBEC0 url('img/ct_tile_bg_other.png') no-repeat right bottom ;
+}
+
+
+ul#in-page-menu li.ct_section a{
+	
+	background: #C1D071 url('img/ct_tile_bg_section.png') no-repeat right bottom;
+}
+
+
+ul#in-page-menu li.ct_assignment a{
+	
+	background: #E8609E url('img/ct_tile_bg_assignment.png') no-repeat right bottom;
+}
+
+
+
+
+
+ul#in-page-menu li.ct_section a .ct_name{
+	color: #7E9607;
+	
+}
+
+
+ul#in-page-menu li.ct_assignment a .ct_name{
+	color: #AC1B5C;
+	
+}
+
+ul#in-page-menu li.ct_other a .ct_name{
+	color: #7D7C81;
+	
+}
+
+
+/*-- End In-Page Menus --*/
+
+
+
+@media screen and (max-width: 991px) {
+
+	.feedback {
+		
+		position: relative;
+		text-align: center;
+		width: 140px;
+		margin: 0 auto;
+		right: 0;
+		top: -15px;
+	}
+	
+.post-type-archive-course .main  .rowtight{
+	height: 100% !important;
+}	
+	
+.post-type-archive-course .main .course.type-course
+{
+	float: left;
+	margin-bottom: 40px;
+}
+
+}
+
+
+@media screen and (max-width: 650px) {
+	.course .post-side-col{
+		display: none;
+	}
+	
+	.course-nav ul.course-nav-pag{
+		border-bottom: 1px solid #dae0d5;
+		float: none; 
+		margin: 0 0 10px 0;
+		padding: 0 0 10px 0;
+	}
+	
+	.course-nav-title{
+		display: block;
+	}
+
+
+	ul#in-page-menu{
+		flex-wrap: wrap;
+	}
+
+	ul#in-page-menu li.page-menu-item{
+
+		min-width: 150px;
+	
+	}
+}

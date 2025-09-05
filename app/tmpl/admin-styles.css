@@ -1,0 +1,71 @@
+
+/*
+ General
+*/
+.admin_page_edit_student #form_edit_student tr,
+.admin_page_edit_student #form_edit_student td{
+	display: flex; 
+	flex: 1;
+}
+
+.admin_page_edit_student #form_edit_student td.note{
+	display: block;
+}
+
+
+.admin_page_edit_student #form_edit_student td label{
+	flex: 1;
+}
+
+
+	
+.admin_page_edit_student #form_edit_student td input,
+.admin_page_edit_student #form_edit_student td select{
+	flex: 3;
+}	
+
+.admin_page_edit_student #form_edit_student td textarea{
+	min-height: 200px;
+	width: 100%; 
+	flex: 7;
+	
+}
+
+.admin_page_edit_student #form_edit_student .admin_notes .name{
+	flex: 1;
+}
+
+.admin_page_edit_student #form_edit_student .admin_notes .date{
+	flex: 1;
+}
+
+.admin_page_edit_student  #form_edit_student .admin_notes .note{
+	flex: 4;
+}
+
+.admin_page_edit_student  #form_edit_student .admin_notes .actions{
+	flex: 1;
+}
+
+
+#asmt-status-div #major-publishing-actions{
+	margin: 0 -12px -12px -12px;
+	
+	
+}
+
+.postbox .inside hr{
+	margin: 8px -12px;	
+}
+
+
+@media screen and (max-width: 991px) {
+
+
+}
+
+
+@media screen and (max-width: 650px) {
+
+
+}
