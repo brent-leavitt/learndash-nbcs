@@ -1,0 +1,246 @@
+# Query: add_action(
+# Including: plugins/learndash-nbcs/**
+# ContextLines: 1
+
+59 results - 23 files
+
+plugins\learndash-nbcs\app\clss\course.php:
+  32  			$this->autoload();
+  33: 			add_action( 'doula_course_activate', array( $this, 'activate' ) );
+  34: 			add_action( 'init', array( $this, 'init' ) ); 
+  35  			
+
+plugins\learndash-nbcs\app\clss\post_types.class.php:
+  72  			
+  73: 			//add_action( 'admin_init', array( $this, 'set_admin_caps' ) ); 
+  74  			
+
+plugins\learndash-nbcs\app\clss\__archives\__archive.student_processor.class.php:
+  102  	public function init() {
+  103: 		//add_action( 'admin_menu', array( __CLASS__, 'add_admin_pages' ) );
+  104: 		//add_action( 'init', array( __CLASS__, 'process_student' ) );
+  105  	}
+
+plugins\learndash-nbcs\app\clss\__archives\__old.editor.class.php:
+  36  	public function init() {
+  37: 		//add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
+  38: 		//add_action( 'init', array( __CLASS__, 'process_student' ) );
+  39  		
+
+plugins\learndash-nbcs\app\clss\processors\assignments\delete_submission.class.php:
+  73  				
+  74: 			add_action( 'delete_post', array( $this, 'remove_assignment_grade' ), 10, 2 );
+  75  				
+
+plugins\learndash-nbcs\app\clss\tables\list_table.class.php:
+  169  			// wp_enqueue_script( 'list-table' );
+  170: 			add_action( 'admin_footer', array( $this, '_js_vars' ) );
+  171  		}
+
+plugins\learndash-nbcs\app\func\activate.php:
+  37  
+  38: add_action( 'doula_course_activate', 'Doula_Course\App\Func\activate_doula_course' );
+  39  
+
+plugins\learndash-nbcs\app\func\admin_course.php:
+  48  
+  49: add_action('save_post', 'Doula_Course\App\Func\update_assignments_map', 50 ); 
+  50  
+
+plugins\learndash-nbcs\app\func\admin_dashboard.php:
+   34  
+   35: add_action( 'wp_dashboard_setup', 'Doula_Course\App\Func\add_admin_dashboard_widgets' );
+   36  
+
+  181  
+  182: add_action( 'admin_post_message_dismiss', 'Doula_Course\App\Func\dismiss_message' );
+  183  
+
+plugins\learndash-nbcs\app\func\admin_func.php:
+   37  
+   38: //add_action('init', 'Doula_Course\App\Func\not_admin'); 
+   39  
+
+  150   
+  151: add_action( 'admin_menu', 'Doula_Course\App\Func\build_admin_menus', 90 );
+  152  
+
+  246  
+  247: add_action( 'admin_menu', 'Doula_Course\App\Func\admin_menu_spacers' );
+  248  
+
+  276  }
+  277: add_action( 'admin_enqueue_scripts', 'Doula_Course\App\Func\nb_add_admin_style' );
+  278  
+
+plugins\learndash-nbcs\app\func\admin_metaboxes.php:
+   99  if( is_admin() )
+  100: 	add_action( 'add_meta_boxes', 'Doula_Course\App\Func\admin_meta_boxes' );
+  101  
+
+  445  			
+  446: 		add_action('save_post', 'Doula_Course\App\Func\save_asmt_meta_box_data'); // re-hook this function
+  447  		
+
+  497  
+  498: add_action( 'save_post', 'Doula_Course\App\Func\save_asmt_meta_box_data' );
+  499  
+
+  538  
+  539: add_action( 'post_submitbox_misc_actions', 'Doula_Course\App\Func\material_type_select' );
+  540  
+
+  565  
+  566: add_action( 'save_post', 'Doula_Course\App\Func\save_material_type_select' );
+  567  
+
+  622  
+  623: add_action( 'save_post', 'Doula_Course\App\Func\save_assessment_rubric_callback' );
+  624  
+
+  704  //Adding AJAX functionality to track metaboxes. 
+  705: add_action( 'admin_enqueue_scripts', 'Doula_Course\App\Func\load_track_courses_script' );
+  706   
+
+  752  //adding PHP response function to AJAX script from track_courses metabox
+  753: add_action( 'wp_ajax_track_courses_action', 'Doula_Course\App\Func\do_track_courses_action' );
+  754  
+
+  845  
+  846: add_action( 'transition_post_status', 'Doula_Course\App\Func\nb_record_completed_in_learndash', 10, 3  ); 
+  847  
+
+plugins\learndash-nbcs\app\func\crons.php:
+   7  //Define Cron Action Hooks: 
+   8: //add_action( '[cron_hook_name]',  '[cron_hooked_function]' );
+   9  //[cron_hook_name] is a new custom hook that will be used the the WP_Cron Scheduler to load any linked functions
+
+  13  if ( ! has_action( 'nb_test_cron_hook' ) )
+  14: 	add_action( 'nb_test_cron_hook', '\Doula_Course\App\Func\test_cron_function' );
+  15  
+
+plugins\learndash-nbcs\app\func\login.php:
+   6  
+   7: /* add_action( 'login_enqueue_scripts', function()
+   8  {	
+
+  12  if ( ! has_action( 'login_enqueue_scripts', 'wp_print_styles' ) )
+  13:     add_action( 'login_enqueue_scripts', 'wp_print_styles', 11 );
+  14  
+
+  27  
+  28: add_action('login_head', 'Doula_Course\App\Func\custom_styles');
+  29  
+
+  75  
+  76: //add_action( 'init', 'Doula_Course\App\Func\nbdt_force_login' );
+  77  
+
+plugins\learndash-nbcs\app\func\non_admin.php:
+  33  
+  34: //add_action('after_setup_theme', 'Doula_Course\App\Func\remove_admin_bar', 10);
+  35  
+
+plugins\learndash-nbcs\app\func\pages.php:
+  31  //Styles
+  32: add_action( 'wp_enqueue_scripts', function(){
+  33  	wp_enqueue_style( 'doula-course-styles', plugins_url( 'learndash-nbcs/app/tmpl/styles.css' ), false );
+
+plugins\learndash-nbcs\app\func\post_status.php:
+  48  
+  49: add_action( 'init', 'Doula_Course\App\Func\register_post_statuses' ); 
+  50  
+
+  89  
+  90: add_action( 'admin_init', 'Doula_Course\App\Func\enable_custom_status_comments' );
+  91  
+
+plugins\learndash-nbcs\app\func\post_types.php:
+   72  
+   73: add_action( 'init', 'Doula_Course\App\Func\register_post_types' ); 
+   74  
+
+  157  
+  158: //add_action( 'wp_insert_comment', 'Doula_Course\App\Func\asmt_comments' ,10 ,2 );
+  159  
+
+  405  
+  406: add_action( 'pre_get_posts', 'Doula_Course\App\Func\list_assignments_query_args', 10 ); 
+  407  
+
+  434  }
+  435: add_action( 'restrict_manage_posts', 'Doula_Course\App\Func\nb_assignment_trainers_dropdown' ); 
+  436  
+
+plugins\learndash-nbcs\app\func\query_vars.php:
+  11  //This allows us to use wordpress to handle the ipn request. 
+  12: add_action( 'template_redirect', 'Doula_Course\App\Func\queryVarsListener' );
+  13  add_filter( 'query_vars',  'Doula_Course\App\Func\queryVar' );
+
+plugins\learndash-nbcs\app\func\register.php:
+    6  
+    7: /* add_action( 'login_enqueue_scripts', function()
+    8  {	
+
+   12  if ( ! has_action( 'login_enqueue_scripts', 'wp_print_styles' ) )
+   13:     add_action( 'login_enqueue_scripts', 'wp_print_styles', 11 );
+   14  
+
+   27  
+   28: add_action('login_head', 'Doula_Course\App\Func\custom_styles');
+   29  
+
+   75  
+   76: //add_action( 'init', 'Doula_Course\App\Func\nbdt_force_login' );
+   77  
+
+  197  
+  198: add_action( 'rcp_after_password_registration_field', 'Doula_Course\App\Func\nb_reg_extra_user_fields' );
+  199  
+
+  247  
+  248: add_action( 'rcp_profile_editor_after', 'Doula_Course\App\Func\nb_profile_extra_user_fields' );
+  249  
+
+  313  
+  314: add_action( 'rcp_form_errors', 'Doula_Course\App\Func\nb_validate_user_fields_on_register', 10 );
+  315  
+
+  348  }
+  349: add_action( 'rcp_form_processing', 'Doula_Course\App\Func\nb_save_user_fields_on_register', 10, 2 );
+  350  
+
+plugins\learndash-nbcs\app\func\roles.php:
+  149  
+  150: add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_roles' );
+  151: //add_action( 'doula_course_activate',  'Doula_Course\App\Func\add_caps' );
+  152: add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_roles' );
+  153: //add_action( 'doula_course_deactivate',  'Doula_Course\App\Func\remove_caps' );
+  154  
+
+  195  
+  196: add_action( 'rcp_transition_membership_status', 'Doula_Course\App\Func\nb_set_inactive_when_role_not_set', 20, 3 );
+  197  
+
+  230  
+  231: add_action( 'rcp_transition_membership_status', 'Doula_Course\App\Func\nb_reactivated_status', 20, 3 );
+  232  
+
+plugins\learndash-nbcs\app\func\shortcodes.php:
+  60  
+  61: add_action( 'init', 'Doula_Course\App\Func\build_shortcodes' );
+  62  
+
+plugins\learndash-nbcs\app\func\student_meta.php:
+   99  
+  100: add_action( 'rcp_membership_post_activate', 'Doula_Course\App\Func\assign_student_trainer', 10 , 2 );  
+  101  
+
+plugins\learndash-nbcs\app\func\widget.php:
+  10  
+  11: add_action('widgets_init', function(){ 
+  12  	register_widget( 'Doula_Course\App\Clss\Student_Progress' );
+
+  44  
+  45: add_action( 'template_redirect', 'Doula_Course\App\Func\set_course_bookmark' );
+  46  ?>
