@@ -1,0 +1,21 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Testing
+.phpunit.result.cache
+/tests/coverage/
+
+# Build files
+/build/
+/dist/
+
+# Environment
+.env
+.env.*
+
+# IDE & System Files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
