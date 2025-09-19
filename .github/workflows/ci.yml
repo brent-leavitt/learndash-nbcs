@@ -9,9 +9,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         php-versions: ['7.4', '8.0', '8.1']
+      fail-fast: false
 
     name: PHP ${{ matrix.php-versions }} Test
 
@@ -24,9 +26,15 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, intl
-        ini-values: post_max_size=256M, max_execution_time=180
+        ini-values: post_max_size=256M, max_execution_time=180, memory_limit=256M
         coverage: xdebug
         tools: composer:v2, phpunit, php-cs-fixer, phpcs
+
+    - name: Debug PHP Installation
+      run: |
+        php -v
+        php -m
+        composer -V
 
     - name: Validate composer.json
       run: composer validate
@@ -39,25 +47,37 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        key: ${{ runner.os }}-php-${{ matrix.php-versions }}-composer-${{ hashFiles('**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-versions }}-composer-
+          ${{ runner.os }}-php-${{ matrix.php-versions }}-
+          ${{ runner.os }}-php-
+
+    - name: Clean Composer
+      run: |
+        rm -f composer.lock
+        rm -rf vendor/
 
     - name: Install Dependencies
-      run: |
-        composer install --prefer-dist --no-progress
-        rm -f composer.lock
-        composer update --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
 
     - name: Check PHP Syntax
-      run: find . -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+      run: |
+        echo "Checking PHP syntax..."
+        find . -type f -name '*.php' -not -path "./vendor/*" -print0 | xargs -0 -n1 -P4 php -l
 
     - name: Run PHP CodeSniffer
-      run: vendor/bin/phpcs --standard=WordPress app/
+      run: |
+        echo "Running PHPCS..."
+        vendor/bin/phpcs -v --standard=WordPress --extensions=php --ignore=*/vendor/*,*/tests/* .
 
     - name: Run PHPUnit tests
-      run: vendor/bin/phpunit --coverage-text
+      run: |
+        echo "Running PHPUnit tests..."
+        vendor/bin/phpunit --debug --verbose
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
+      if: success()
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
