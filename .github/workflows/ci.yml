@@ -68,26 +68,25 @@ jobs:
           vendor/bin/phpcs -i
           vendor/bin/phpcs --config-show
           
-      - name: Run Initial PHPCS Check
-        continue-on-error: true
+      - name: Run PHPCS Analysis
         run: |
-          echo "Running initial code analysis..."
+          echo "Running code analysis..."
           vendor/bin/phpcs \
-            --report=summary \
-            --standard=WordPress \
-            --extensions=php \
-            --ignore=*/vendor/*,*/tests/* \
-            app/
-            
-      - name: Run Detailed PHPCS Analysis
-        run: |
-          echo "Running detailed analysis (warnings as info)..."
-          vendor/bin/phpcs \
-            --standard=WordPress \
-            --extensions=php \
-            --ignore=*/vendor/*,*/tests/* \
+            --standard=phpcs.xml \
+            --report=summary,full \
+            --colors \
             --warning-severity=0 \
-            --report=full \
+            --ignore=*/vendor/*,*/tests/* \
+            app/ || true
+          
+          echo "Checking for critical errors only..."
+          vendor/bin/phpcs \
+            --standard=phpcs.xml \
+            --report=summary \
+            --colors \
+            --warning-severity=0 \
+            --error-severity=1 \
+            --ignore=*/vendor/*,*/tests/* \
             app/
 
   test-php:
