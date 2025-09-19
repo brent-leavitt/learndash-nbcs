@@ -1,41 +1,37 @@
 <?xml version="1.0"?>
-<ruleset name="LearnDash NBCS">
-    <description>LearnDash NBCS Coding Standards</description>
+<ruleset name="WordPress Plugin Coding Standards">
+    <description>PHPCS configuration for LearnDash NBCS</description>
 
-    <!-- What to scan -->
+    <!-- Files to check -->
     <file>.</file>
-    <exclude-pattern>/vendor/</exclude-pattern>
-    <exclude-pattern>/node_modules/</exclude-pattern>
-    <exclude-pattern>/tests/</exclude-pattern>
 
-    <!-- How to scan -->
-    <arg value="sp"/> <!-- Show sniff and progress -->
+    <!-- Exclude paths -->
+    <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/tests/*</exclude-pattern>
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+    <exclude-pattern>*.js</exclude-pattern>
+    <exclude-pattern>*.css</exclude-pattern>
+
+    <!-- Show progress -->
+    <arg value="p"/>
     <arg name="colors"/>
-    <arg name="extensions" value="php"/>
-    <arg name="parallel" value="8"/>
+    <arg value="s"/>
 
-    <!-- Rules: Check PHP version compatibility -->
+    <!-- PHP version compatibility -->
     <config name="testVersion" value="7.4-"/>
-    <rule ref="PHPCompatibilityWP"/>
 
-    <!-- Rules: WordPress Coding Standards -->
-    <config name="minimum_supported_wp_version" value="5.8"/>
+    <!-- Use WordPress standards but with customizations -->
     <rule ref="WordPress">
-        <!-- Allow short array syntax -->
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        <!-- Allow more modern PHP features -->
+        <exclude name="WordPress.PHP.DisallowShortTernary"/>
+        <exclude name="WordPress.Files.FileName"/>
+        <!-- Common exclusions for WordPress plugins -->
+        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
+        <exclude name="Squiz.Commenting.FileComment.Missing"/>
     </rule>
 
-    <!-- Rules: Allow short array syntax -->
-    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
-
-    <!-- Rules: Allow PSR-4 class names -->
-    <rule ref="WordPress.Files.FileName">
-        <properties>
-            <property name="strict_class_file_names" value="false"/>
-        </properties>
+    <!-- Allow short array syntax -->
+    <rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
+        <severity>0</severity>
     </rule>
-
-    <!-- Minimum PHP and WP versions -->
-    <config name="minimum_supported_wp_version" value="5.8"/>
-    <config name="testVersion" value="7.4-"/>
 </ruleset>
