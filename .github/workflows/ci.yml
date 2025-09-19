@@ -13,14 +13,37 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3
+      
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-      - name: Check Syntax
+          
+      - name: List PHP files
         run: |
-          echo "Checking PHP Syntax..."
-          find app -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+          echo "Listing PHP files..."
+          find app -type f -name '*.php' -ls
+          
+      - name: Check Main Plugin File
+        run: |
+          echo "Checking main plugin file..."
+          php -l learndash-nbcs.php
+          
+      - name: Check Core Files
+        run: |
+          echo "Checking core files..."
+          for file in app/clss/*.php; do
+            echo "Checking $file"
+            php -l "$file" || exit 1
+          done
+          
+      - name: Check Function Files
+        run: |
+          echo "Checking function files..."
+          for file in app/func/*.php; do
+            echo "Checking $file"
+            php -l "$file" || exit 1
+          done
 
   quality:
     name: Code Quality
