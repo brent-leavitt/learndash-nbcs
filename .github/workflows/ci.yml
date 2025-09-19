@@ -34,7 +34,8 @@ jobs:
       - name: Install PHPCS
         run: |
           composer require --dev squizlabs/php_codesniffer wp-coding-standards/wpcs
-          vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs
+          vendor/bin/phpcs --config-set installed_paths $(pwd)/vendor/wp-coding-standards/wpcs
+          vendor/bin/phpcs -i
       - name: Show PHPCS Config
         run: |
           echo "PHPCS Configuration:"
