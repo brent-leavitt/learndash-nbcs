@@ -43,7 +43,10 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
 
     - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress
+      run: |
+        composer install --prefer-dist --no-progress
+        rm -f composer.lock
+        composer update --prefer-dist --no-progress
 
     - name: Check PHP Syntax
       run: find . -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
