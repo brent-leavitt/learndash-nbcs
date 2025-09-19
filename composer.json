@@ -13,8 +13,10 @@
     },
     "scripts": {
         "test": "phpunit",
-        "lint": "phpcs --standard=WordPress",
-        "fix": "phpcbf --standard=WordPress"
+        "phpcs": "phpcs --standard=phpcs.xml",
+        "phpcbf": "phpcbf --standard=phpcs.xml",
+        "lint": "find app -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l",
+        "analyze": "composer test && composer phpcs"
     },
     "autoload": {
         "psr-4": {
