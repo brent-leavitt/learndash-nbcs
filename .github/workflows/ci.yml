@@ -44,16 +44,16 @@ jobs:
       - name: Run PHPCS Analysis
         continue-on-error: true
         run: |
-          echo "Running code analysis..."
-          vendor/bin/phpcs \
+          echo "Running code analysis (verbose mode)..."
+          vendor/bin/phpcs -v \
             --standard=phpcs.xml \
             --report=summary,full \
             --colors \
             --warning-severity=0 \
             --ignore=*/vendor/*,*/tests/* \
             app/
-          echo "Checking for critical errors only..."
-          vendor/bin/phpcs \
+          echo "Checking for critical errors only (verbose mode)..."
+          vendor/bin/phpcs -v \
             --standard=phpcs.xml \
             --report=summary \
             --colors \
