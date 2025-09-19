@@ -30,55 +30,35 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-          tools: composer, cs2pr
-      - name: Install PHPCS and WPCS
+          tools: composer:v2, phpcs
+      - name: Install PHPCS
         run: |
-          composer global require "squizlabs/php_codesniffer=*"
-          composer global require "wp-coding-standards/wpcs=*"
-          phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
-      - name: Run PHPCS (summary)
-        continue-on-error: true
+          composer require --dev squizlabs/php_codesniffer wp-coding-standards/wpcs
+          vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs
+      - name: Show PHPCS Config
         run: |
-          echo "Running initial PHPCS scan..."
-          phpcs -p -s --standard=phpcs.xml . --report=summary
-      - name: Show detailed violations
-        if: always()
+          echo "PHPCS Configuration:"
+          vendor/bin/phpcs -i
+          vendor/bin/phpcs --config-show
+      - name: Run PHPCS Analysis
         run: |
-          echo "Showing detailed code standard violations..."
-          phpcs -p -s --standard=phpcs.xml . --report=full || true
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          
-      - name: List PHP files
-        run: |
-          echo "Listing PHP files..."
-          find app -type f -name '*.php' -ls
-          
-      - name: Check Main Plugin File
-        run: |
-          echo "Checking main plugin file..."
-          php -l learndash-nbcs.php
-          
-      - name: Check Core Files
-        run: |
-          echo "Checking core files..."
-          for file in app/clss/*.php; do
-            echo "Checking $file"
-            php -l "$file" || exit 1
-          done
-          
-      - name: Check Function Files
-        run: |
-          echo "Checking function files..."
-          for file in app/func/*.php; do
-            echo "Checking $file"
-            php -l "$file" || exit 1
-          done
+          echo "Running code analysis..."
+          vendor/bin/phpcs \
+            --standard=phpcs.xml \
+            --report=summary,full \
+            --colors \
+            --warning-severity=0 \
+            --ignore=*/vendor/*,*/tests/* \
+            app/ || true
+          echo "Checking for critical errors only..."
+          vendor/bin/phpcs \
+            --standard=phpcs.xml \
+            --report=summary \
+            --colors \
+            --warning-severity=0 \
+            --error-severity=1 \
+            --ignore=*/vendor/*,*/tests/* \
+            app/
 
   quality:
     name: Code Quality
