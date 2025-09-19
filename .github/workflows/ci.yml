@@ -41,12 +41,12 @@ jobs:
           echo "PHPCS Configuration:"
           vendor/bin/phpcs -i
           vendor/bin/phpcs --config-show
-      - name: Run PHPCS Analysis
+      - name: Run PHPCS Analysis (WordPress standard only)
         continue-on-error: true
         run: |
-          echo "Running code analysis (verbose mode)..."
+          echo "Running code analysis with built-in WordPress standard (verbose mode)..."
           vendor/bin/phpcs -v \
-            --standard=phpcs.xml \
+            --standard=WordPress \
             --report=summary,full \
             --colors \
             --warning-severity=0 \
@@ -54,7 +54,7 @@ jobs:
             app/
           echo "Checking for critical errors only (verbose mode)..."
           vendor/bin/phpcs -v \
-            --standard=phpcs.xml \
+            --standard=WordPress \
             --report=summary \
             --colors \
             --warning-severity=0 \
